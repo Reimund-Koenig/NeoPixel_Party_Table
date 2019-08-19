@@ -1,0 +1,53 @@
+
+<html>
+		<head>
+			<title>Controller</title>
+			<meta charset="utf-8">
+			<link rel="stylesheet" type="text/css" href="/stylesheet.css">
+			<link rel="shortcut icon" href="/favicon.ico">
+			<meta name="description" content="Web controller for LED table">
+			<meta name="author" content="Reimund König">
+			<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+			<meta name="keywords" lang="de" content="virtual, controller, joystick">
+		</head>
+		<body>
+			<section id="main">
+				<div id="container"></div>
+				<div id="button">x</div>
+			</section>
+			<div id="info">
+				<span id="result"></span>
+			</div> 
+			<script src="/ctr/virtualjoystick.js"></script>
+			<script>
+				console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+				var joystick	= new VirtualJoystick({
+					container	: document.getElementById('container'),
+					mouseSupport	: true,
+				});
+				var lastPosition = "None"
+				joystick.addEventListener('touchStart', function(){
+					console.log('down');
+				})
+				joystick.addEventListener('touchEnd', function(){
+					console.log('up');
+					// TODO RUN FUNCTION FROM ABOVE
+					console.log(lastPosition);
+				})
+				setInterval(function(){
+					var outputEl	= document.getElementById('result');
+					if(joystick.up()) lastPosition = "up";
+					if(joystick.down()) lastPosition = "down";
+					if(joystick.left()) lastPosition = "left";
+					if(joystick.right()) lastPosition = "right";
+					outputEl.innerHTML	= '<b>Result:</b> '
+						+ ' dx:'+joystick.deltaX()
+						+ ' dy:'+joystick.deltaY()
+						+ (joystick.right()	? ' right'	: '')
+						+ (joystick.up()	? ' up'		: '')
+						+ (joystick.left()	? ' left'	: '')
+						+ (joystick.down()	? ' down' 	: '')	
+				}, 1/30 * 1000);
+			</script>
+		</body>
+	</html>

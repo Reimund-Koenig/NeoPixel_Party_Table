@@ -1,0 +1,20 @@
+html, body{
+	margin: 0 auto;
+	padding: 0 auto;
+}
+
+.borderdiv{
+	float:left;
+	display: block;
+	width:5%;
+    height:100vh;
+	min-height:100vh;
+	background:#1d293f;
+}
+
+#centerdiv{
+	float:left;
+	width:90%;
+	margin-top:5em;
+	text-align:center;
+}
