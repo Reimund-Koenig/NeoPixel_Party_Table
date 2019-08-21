@@ -17,10 +17,10 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
-#define LED_PIN    3
+#define LED_PIN    6
 
 // How many NeoPixels are attached to the Arduino?
-#define LED_COUNT 240
+#define LED_COUNT 60
 
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
@@ -32,6 +32,40 @@ Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
+
+
+// setup() function -- runs once at startup --------------------------------
+
+void setup() {
+  // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
+  // Any other board, you can remove this part (but no harm leaving it):
+#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+  clock_prescale_set(clock_div_1);
+#endif
+  // END of Trinket-specific code.
+
+  strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
+  strip.show();            // Turn OFF all pixels ASAP
+  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+}
+
+
+// loop() function -- runs repeatedly as long as board is on ---------------
+
+void loop() {
+  // Fill along the length of the strip in various colors...
+  colorWipe(strip.Color(255,   0,   0), 50); // Red
+  colorWipe(strip.Color(  0, 255,   0), 50); // Green
+  colorWipe(strip.Color(  0,   0, 255), 50); // Blue
+
+  // Do a theater marquee effect in various colors...
+  theaterChase(strip.Color(127, 127, 127), 50); // White, half brightness
+  theaterChase(strip.Color(127,   0,   0), 50); // Red, half brightness
+  theaterChase(strip.Color(  0,   0, 127), 50); // Blue, half brightness
+
+  rainbow(10);             // Flowing rainbow cycle along the whole strip
+  theaterChaseRainbow(50); // Rainbow-enhanced theaterChase variant
+}
 
 
 // Some functions of our own for creating animated effects -----------------
@@ -110,37 +144,4 @@ void theaterChaseRainbow(int wait) {
       firstPixelHue += 65536 / 90; // One cycle of color wheel over 90 frames
     }
   }
-}
-
-// setup() function -- runs once at startup --------------------------------
-
-void setup() {
-  // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
-  // Any other board, you can remove this part (but no harm leaving it):
-#if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
-  clock_prescale_set(clock_div_1);
-#endif
-  // END of Trinket-specific code.
-
-  strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
-  strip.show();            // Turn OFF all pixels ASAP
-  strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
-}
-
-
-// loop() function -- runs repeatedly as long as board is on ---------------
-
-void loop() {
-  // Fill along the length of the strip in various colors...
-  colorWipe(strip.Color(255,   0,   0), 50); // Red
-  colorWipe(strip.Color(  0, 255,   0), 50); // Green
-  colorWipe(strip.Color(  0,   0, 255), 50); // Blue
-
-  // Do a theater marquee effect in various colors...
-  theaterChase(strip.Color(127, 127, 127), 50); // White, half brightness
-  theaterChase(strip.Color(127,   0,   0), 50); // Red, half brightness
-  theaterChase(strip.Color(  0,   0, 127), 50); // Blue, half brightness
-
-  rainbow(10);             // Flowing rainbow cycle along the whole strip
-  theaterChaseRainbow(50); // Rainbow-enhanced theaterChase variant
 }
