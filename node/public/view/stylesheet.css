@@ -1,0 +1,57 @@
+html, body{
+    margin: 0 auto;
+    padding: 0 auto;
+}
+
+.borderdiv{
+    float:left;
+    display: block;
+    width:5%;
+    height:1000px;
+    min-height:1000px;
+    background:#1d293f;
+}
+
+#centerdiv{
+    float:left;
+    width:90%;
+    margin-top:5em;
+}
+
+#contentdiv{
+    float:left;
+    width:35%;
+}
+
+#quarderdiv{
+    float:left;
+    width:55%;
+}
+.quarder_row{
+    margin-left:5%;
+    width:800px;
+    max-width:800px;
+    text-align:center;
+    align-content: center;
+    align-items: center;
+}
+
+.quarder1{
+    min-width: 50px;
+    min-height: 50px;
+    width: 50px;
+    height: 50px;
+    background: #000;
+    color: #AAA;
+    float:left;
+}
+
+.quarder2{
+    min-width: 50px;
+    min-height: 50px;
+    width: 50px;
+    height: 50px;
+    color: #000;
+    background: #AAA;
+    float:left;
+}

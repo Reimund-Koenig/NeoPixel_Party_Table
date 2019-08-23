@@ -1,15 +1,15 @@
+const Controller = require('./controller')
+var ip = require("ip");
+const View = require('./view')
+var controller = new Controller(ip.address(), 3001);
+var view = new View(ip.address(), 3002);
 
-var controller_port = 3001
-var express = require('express'),
-controller = express();
-controller.use('/', express.static(__dirname + '/controller'));
-controller.listen(controller_port);
-console.log('Server Controller running on port ' + controller_port);
+view.run();
+controller.run();
 
+function delayedFunction(arg) {
+    console.log(`arg was => ${arg}`);
+    view.setColor(0,0,255,0,0);
+}
 
-var view_port = 3002
-var express = require('express'),
-view = express();
-view.use('/', express.static(__dirname + '/view'));
-view.listen(view_port);
-console.log('Server View runnning on port ' + view_port);
+setTimeout(delayedFunction, 3000, 'funky');
