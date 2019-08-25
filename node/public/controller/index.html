@@ -19,7 +19,15 @@
 				<span id="result"></span>
 			</div> 
 			<script src="/ctr/virtualjoystick.js"></script>
+			<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+			<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 			<script>
+				$(function () {
+					var socket = io();
+					socket.on('msg', function(msg){
+						console.log("Receive Msg: " + msg);
+					});
+				});
 				console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
 				var joystick	= new VirtualJoystick({
 					container	: document.getElementById('container'),
@@ -27,12 +35,13 @@
 				});
 				var lastPosition = "None"
 				joystick.addEventListener('touchStart', function(){
-					console.log('down');
+					console.log('key down');
 				})
 				joystick.addEventListener('touchEnd', function(){
-					console.log('up');
+					console.log('key up');
 					// TODO RUN FUNCTION FROM ABOVE
 					console.log(lastPosition);
+					socket.emit("move", lastPosition);
 				})
 				setInterval(function(){
 					var outputEl	= document.getElementById('result');
@@ -48,6 +57,8 @@
 						+ (joystick.left()	? ' left'	: '')
 						+ (joystick.down()	? ' down' 	: '')	
 				}, 1/30 * 1000);
+				
 			</script>
+			
 		</body>
 	</html>

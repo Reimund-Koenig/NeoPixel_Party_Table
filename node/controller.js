@@ -12,6 +12,9 @@ class controller {
                 console.log("Message: " + msg)
                 io.emit('msg', msg);
             });
+            socket.on('move', function(msg){
+                console.log("Move: " + msg)
+            });
         });
 
     }
