@@ -1,7 +1,7 @@
 class controller {
-    constructor(ip, port, viewcontroller) {
+    constructor(ip, port, appManager) {
         var self = this;
-        this.viewcontroller = viewcontroller;
+        this.appManager = appManager;
         this.ip = ip;
         this.port = port;
         this.express = require('express');
@@ -15,7 +15,7 @@ class controller {
                 io.emit('msg', msg);
             });
             client.on('control', function(cmd){
-                self.viewcontroller.control(cmd);
+                self.appManager.control(cmd);
             });
         });
         this.http.listen(this.port);
