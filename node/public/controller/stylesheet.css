@@ -5,6 +5,9 @@ body {
     margin		: 0;
     background-color: #BBB;
 }
+#controller {
+    display: none;
+}
 #info {
     position	: absolute;
     top		: 0px;

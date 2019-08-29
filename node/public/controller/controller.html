@@ -11,42 +11,18 @@
 			<meta name="keywords" lang="de" content="virtual, controller, joystick">
 		</head>
 		<body>
-			<div id="login">
-				<form action="">
-						<input id="new_player" autocomplete="off" /><button>Send</button>
-				</form>
-			</div>
-			<div id="controller">
-				<section id="main">
-					<div id="container"></div>
-					<div id="button">x</div>
-				</section>
-				<div id="info">
-					<span id="result"></span>
-				</div> 
-			</div>
+			<section id="main">
+				<div id="container"></div>
+				<div id="button">x</div>
+			</section>
+			<div id="info">
+				<span id="result"></span>
+			</div> 
 			<script src="/virtualjoystick.js"></script>
 			<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 			<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 			<script>
-				var username = "";
-				$(function () {
-					var socket = io();
-					$('form').submit(function(){
-						console.log("Send Message: " + $('#new_player').val())
-						socket.emit("new_player", $('#new_player').val());
-						$('#new_player').val('');
-						return false;
-					});
-					socket.on('start', function(name){
-						console.log("Receive Msg: " + name);
-						username = name;
-						document.getElementById("controller").style.display = "block";
-						document.getElementById("login").style.display = "none";
-					});
-				});
-			</script>
-			<script>
+				
 				console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
 				var joystick	= new VirtualJoystick({
 					container	: document.getElementById('container'),
@@ -63,7 +39,7 @@
 					socket.on('msg', function(msg){
 						console.log("Receive Msg: " + msg);
 					});
-					socket.emit("control", lastPosition, username);
+					socket.emit("control", lastPosition);
 				})
 				joystick.addEventListener('mouseUp', function(){
 					//console.log('mouse up');
@@ -72,7 +48,7 @@
 					socket.on('msg', function(msg){
 						console.log("Receive Msg: " + msg);
 					});
-					socket.emit("control", lastPosition, username);
+					socket.emit("control", lastPosition);
 				})
 				setInterval(function(){
 					var outputEl	= document.getElementById('result');
@@ -91,6 +67,5 @@
 				
 			</script>
 			
-
 		</body>
 	</html>
