@@ -218,7 +218,9 @@ VirtualJoystick.prototype._onMove	= function(x, y)
 
 VirtualJoystick.prototype._onMouseUp	= function(event)
 {
+	this.dispatchEvent('mouseUp', event);
 	return this._onUp();
+	
 }
 
 VirtualJoystick.prototype._onMouseDown	= function(event)
@@ -281,9 +283,9 @@ VirtualJoystick.prototype._onTouchEnd	= function(event)
 	// reset touchIdx - mark it as no-touch-in-progress
 	this._touchIdx	= null;
 
-//??????
-// no preventDefault to get click event on ios
-event.preventDefault();
+	//??????
+	// no preventDefault to get click event on ios
+	event.preventDefault();
 
 	return this._onUp()
 }

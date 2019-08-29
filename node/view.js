@@ -15,15 +15,11 @@ class view {
             });
         });
         this.io = io;
-    }
-
-    run() {
         this.http.listen(this.port);
         console.log('view App: ' + this.ip + ":" + this.port);
     }
 
     setColor(x,y,r,g,b) {
-        console.log("send color");
         this.io.emit('color', {"x":x, "y":y, "r":r, "g":g, "b":b} );
     }
 }
