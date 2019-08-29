@@ -1,12 +1,13 @@
 
 const MoveOne = require('./application/move_one')
+const Snake = require('./application/snake')
 
 
 class app_mgr {
     constructor(app, viewcontroller) {
         var self = this;
         this.viewcontroller = viewcontroller
-        this.gamename = "move_one";
+        this.gamename = "snake";
         this.newgame = true;
         this.control_queue = [];
         setInterval(function() { self.app_loop(); }, 20);
@@ -14,7 +15,6 @@ class app_mgr {
 
     // ToDo: Command or function to change game
     control(cmd) {
-        console.log("Add to queue:" + cmd);
         this.control_queue.push(cmd);
     }
 
@@ -29,12 +29,12 @@ class app_mgr {
         if(this.newgame) {
             this.newgame = false;
             if(this.game) {
-                this.game.destroy();
+                this.game = null;
             }
             if(this.gamename == "move_one") {
                 this.game = new MoveOne(this, this.viewcontroller);
-            } else if(this.gamename == "move_two") {
-                this.game = new MoveOne(this, this.viewcontroller);
+            } else if(this.gamename == "snake") {
+                this.game = new Snake(this, this.viewcontroller);
             } else {
                 console.log("Game-Name unkown: " + this.gamename)
             }

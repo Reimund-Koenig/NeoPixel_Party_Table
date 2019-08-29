@@ -1,25 +1,21 @@
-class move_two {
-    constructor(viewcontroller) {
-        var self = this;
+class move_one {
+    constructor(app_mgr, viewcontroller) {
+        this.app_mgr = app_mgr;
         this.viewcontroller = viewcontroller;
         this.x = 0;
         this.x_len = 16;
         this.y = 0;
         this.y_len = 15;
     }
-    control(cmd, player) {
-        this.viewcontroller.setColor(this.x,this.y,170,170,170);
-        if(cmd == "up") {
-            this._up();
-        } else if (cmd == "down") {
-            this._down();
-        } else if (cmd == "left") {
-            this._left();
-        } else if (cmd == "right") {
-            this._right();
-        }
+
+    run() {
+        var cmd = this.app_mgr.getNextCommand();
+        if(cmd == "") { return; }
+        console.log("Template -- New Command:" + cmd);
+        console.log("Template -- Change Color of one Pixel to red");
         this.viewcontroller.setColor(this.x,this.y,255,0,0);
     }
+
     _left() {
         if (this.x > 0) {
             this.x -= 1;
@@ -41,4 +37,4 @@ class move_two {
         }    
     }
 }
-module.exports = move_two;
+module.exports = move_one;

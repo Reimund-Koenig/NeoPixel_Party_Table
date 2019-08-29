@@ -12,7 +12,6 @@ class move_one {
     run() {
         var cmd = this.app_mgr.getNextCommand();
         if(cmd == "") { return; }
-        console.log("New Command:" + cmd);
         this.viewcontroller.setColor(this.x,this.y,170,170,170);
         if(cmd == "up") {
             this._up();
@@ -26,10 +25,6 @@ class move_one {
         this.viewcontroller.setColor(this.x,this.y,255,0,0);
     }
     
-    destroy() {
-        console.log("Move_one destroy")
-    }
-
     _left() {
         if (this.x > 0) {
             this.x -= 1;
