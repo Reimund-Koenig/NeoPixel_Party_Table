@@ -16,7 +16,8 @@ class snake {
 
     run() {
         this.date = (new Date).getTime();
-        var cmd = this.app_mgr.getNextCommand();
+        var cmd1 = this.app_mgr.getNextCommand();
+        var cmd = cmd1.cmd;
         if(cmd != "") {
             this.direction = cmd;
         }

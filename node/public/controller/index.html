@@ -29,9 +29,9 @@
 			<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 			<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 			<script>
-				var username = "";
+				var username = "";		
+				var socket = io();
 				$(function () {
-					var socket = io();
 					$('form').submit(function(){
 						console.log("Send Message: " + $('#new_player').val())
 						socket.emit("new_player", $('#new_player').val());
@@ -45,8 +45,7 @@
 						document.getElementById("login").style.display = "none";
 					});
 				});
-			</script>
-			<script>
+				
 				console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
 				var joystick	= new VirtualJoystick({
 					container	: document.getElementById('container'),
@@ -58,17 +57,15 @@
 				})
 				joystick.addEventListener('touchEnd', function(){
 					//console.log('touch end');
-					//console.log(lastPosition);						
-					var socket = io();
+					//console.log(lastPosition);
 					socket.on('msg', function(msg){
 						console.log("Receive Msg: " + msg);
 					});
-					socket.emit("control", lastPosition, username);
+					socket.emit("control", lastPosition);
 				})
 				joystick.addEventListener('mouseUp', function(){
 					//console.log('mouse up');
-					//console.log(lastPosition);					
-					var socket = io();
+					//console.log(lastPosition);	
 					socket.on('msg', function(msg){
 						console.log("Receive Msg: " + msg);
 					});

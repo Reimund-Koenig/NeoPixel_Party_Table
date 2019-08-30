@@ -10,7 +10,8 @@ class move_one {
     }
 
     run() {
-        var cmd = this.app_mgr.getNextCommand();
+        var cmd1 = this.app_mgr.getNextCommand();
+        var cmd = cmd1.cmd;
         if(cmd == "") { return; }
         this.viewcontroller.setColor(this.x,this.y,170,170,170);
         if(cmd == "up") {

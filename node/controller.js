@@ -10,13 +10,21 @@ class controller {
         this.app.use('/', this.express.static(__dirname + '/public/controller'));
         var io = require('socket.io')(this.http);
         io.on('connection', function(client){
-            client.on('new_player', function(msg){
-                console.log("Message: " + msg)
-                io.emit('start', msg);
+            self.appManager.addNewPlayer(client.id);
+            // var queuePosition = self.appManager.getQueuePosition();
+            // if(queuePosition == 0){
+            //     io.emit('login', queuePosition);
+            // }
+            client.on('new_player', function(username){
+                self.appManager.setPlayerUsername(client.id, username);
+                io.emit('start', username);
             });
-            client.on('control', function(cmd, user){
-                console.log("CMD: " + cmd + " - User: " + user)
-                self.appManager.control(cmd);
+            client.on('control', function(cmd){
+                self.appManager.incomingClientCommand(client.id, cmd);
+            }); 
+            client.on('disconnect', function() {
+                console.log("Client " + client.id + " disconnected");
+                self.appManager.removePlayer(client.id);
             });
         });
         this.http.listen(this.port);
