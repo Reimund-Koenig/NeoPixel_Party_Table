@@ -113,6 +113,7 @@ void theaterChaseRainbow(int wait) {
 }
 
 // setup() function -- runs once at startup --------------------------------
+int incomingByte = 0; // for incoming serial data
 
 void setup() {
   // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
@@ -125,12 +126,22 @@ void setup() {
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+  Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
+
 }
 
 
 // loop() function -- runs repeatedly as long as board is on ---------------
 
 void loop() {
+   if (Serial.available() > 0) {
+    // read the incoming byte:
+    incomingByte = Serial.read();
+
+    // say what you got:
+    Serial.print("I received: ");
+    Serial.println(incomingByte, DEC);
+  }
   bool deploy = false;
   if(deploy) {
     strip.setPixelColor(20, strip.Color(255,   0,   0));         //  Set pixel's color (in RAM)
