@@ -22,6 +22,13 @@
 // How many NeoPixels are attached to the Arduino?
 #define LED_COUNT 240
 
+String rpi_input; // for incoming serial data
+int x;
+int red;
+int green;
+int blue;
+int deploy;
+
 // Declare our NeoPixel strip object:
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 // Argument 1 = Number of pixels in NeoPixel strip
@@ -111,10 +118,30 @@ void theaterChaseRainbow(int wait) {
     }
   }
 }
+String getValue(String data, char separator, int index) {
+  int found = 0;
+  int strIndex[] = {0, -1};
+  int maxIndex = data.length()-1;
 
+  for(int i=0; i<=maxIndex && found<=index; i++){
+    if(data.charAt(i)==separator || i==maxIndex){
+        found++;
+        strIndex[0] = strIndex[1]+1;
+        strIndex[1] = (i == maxIndex) ? i+1 : i;
+    }
+  }
+
+  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
+
+int getNewX() {
+  int x_new = getValue(rpi_input,',',0).toInt();
+  red = getValue(rpi_input,',',1).toInt();
+  green = getValue(rpi_input,',',2).toInt();
+  blue = getValue(rpi_input,',',3).toInt();
+  return x_new;
+}
 // setup() function -- runs once at startup --------------------------------
-int incomingByte = 0; // for incoming serial data
-
 void setup() {
   // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
   // Any other board, you can remove this part (but no harm leaving it):
@@ -127,25 +154,35 @@ void setup() {
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
   Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
-
+  
+  while (!Serial); // wait for serial port to connect. Needed for native USB port only
+  x = red = green = blue = 0;
+  deploy = 0;
 }
 
-
 // loop() function -- runs repeatedly as long as board is on ---------------
-
 void loop() {
-   if (Serial.available() > 0) {
-    // read the incoming byte:
-    incomingByte = Serial.read();
-
-    // say what you got:
-    Serial.print("I received: ");
-    Serial.println(incomingByte, DEC);
-  }
-  bool deploy = false;
-  if(deploy) {
-    strip.setPixelColor(20, strip.Color(255,   0,   0));         //  Set pixel's color (in RAM)
+  if(deploy == 0) {
+    while (Serial.available() > 0) {
+      char inChar = (char)Serial.read();
+      if (inChar == '\n') {
+        // Serial.println(rpi_input);
+        strip.setPixelColor(x, strip.Color(0,0,0));         //  Set pixel's color (in RAM)
+        x = getNewX();
+        rpi_input = "";
+        // Serial.println("Red: " + String(red) + "  -  Green: " + String(green) + "  -  Blue: " + String(blue));
+        strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
+        strip.show(); // Update strip with new contents
+      } else {
+        rpi_input += inChar;
+      }
+    }
+    delay(4);
+  } else if(deploy == 1) {
+    strip.setPixelColor(0, strip.Color(0,0,255));  //  Set pixel's color (in RAM)
     strip.show(); // Update strip with new contents
+    deploy = 2;
+  } else if(deploy == 2) {
     delay(1000);
   } else {
     // Fill along the length of the strip in various colors...
@@ -154,11 +191,11 @@ void loop() {
     colorWipe(strip.Color(  0,   0, 255), 50); // Blue
 
     // Do a theater marquee effect in various colors...
-    theaterChase(strip.Color(127, 127, 127), 50); // White, half brightness
-    theaterChase(strip.Color(127,   0,   0), 50); // Red, half brightness
-    theaterChase(strip.Color(  0,   0, 127), 50); // Blue, half brightness
+    //theaterChase(strip.Color(127, 127, 127), 50); // White, half brightness
+    //theaterChase(strip.Color(127,   0,   0), 50); // Red, half brightness
+    //theaterChase(strip.Color(  0,   0, 127), 50); // Blue, half brightness
 
-    rainbow(10);             // Flowing rainbow cycle along the whole strip
-    theaterChaseRainbow(50); // Rainbow-enhanced theaterChase variant
+    //rainbow(10);             // Flowing rainbow cycle along the whole strip
+    //theaterChaseRainbow(50); // Rainbow-enhanced theaterChase variant
   }
 }

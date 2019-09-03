@@ -14,7 +14,7 @@ class app_mgr {
         this.cmd_queue = new CmdQueue();
         this.number_of_player = 0;
         this.players = new PlayerMgr();
-        setInterval(function() { self.app_loop(); }, 20);
+        setInterval(function() { self.app_loop(); }, 3000);
     }
 
 
