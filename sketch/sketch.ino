@@ -163,21 +163,29 @@ void setup() {
 // loop() function -- runs repeatedly as long as board is on ---------------
 void loop() {
   if(deploy == 0) {
-    while (Serial.available() > 0) {
-      char inChar = (char)Serial.read();
-      if (inChar == '\n') {
-        // Serial.println(rpi_input);
-        strip.setPixelColor(x, strip.Color(0,0,0));         //  Set pixel's color (in RAM)
-        x = getNewX();
-        rpi_input = "";
-        // Serial.println("Red: " + String(red) + "  -  Green: " + String(green) + "  -  Blue: " + String(blue));
-        strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
-        strip.show(); // Update strip with new contents
-      } else {
-        rpi_input += inChar;
+    int i = 0;
+    bool changed = false;
+    while (i<4) {
+      while (Serial.available() > 0) {
+        char inChar = (char)Serial.read();
+        if (inChar == '\n') {
+          // Serial.println(rpi_input);
+          strip.setPixelColor(x, strip.Color(0,0,0));         //  Set pixel's color (in RAM)
+          x = getNewX();
+          rpi_input = "";
+          // Serial.println("Red: " + String(red) + "  -  Green: " + String(green) + "  -  Blue: " + String(blue));
+          strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
+          changed = true;
+        } else {
+          rpi_input += inChar;
+        }
       }
+      delay(4);
+      i++;
     }
-    delay(4);
+    if(changed) {
+      strip.show();
+    }
   } else if(deploy == 1) {
     strip.setPixelColor(0, strip.Color(0,0,255));  //  Set pixel's color (in RAM)
     strip.show(); // Update strip with new contents

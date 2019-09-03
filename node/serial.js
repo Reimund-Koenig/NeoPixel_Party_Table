@@ -6,8 +6,6 @@ class serial {
     }
 
     setColor(x,y,r,g,b) {
-        console.log("X: " + x + "  - Y: " + y  +  " - Result:" + this.getX(x,y));
-        console.log("-------------------")
         this.port.write(this.getX(x,y) + "," + r + "," + g + "," + b + "\n");
     }
     
@@ -16,7 +14,11 @@ class serial {
     }
 
     getX(x,y) {
-        return (x*15) + (y*14);
+        if(x%2==0) {
+            return (x * 15) + y;
+        } else {
+            return (x * 15) + (14-y);
+        }
     }
 }
 module.exports = serial;

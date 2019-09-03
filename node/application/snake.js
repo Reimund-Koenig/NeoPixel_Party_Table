@@ -25,10 +25,11 @@ class snake {
             return;
         }
         this.nextAction = this.date + 200;
-        this.viewcontroller.setColor(this.x,this.y,170,170,170);
+        this.viewcontroller.setColor(this.x,this.y,0,0,0);
         if (this.snackX == this.x && this.snackY == this.y) {
             this._setRandomPixelNotPossition();
         }
+        // this.viewcontroller.setColor(this.snackX,this.snackY,0,255,0);
         if(this.direction == "up") {
             this._up();
         } else if (this.direction == "down") {
@@ -38,7 +39,6 @@ class snake {
         } else if (this.direction == "right") {
             this._right();
         }
-        this.viewcontroller.setColor(this.snackX,this.snackY,0,255,0);
         this.viewcontroller.setColor(this.x,this.y,255,0,0);
     }
     
