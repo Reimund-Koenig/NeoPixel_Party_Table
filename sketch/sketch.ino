@@ -22,7 +22,6 @@
 // How many NeoPixels are attached to the Arduino?
 #define LED_COUNT 240
 
-String rpi_input; // for incoming serial data
 int x;
 int red;
 int green;
@@ -118,29 +117,7 @@ void theaterChaseRainbow(int wait) {
     }
   }
 }
-String getValue(String data, char separator, int index) {
-  int found = 0;
-  int strIndex[] = {0, -1};
-  int maxIndex = data.length()-1;
 
-  for(int i=0; i<=maxIndex && found<=index; i++){
-    if(data.charAt(i)==separator || i==maxIndex){
-        found++;
-        strIndex[0] = strIndex[1]+1;
-        strIndex[1] = (i == maxIndex) ? i+1 : i;
-    }
-  }
-
-  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
-}
-
-int getNewX() {
-  int x_new = getValue(rpi_input,',',0).toInt();
-  red = getValue(rpi_input,',',1).toInt();
-  green = getValue(rpi_input,',',2).toInt();
-  blue = getValue(rpi_input,',',3).toInt();
-  return x_new;
-}
 // setup() function -- runs once at startup --------------------------------
 void setup() {
   // These lines are specifically to support the Adafruit Trinket 5V 16 MHz.
@@ -153,6 +130,7 @@ void setup() {
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
+  Serial.setTimeout(500);
   Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
   
   while (!Serial); // wait for serial port to connect. Needed for native USB port only
@@ -162,36 +140,50 @@ void setup() {
 
 // loop() function -- runs repeatedly as long as board is on ---------------
 void loop() {
+  deploy = 0;
   if(deploy == 0) {
-    int i = 0;
-    bool changed = false;
-    while (i<4) {
-      while (Serial.available() > 0) {
-        char inChar = (char)Serial.read();
-        if (inChar == '\n') {
-          // Serial.println(rpi_input);
-          strip.setPixelColor(x, strip.Color(0,0,0));         //  Set pixel's color (in RAM)
-          x = getNewX();
-          rpi_input = "";
-          // Serial.println("Red: " + String(red) + "  -  Green: " + String(green) + "  -  Blue: " + String(blue));
-          strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
-          changed = true;
-        } else {
-          rpi_input += inChar;
-        }
-      }
-      delay(4);
-      i++;
-    }
-    if(changed) {
+    while (Serial.available() >= 4) {
+      byte c[4];
+      Serial.println("Available: " + String(Serial.available()));
+      Serial.readBytes(c, 4);
+      Serial.println("Left: " + String(Serial.available()));
+      x = (int)c[0];
+      red = (int)c[1];
+      green = (int)c[2];
+      blue = (int)c[3];
+      Serial.println("x: " + String(x) + " -- r: " + String(red) +" -- g: " + String(green) +" -- b: " + String(blue));
+      strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
       strip.show();
     }
+    delay(4);
   } else if(deploy == 1) {
-    strip.setPixelColor(0, strip.Color(0,0,255));  //  Set pixel's color (in RAM)
+    strip.setPixelColor(0, strip.Color(0,0,255));
     strip.show(); // Update strip with new contents
     deploy = 2;
   } else if(deploy == 2) {
     delay(1000);
+    char c[4];
+    c[0] = 0x05;
+    c[1] = 0xFF;
+    c[2] = 0x00;
+    c[3] = 0x00;
+    x = (int)c[0];
+    red = (int)c[1];
+    green = (int)c[2];
+    blue = (int)c[3];
+    strip.setPixelColor(x, strip.Color(red,green,blue));
+    strip.show();
+    delay(1000);
+    x=5;
+    red=0;
+    green=0;
+    blue=255;
+    strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
+    strip.show();
+    // Serial.println("Red: " + String(red) + "  -  Green: " + String(green) + "  -  Blue: " + String(blue));
+    
+    
+    
   } else {
     // Fill along the length of the strip in various colors...
     colorWipe(strip.Color(255,   0,   0), 50); // Red

@@ -1,12 +1,35 @@
 const SerialPort = require('serialport')
+const Readline = require('@serialport/parser-readline')
 
 class serial {
     constructor() {
+        this.parser = new Readline()
         this.port =  new SerialPort('/dev/ttyACM0', { baudRate: 9600 });
+        this.port.pipe(this.parser)
+        this.parser.on('data', line => console.log(`<<< ${line}`))
     }
 
+    intToChar(integer) {
+        return String.fromCharCode(integer)
+    }
+    charToInt(char) {
+        return char.charCodeAt(0)
+    }
+      
     setColor(x,y,r,g,b) {
-        this.port.write(this.getX(x,y) + "," + r + "," + g + "," + b + "\n");
+        var buffer = new Uint8Array(4);
+        buffer[0] = this.getX(x,y);
+        buffer[1] = r;
+        buffer[2] = g;
+        buffer[3] = b;
+        // console.log(
+        //         ">>> X:" + buffer[0]
+        //     +   " -- R:" + buffer[1]
+        //     +   " -- G:" + buffer[2]
+        //     +   " -- B:" + buffer[3]
+        // );
+        this.port.write(buffer);
+        // this.port.drain();
     }
     
     setMatrix(color_array) {

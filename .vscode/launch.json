@@ -7,11 +7,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Chat Example",
-            "program": "${workspaceFolder}/chat-example/index.js"
-        }, {
-            "type": "node",
-            "request": "launch",
             "name": "Launch Main",
             "program": "${workspaceFolder}/node/main.js"
         }
