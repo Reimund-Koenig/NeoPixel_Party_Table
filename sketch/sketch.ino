@@ -130,32 +130,32 @@ void setup() {
   strip.begin();           // INITIALIZE NeoPixel strip object (REQUIRED)
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
-  Serial.setTimeout(500);
-  Serial.begin(9600); // opens serial port, sets data rate to 9600 bps
+  // Serial.setTimeout(10);
+  Serial.begin(2400); // opens serial port, sets data rate to 9600 bps
   
   while (!Serial); // wait for serial port to connect. Needed for native USB port only
   x = red = green = blue = 0;
   deploy = 0;
 }
 
+byte c[4];
 // loop() function -- runs repeatedly as long as board is on ---------------
 void loop() {
-  deploy = 0;
   if(deploy == 0) {
     while (Serial.available() >= 4) {
-      byte c[4];
-      Serial.println("Available: " + String(Serial.available()));
+      // Serial.println("A " + String(Serial.available()));
       Serial.readBytes(c, 4);
-      Serial.println("Left: " + String(Serial.available()));
+      // Serial.println("L " + String(Serial.available()));
       x = (int)c[0];
       red = (int)c[1];
       green = (int)c[2];
       blue = (int)c[3];
-      Serial.println("x: " + String(x) + " -- r: " + String(red) +" -- g: " + String(green) +" -- b: " + String(blue));
+      // Serial.println("x: " + String(x) + " -- r: " + String(red) +" -- g: " + String(green) +" -- b: " + String(blue));
       strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
       strip.show();
+      // Serial.println("Showed");
     }
-    delay(4);
+    delay(50);
   } else if(deploy == 1) {
     strip.setPixelColor(0, strip.Color(0,0,255));
     strip.show(); // Update strip with new contents
