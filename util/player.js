@@ -1,6 +1,6 @@
 class player {
-    constructor(id) {
-        var self = this;
+    constructor(socket_id, id) {
+        this.socket_id = socket_id;
         this.id = id;
         this.username = "";
         this.admin = false;

@@ -8,7 +8,7 @@ class cmd_queue {
         this.commandlist.push(new CMD(id,command));
     }
     getNext() {
-        if(this.commandlist.length == 0) { return new CMD("",""); }
+        if(this.commandlist.length == 0) { return null; }
         return this.commandlist.shift();
     }
     len() {
