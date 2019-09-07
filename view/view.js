@@ -5,7 +5,7 @@ class view {
         this.express = require('express');
         this.app = this.express();
         this.http = require('http').Server(this.app);
-        this.app.use('/', this.express.static(__dirname + '/public/view'));
+        this.app.use('/', this.express.static(__dirname + '/../public/view'));
         var io = require('socket.io')(this.http);
         io.on('connection', function(client){
             client.on('msg', function(msg){

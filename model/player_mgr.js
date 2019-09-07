@@ -1,4 +1,4 @@
-const Player = require('./player')
+const Player = require('../util/player')
 
 class player_mgr {
     constructor() {
@@ -10,18 +10,18 @@ class player_mgr {
     }
 
     remove(id) {
-        this.players.splice(this._getPlayerArrayId(id), 1); 
+        this.players.splice(this._getPlayerById(id), 1); 
     }
 
     getUsername(id) {
-        this.players[this._getPlayerArrayId(id)].getName();
+        this.players[this._getPlayerById(id)].getName();
     }
 
     setUsername(id, username) {
-        this.players[this._getPlayerArrayId(id)].setName(username);
+        this.players[this._getPlayerById(id)].setName(username);
     }
     
-    _getPlayerArrayId(id) {
+    _getPlayerById(id) {
         for( var i = 0; i < this.players.length; i++){ 
             if (this.players[i].id == id) {
                 return i; 

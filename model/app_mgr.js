@@ -1,9 +1,10 @@
 
-const MoveOne = require('./application/move_one')
-const Snake = require('./application/snake')
+const MoveOne = require('../apps/move_one')
+const Snake = require('../apps/snake')
+// const Template = require('../apps/your_game_name')
 
 const PlayerMgr = require('./player_mgr')
-const CmdQueue = require('./cmd_queue')
+const CmdQueue = require('../util/cmd_queue')
 
 class app_mgr {
     constructor(app, viewcontroller) {
@@ -56,6 +57,8 @@ class app_mgr {
                 this.app = new MoveOne(this, this.viewcontroller);
             } else if(this.appname == "snake") {
                 this.app = new Snake(this, this.viewcontroller);
+            } else if(this.appname == "template") {
+                this.app = new Template(this, this.viewcontroller);
             } else {
                 console.log("Game-Name unkown: " + this.appname)
             }
