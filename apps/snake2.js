@@ -125,9 +125,13 @@ class snake2 {
 
     run() {
 
+        // ToDo Fix Bugs
+        /*
+            - Head not displayed if it should appear on the end of another snake
+            - Remove player not working prober... think about id and socked_id concept
+        */
 
 
-        
         var cmd = this.app_mgr.getNextCommand();
         while(cmd) {
             var direction = cmd.cmd;
