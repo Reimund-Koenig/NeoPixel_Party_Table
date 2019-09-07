@@ -1,4 +1,4 @@
-const CMD = require('./cmd')
+const CMD = require('../util/cmd')
 
 class cmd_queue {
     constructor() {
