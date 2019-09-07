@@ -7,16 +7,6 @@ class controller {
         this.express = require('express');
         this.app = this.express();
         this.http = require('http').Server(this.app);
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
-        console.log(__dirname)
         this.app.use('/', this.express.static(__dirname + '/../public/controller/'));
         var io = require('socket.io')(this.http);
         io.on('connection', function(client){
