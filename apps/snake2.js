@@ -170,6 +170,7 @@ class snake2 {
         // ToDo Fix Bugs
         /*
             - Head not displayed if it should appear on the end of another snake
+            - Body interrupted by collision
         */
         if(this.restarting) { return; }
         if(this.p.length < 2) { return; }
