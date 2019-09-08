@@ -11,7 +11,7 @@ class player_mgr {
     }
 
     remove(socket_id) {
-        //remove item at index
+        // remove item at index
         this.players.splice(this.getPlayerId(socket_id), 1); 
     }
 

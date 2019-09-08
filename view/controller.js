@@ -11,13 +11,14 @@ class controller {
         var io = require('socket.io')(this.http);
         io.on('connection', function(client){
             self.appManager.addNewPlayer(client.id);
+            io.emit('connected', client.id);
             // var queuePosition = self.appManager.getQueuePosition();
             // if(queuePosition == 0){
             //     io.emit('login', queuePosition);
             // }
             client.on('new_player', function(username){
                 self.appManager.setPlayerUsername(client.id, username);
-                io.emit('start', username);
+                io.emit('start', client.id, username);
             });
             client.on('control', function(cmd){
                 self.appManager.incomingClientCommand(client.id, cmd);

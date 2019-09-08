@@ -31,18 +31,31 @@
 			<script>
 				var username = "";		
 				var socket = io();
+				var socket_id = "";
+				console.log(socket);
 				$(function () {
 					$('form').submit(function(){
 						console.log("Send Message: " + $('#new_player').val())
 						socket.emit("new_player", $('#new_player').val());
-						$('#new_player').val('');
 						return false;
 					});
-					socket.on('start', function(name){
-						console.log("Receive Msg: " + name);
+					socket.on('connected', function(id) {
+						if(socket_id == "") {
+							socket_id = id;
+						}
+						console.log("Connected to Table with id: " + id)
+					});
+					socket.on('start', function(id, name){
+						if(id != socket_id) { return; }
+						console.log("Username: " + name);
 						username = name;
 						document.getElementById("controller").style.display = "block";
 						document.getElementById("login").style.display = "none";
+					});
+					socket.on('disconnect', () => {
+						document.getElementById("controller").style.display = "none";
+						document.getElementById("login").style.display = "block";
+						socket_id = "";
 					});
 				});
 				

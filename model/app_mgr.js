@@ -16,7 +16,7 @@ class app_mgr {
         this.number_of_player = 0;
         this.players = new PlayerMgr();
         var self = this;
-        setInterval(function() { self.app_loop(); }, 500);
+        setInterval(function() { self.app_loop(); }, 20);
     }
 
     getQueuePosition() {
@@ -33,12 +33,16 @@ class app_mgr {
 
     setPlayerUsername(socket_id, username) {
         this.players.setUsername(socket_id, username);
-        this.app.addPlayer(this.players.getPlayerId(socket_id));
+        console.log("Set Username: " +  username);
+        this.app.startPlayer(this.players.getPlayerId(socket_id));
     }
 
     addNewPlayer(socket_id) {
         console.log("New Controller Connected (" + socket_id + ")");
         this.players.add(socket_id);
+        // var self = this;
+        // setTimeout(function() { self.app.addPlayer(self.players.getPlayerId(socket_id)); }, 2000);
+        this.app.addPlayer(this.players.getPlayerId(socket_id));
     }
 
     getNumberOfPlayer() {

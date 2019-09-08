@@ -5,6 +5,7 @@ class viewcontroller {
     }
     
     setColor(x,y,r,g,b) {
+        // console.log("Set Color " + x + ", "+ y + ", "+  r + ", "+ g + ", "+ b );
         this.view.setColor(x,y,r,g,b);
         this.serial.setColor(x,y,r,g,b);
     }
