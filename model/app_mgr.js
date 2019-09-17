@@ -40,8 +40,6 @@ class app_mgr {
     addNewPlayer(socket_id) {
         console.log("New Controller Connected (" + socket_id + ")");
         this.players.add(socket_id);
-        // var self = this;
-        // setTimeout(function() { self.app.addPlayer(self.players.getPlayerId(socket_id)); }, 2000);
         this.app.addPlayer(this.players.getPlayerId(socket_id));
     }
 

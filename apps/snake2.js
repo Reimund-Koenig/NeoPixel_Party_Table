@@ -121,7 +121,7 @@ class snake2 {
         this.x_len = 16;
         this.y_len = 15;
         this.restarting = false;
-        this.gamespeedMS = 150;
+        this.gamespeedMS = 333;
         console.log("Game started")
         this._resetView();
         this._setRandomSnack();

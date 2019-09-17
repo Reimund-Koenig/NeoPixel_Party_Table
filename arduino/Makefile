@@ -1,8 +1,8 @@
 ARDUINO_DIR = /usr/share/arduino
 ARDUINO_PORT = /dev/ttyACM*
 
-USER_LIB_PATH = /home/pi/table/sketch/libraries
-BOARD_TAG = uno
+USER_LIB_PATH = /home/pi/table/arduino/libraries
+BOARD_TAG = mega
 
 include /usr/share/arduino/Arduino.mk
 

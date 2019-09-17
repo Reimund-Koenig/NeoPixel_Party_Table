@@ -17,7 +17,7 @@
 
 // Which pin on the Arduino is connected to the NeoPixels?
 // On a Trinket or Gemma we suggest changing this to 1:
-#define LED_PIN    3
+#define LED_PIN    6
 
 // How many NeoPixels are attached to the Arduino?
 #define LED_COUNT 240
@@ -131,11 +131,11 @@ void setup() {
   strip.show();            // Turn OFF all pixels ASAP
   strip.setBrightness(50); // Set BRIGHTNESS to about 1/5 (max = 255)
   // Serial.setTimeout(10);
-  Serial.begin(2400); // opens serial port, sets data rate to 9600 bps
+  Serial.begin(1024); // opens serial port, sets data rate to 9600 bps
   
   while (!Serial); // wait for serial port to connect. Needed for native USB port only
   x = red = green = blue = 0;
-  deploy = 0;
+  deploy = 100;
 }
 
 byte c[4];
@@ -152,10 +152,10 @@ void loop() {
       blue = (int)c[3];
       // Serial.println("x: " + String(x) + " -- r: " + String(red) +" -- g: " + String(green) +" -- b: " + String(blue));
       strip.setPixelColor(x, strip.Color(red,green,blue));         //  Set pixel's color (in RAM)
-      strip.show();
       // Serial.println("Showed");
     }
-    delay(50);
+    strip.show();
+    delay(4);
   } else if(deploy == 1) {
     strip.setPixelColor(0, strip.Color(0,0,255));
     strip.show(); // Update strip with new contents

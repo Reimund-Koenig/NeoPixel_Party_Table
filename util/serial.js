@@ -4,7 +4,7 @@ const SerialPort = require('serialport')
 class serial {
     constructor() {
         // this.parser = new Readline()
-        this.port =  new SerialPort('/dev/ttyACM0', { baudRate: 2400 });
+        this.port =  new SerialPort('/dev/ttyACM0', { baudRate: 1024 });
         // this.port.pipe(this.parser)
         // this.parser.on('data', line => console.log(`<<< ${line}`))
     }
