@@ -7,8 +7,8 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Main",
-            "program": "${workspaceFolder}/node/main.js"
+            "name": "Launch Table Application",
+            "program": "${workspaceFolder}/app.js"
         }
     ]
 }
