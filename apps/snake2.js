@@ -18,20 +18,20 @@ class snake2Player {
     run(snackX, snackY, viewcontroller) {
         if(this.isDead)       { return; }
         if(this.isInactive) { return; }
-        var len = this.yBody.length;
+        var snake_len = this.yBody.length;
         var hasEatenSnack = (snackX == this.xHead && snackY == this.yHead)
         if (hasEatenSnack) {
             this.xBody.push(this.xHead)
             this.yBody.push(this.yHead)
             viewcontroller.setColor(this.xHead,this.yHead,this.hR,this.hG,this.hB);
-        } else if(len > 0) {
+        } else if(snake_len > 0) {
             viewcontroller.setColor(this.xBody[0],this.yBody[0],0,0,0);
-            for (var i = 0; i < len-1; i++) {
+            for (var i = 0; i < snake_len-1; i++) {
                 this.xBody[i] = this.xBody[i+1]
                 this.yBody[i] = this.yBody[i+1]
             }
-            this.xBody[len-1] = this.xHead;
-            this.yBody[len-1] = this.yHead;
+            this.xBody[snake_len-1] = this.xHead;
+            this.yBody[snake_len-1] = this.yHead;
         } else {
             viewcontroller.setColor(this.xHead,this.yHead,0,0,0);
         }
@@ -49,8 +49,8 @@ class snake2Player {
                 return;
             };
         }
-        if(len>0) {
-            viewcontroller.setColor(this.xBody[len-1],this.yBody[len-1],this.hR,this.hG,this.hB);
+        if(snake_len>0) {
+            viewcontroller.setColor(this.xBody[snake_len-1],this.yBody[snake_len-1],this.hR,this.hG,this.hB);
         }
         
         viewcontroller.setColor(this.xHead,this.yHead,this.bR,this.bG,this.bB);
@@ -95,7 +95,6 @@ class snake2Player {
         this.yHead = 0;
         this.yBody = [];
         this.direction = "right"; 
-        // ToDo Check if only one player left...
     }
     isCollisionWith(x,y) {  
         if(this.isDead)       { return false; }  
@@ -125,14 +124,11 @@ class snake2 {
         console.log("Game started")
         this._resetView();
         this._setRandomSnack();
+        this.viewcontroller.show();
     }
 
     _resetView() {
-        for(var i=0;i<this.x_len;i++) {
-            for(var j=0;j<this.y_len;j++) {
-                this.viewcontroller.setColor(i,j,0,0,0);
-            }
-        }
+        this.viewcontroller.setMatrixColor(0,0,0);
     }
 
     startPlayer(id) {
@@ -166,24 +162,39 @@ class snake2 {
     }
 
     run() {
+        if(this.run_app()) {  
+            this.viewcontroller.show();  
+        }       
+    }
 
+    run_app() {
         // ToDo Fix Bugs
         /*
             - Head not displayed if it should appear on the end of another snake
             - Body interrupted by collision
         */
-        if(this.restarting) { return; }
-        if(this.p.length < 2) { return; }
-        if(this.p[0].isInactive || this.p[1].isInactive) { return; }
+        if(this.restarting) { return false; }
+        if(this.p.length < 2) { return false; }
         var numberOfPlayersLeft = this.p.length;
+        var activePlayers = 0;
+        // how many players left?
         for(var i=0;i<this.p.length;i++) {
             if(this.p[i].isDead) { numberOfPlayersLeft -= 1; }
+            if(!this.p[i].isInactive) { activePlayers += 1; }
         }
-        if (numberOfPlayersLeft <= 1) {            
+        if(activePlayers < 2) { return false; }
+        // only one left? --> game ends
+        if (numberOfPlayersLeft <= 1) {   
+            for(var i=0;i<this.p.length;i++) {
+                if((!this.p[i].isDead) && (!this.p[i].isInactive)) { 
+                    this.viewcontroller.setMatrixColor(this.p[i].hR,this.p[i].hG, this.p[i].hB);
+                    console.log("Set color (" + i + "): " + this.p[i].bR + "," + this.p[i].bG + "," + this.p[i].bB)
+                }
+            }         
             this.restarting = true;
             var self = this; 
             setTimeout(function() { self.startNewGame(); }, 5000);             
-            return;   
+            return true;   
         }
 
         var cmd = this.app_mgr.getNextCommand();
@@ -193,7 +204,7 @@ class snake2 {
             cmd = this.app_mgr.getNextCommand();
         }       
         this.date = (new Date).getTime();
-        if(this.nextAction > this.date) { return; }
+        if(this.nextAction > this.date) { return false; }
         this.nextAction = this.date + this.gamespeedMS;
         this.viewcontroller.setColor(this.snackX,this.snackY,255,255,255);
         var newSnack = false;
@@ -223,6 +234,7 @@ class snake2 {
             this._setRandomSnack();
             this.viewcontroller.setColor(this.snackX,this.snackY,255,255,255);
         }
+        return true;
     }
 
     _getColor(id) {

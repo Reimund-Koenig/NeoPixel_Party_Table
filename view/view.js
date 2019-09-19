@@ -19,8 +19,22 @@ class view {
         console.log('view App: ' + this.ip + ":" + this.port);
     }
 
+    show() {
+        this.io.emit('show');
+    }
+
     setColor(x,y,r,g,b) {
         this.io.emit('color', {"x":x, "y":y, "r":r, "g":g, "b":b} );
+    }
+
+    setMatrixColor(r,g,b) {var x;
+        var x;
+        var y;
+        for (y = 0; y < 15; y++) {
+            for (x = 0; x < 16; x++) {
+                this.io.emit('color', {"x":x, "y":y, "r":r, "g":g, "b":b} );
+            }
+        }
     }
 }
 module.exports = view;

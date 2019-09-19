@@ -2,6 +2,12 @@ class viewcontroller {
     constructor(view, serial) {
         this.view = view;
         this.serial = serial;
+        }
+    
+    setMatrixColor(r,g,b) {
+        console.log("Set Color " + r + ", "+ g + ", "+ b );
+        this.view.setMatrixColor(r,g,b);
+        this.serial.setMatrixColor(r,g,b);
     }
     
     setColor(x,y,r,g,b) {
@@ -9,6 +15,12 @@ class viewcontroller {
         this.view.setColor(x,y,r,g,b);
         this.serial.setColor(x,y,r,g,b);
     }
+
+    show() {
+        this.view.show();
+        this.serial.show();
+    }
+
     setMatrix(color_array) {
         console.log(color_array);
     }

@@ -27,6 +27,19 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script>
+        function makeArray(w, h, val) {
+            var arr = [];
+            for(let x = 0; x < w; x++) {
+                arr[x] = [];
+                for(let y = 0; y < h; y++) {
+                    arr[x][y] = val;
+                }
+            }
+            return arr;
+        }
+
+        let game_matrix = makeArray(16,15,0);
+
         $(function () {
             var socket = io();
             $('form').submit(function(){
@@ -40,16 +53,27 @@
             });
             socket.on('color', function(msg){
                 color = rgbToHex(msg.r, msg.g, msg.b);
-                setPixelColor(msg.x,msg.y,color);
+                game_matrix[msg.x][msg.y] = color;
+            });
+            socket.on('show', function(){
+                if(!game_matrix) {
+                    console.log("GAME MATRIX EMPTY");
+                }
+                show(game_matrix);
             });
         });
     </script>
 
     <script>
-        function setPixelColor(x,y,color) {
-            coordinate_ID = x + '-' + y;
-            elem = document.getElementById(coordinate_ID);
-            elem.style.backgroundColor = color;
+
+        function show(game_matrix) {
+            for (y = 0; y < 15; y++) {
+                for (x = 0; x < 16; x++) {
+                    coordinate_ID = x + '-' + y;
+                    elem = document.getElementById(coordinate_ID);
+                    elem.style.backgroundColor = game_matrix[x][y];
+                }
+            }
         }
 
         function rgbToHex(r, g, b) {

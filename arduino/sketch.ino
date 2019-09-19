@@ -40,10 +40,9 @@ void loop() {
         strip.show();
       } else if ((int)cmd[0] == 3) {
         // load complete matrix
-        int num_single_leds = LED_COUNT*3;
-        while (Serial.available() < num_single_leds);
-        byte c[num_single_leds];
-        Serial.readBytes(c, num_single_leds);
+        int COLORS = LED_COUNT*3;
+        byte c[COLORS];
+        Serial.readBytes(c, COLORS);
         int i=0;
         int idx=0;
         while(i<LED_COUNT) {

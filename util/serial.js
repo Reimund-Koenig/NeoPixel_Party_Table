@@ -2,6 +2,7 @@ const SerialPort = require('serialport')
 // const Readline = require('@serialport/parser-readline')
 const CMD_SETPIXEL_COLOR = 1
 const CMD_SHOW = 2
+const CMD_SET_MATRIX_COLOR = 3
 
 class serial {
     constructor() {
@@ -12,12 +13,14 @@ class serial {
         this.buffer_len = [];
         this.buffer_queue = [];
         var self = this;
-        setTimeout(()=>{setInterval(function() { self.sendNewColor(); }, 20);}, 3000);
+        setTimeout(()=>{setInterval(function() { self.sendNextCommand(); }, 20);}, 3000);
     }
       
-    sendNewColor() {
-        if(this.buffer_len.length <= 0) {  return;  }
+    sendNextCommand() {
+        if(this.buffer_len.length == 0) {  return;  }
         var buffer_size = this.buffer_len.shift();
+        // console.log("Buffer_size: " + buffer_size);
+        // console.log("Buffer: " + this.buffer_queue);
         var buffer = new Uint8Array(buffer_size);
         for(var i=0; i<buffer_size;i++) {
             buffer[i] = this.buffer_queue.shift();
@@ -26,14 +29,25 @@ class serial {
         // console.log(">>> " + buffer);
     }
 
+    // 10Hz possible
+    setMatrixColor(r,g,b) {
+        this.buffer_queue.push(CMD_SET_MATRIX_COLOR);
+        for(var i=0;i<240;i++) {
+            this.buffer_queue.push(b);
+            this.buffer_queue.push(g);
+            this.buffer_queue.push(r);
+        }
+        this.buffer_len.push(1 + (240*3));
+    }
+
+    // 50Hz possible
     setColor(x,y,r,g,b) {
         this.buffer_queue.push(CMD_SETPIXEL_COLOR);
         this.buffer_queue.push(this.getX(x,y));
         this.buffer_queue.push(r);
         this.buffer_queue.push(g);
         this.buffer_queue.push(b);
-        this.buffer_queue.push(CMD_SHOW);
-        this.buffer_len.push(6);
+        this.buffer_len.push(5);
         // this.port.write(buffer); 
         // console.log(
         //         "--- X:" + buffer[0]
@@ -43,8 +57,9 @@ class serial {
         // );
     }
     
-    setMatrix(color_array) {
-        console.log(color_array);
+    show() {
+        this.buffer_queue.push(CMD_SHOW);
+        this.buffer_len.push(1);
     }
 
     getX(x,y) {
