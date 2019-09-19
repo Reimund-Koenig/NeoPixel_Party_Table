@@ -25,31 +25,7 @@ body {
 #main {
     width: 100%;
     height: 100%;
-    background: red;
+    background: white;
     margin: auto;
     padding: 0;
-}
-
-#container_left {
-    width		: 50%;
-    height		: 100%;
-    overflow	: hidden;
-    padding		: 0;
-    margin		: 0;
-    -webkit-user-select	: none;
-    -moz-user-select	: none;
-    background: lightblue;
-    float: left;
-}
-
-#container_right {
-    width		: 50%;
-    height		: 100%;
-    overflow	: hidden;
-    padding		: 0;
-    margin-left: 50%;
-    -webkit-user-select	: none;
-    -moz-user-select	: none;
-    background: lightcoral;
-    display: flex;
 }
