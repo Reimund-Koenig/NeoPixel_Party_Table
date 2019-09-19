@@ -141,15 +141,15 @@ void setup() {
 void loop() {
   if(deploy == 1) {
     if (Serial.available() > 0) {
-        Serial.readBytes(cmd,1);
-        if((int)cmd[0] == 1) {
-          Serial.readBytes(c, 4);
-          x = (int)c[0]; red = (int)c[1]; green = (int)c[2]; blue = (int)c[3];
-          // Serial.println(String(x) + "," + String(red) + "," + String(green) +"," + String(blue));
-          strip.setPixelColor(x,red,green,blue); // RAM
-        } else if ((int)cmd[0] == 2) {
-          strip.show();
-        } else if ((int)cmd[0] == 3) {
+      Serial.readBytes(cmd,1);
+      if((int)cmd[0] == 1) {
+        Serial.readBytes(c, 4);
+        x = (int)c[0]; red = (int)c[1]; green = (int)c[2]; blue = (int)c[3];
+        // Serial.println(String(x) + "," + String(red) + "," + String(green) +"," + String(blue));
+        strip.setPixelColor(x,red,green,blue); // RAM
+      } else if ((int)cmd[0] == 2) {
+        strip.show();
+      } else if ((int)cmd[0] == 3) {
         // load complete matrix
         int COLORS = LED_COUNT*3;
         // while (Serial.available() < COLORS);
