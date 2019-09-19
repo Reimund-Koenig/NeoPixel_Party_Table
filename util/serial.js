@@ -1,21 +1,40 @@
 const SerialPort = require('serialport')
 // const Readline = require('@serialport/parser-readline')
+const CMD_SETPIXEL_COLOR = 1
+const CMD_SHOW = 2
 
 class serial {
     constructor() {
         // this.parser = new Readline()
-        this.port =  new SerialPort('/dev/ttyACM0', { baudRate: 1024 });
+        this.port =  new SerialPort('/dev/ttyACM0', { baudRate: 115200 });
         // this.port.pipe(this.parser)
         // this.parser.on('data', line => console.log(`<<< ${line}`))
+        this.buffer_len = [];
+        this.buffer_queue = [];
+        var self = this;
+        setTimeout(()=>{setInterval(function() { self.sendNewColor(); }, 20);}, 3000);
     }
       
+    sendNewColor() {
+        if(this.buffer_len.length <= 0) {  return;  }
+        var buffer_size = this.buffer_len.shift();
+        var buffer = new Uint8Array(buffer_size);
+        for(var i=0; i<buffer_size;i++) {
+            buffer[i] = this.buffer_queue.shift();
+        }
+        this.port.write(buffer);
+        // console.log(">>> " + buffer);
+    }
+
     setColor(x,y,r,g,b) {
-        var buffer = new Uint8Array(4);
-        buffer[0] = this.getX(x,y);
-        buffer[1] = r;
-        buffer[2] = g;
-        buffer[3] = b;
-        this.port.write(buffer); 
+        this.buffer_queue.push(CMD_SETPIXEL_COLOR);
+        this.buffer_queue.push(this.getX(x,y));
+        this.buffer_queue.push(r);
+        this.buffer_queue.push(g);
+        this.buffer_queue.push(b);
+        this.buffer_queue.push(CMD_SHOW);
+        this.buffer_len.push(6);
+        // this.port.write(buffer); 
         // console.log(
         //         "--- X:" + buffer[0]
         //         +   " -- R:" + buffer[1]
