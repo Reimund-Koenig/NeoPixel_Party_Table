@@ -30,32 +30,26 @@ body {
     padding: 0;
 }
 
-#container {
-    width		: 60%;
+#container_left {
+    width		: 50%;
     height		: 100%;
     overflow	: hidden;
     padding		: 0;
     margin		: 0;
     -webkit-user-select	: none;
     -moz-user-select	: none;
-    background: lightgray;
+    background: lightblue;
     float: left;
 }
 
-#button {
-    width		: 40%;
+#container_right {
+    width		: 50%;
     height		: 100%;
     overflow	: hidden;
     padding		: 0;
-    margin-left: 60%;
+    margin-left: 50%;
     -webkit-user-select	: none;
     -moz-user-select	: none;
-    background: darkblue;
-    color: white;
-    text-align: center;
-    vertical-align: middle;
+    background: lightcoral;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 120px;
 }

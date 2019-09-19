@@ -1,106 +1,137 @@
-
 <html>
-		<head>
-			<title>Controller</title>
-			<meta charset="utf-8">
-			<link rel="stylesheet" type="text/css" href="/stylesheet.css">
-			<link rel="shortcut icon" href="/favicon.ico">
-			<meta name="description" content="Web controller for LED table">
-			<meta name="author" content="Reimund König">
-			<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-			<meta name="keywords" lang="de" content="virtual, controller, joystick">
-		</head>
-		<body>
-			<div id="login">
-				<form action="">
-						<input id="new_player" autocomplete="off" /><button>Send</button>
-				</form>
-			</div>
-			<div id="controller">
-				<section id="main">
-					<div id="container"></div>
-					<div id="button">x</div>
-				</section>
-				<div id="info">
-					<span id="result"></span>
-				</div> 
-			</div>
-			<script src="/virtualjoystick.js"></script>
-			<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-			<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-			<script>
-				var username = "";		
-				var socket = io();
-				var socket_id = "";
-				console.log(socket);
-				$(function () {
-					$('form').submit(function(){
-						console.log("Send Message: " + $('#new_player').val())
-						socket.emit("new_player", $('#new_player').val());
-						return false;
-					});
-					socket.on('connected', function(id) {
-						if(socket_id == "") {
-							socket_id = id;
-						}
-						console.log("Connected to Table with id: " + id)
-					});
-					socket.on('start', function(id, name){
-						if(id != socket_id) { return; }
-						console.log("Username: " + name);
-						username = name;
-						document.getElementById("controller").style.display = "block";
-						document.getElementById("login").style.display = "none";
-					});
-					socket.on('disconnect', () => {
-						document.getElementById("controller").style.display = "none";
-						document.getElementById("login").style.display = "block";
-						socket_id = "";
-					});
+	<head>
+		<title>Controller</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="/stylesheet.css">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="description" content="Web controller for LED table">
+		<meta name="author" content="Reimund König">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="keywords" lang="de" content="virtual, controller, joystick">
+	</head>
+	<body>
+		<div id="login">
+			<form action="">
+					<input id="new_player" autocomplete="off" /><button>Send</button>
+			</form>
+		</div>
+		<div id="controller">
+			<section id="main">
+				<div id="container_left"></div>
+				<div id="container_right"></div>
+			</section>
+			<!-- 
+			<div id="info">
+				<span id="result"></span>
+			</div> 
+				-->
+		</div>
+		<script src="/virtualjoystick.js"></script>
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+		<script>
+			var username = "";		
+			var socket = io();
+			var socket_id = "";
+			console.log(socket);
+			$(function () {
+				$('form').submit(function(){
+					console.log("Send Message: " + $('#new_player').val())
+					socket.emit("new_player", $('#new_player').val());
+					return false;
 				});
-				
-				console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
-				var joystick	= new VirtualJoystick({
-					container	: document.getElementById('container'),
-					mouseSupport	: true,
+				socket.on('connected', function(id) {
+					if(socket_id == "") {
+						socket_id = id;
+					}
+					console.log("Connected to Table with id: " + id)
 				});
-				var lastPosition = "None"
-				joystick.addEventListener('touchStart', function(){
-					console.log('key down');
-				})
-				joystick.addEventListener('touchEnd', function(){
-					//console.log('touch end');
-					//console.log(lastPosition);
-					socket.on('msg', function(msg){
-						console.log("Receive Msg: " + msg);
-					});
-					socket.emit("control", lastPosition);
-				})
-				joystick.addEventListener('mouseUp', function(){
-					//console.log('mouse up');
-					//console.log(lastPosition);	
-					socket.on('msg', function(msg){
-						console.log("Receive Msg: " + msg);
-					});
-					socket.emit("control", lastPosition, username);
-				})
-				setInterval(function(){
-					var outputEl	= document.getElementById('result');
-					if(joystick.up()) lastPosition = "up";
-					if(joystick.down()) lastPosition = "down";
-					if(joystick.left()) lastPosition = "left";
-					if(joystick.right()) lastPosition = "right";
-					outputEl.innerHTML	= '<b>Result:</b> '
-						+ ' dx:'+joystick.deltaX()
-						+ ' dy:'+joystick.deltaY()
-						+ (joystick.right()	? ' right'	: '')
-						+ (joystick.up()	? ' up'		: '')
-						+ (joystick.left()	? ' left'	: '')
-						+ (joystick.down()	? ' down' 	: '')	
-				}, 1/30 * 1000);
+				socket.on('start', function(id, name){
+					if(id != socket_id) { return; }
+					console.log("Username: " + name);
+					username = name;
+					document.getElementById("controller").style.display = "block";
+					document.getElementById("login").style.display = "none";
+				});
+				socket.on('disconnect', () => {
+					document.getElementById("controller").style.display = "none";
+					document.getElementById("login").style.display = "block";
+					socket_id = "";
+				});
+			});	
+		</script>
+		<script>
+			console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+			var joystick_left	= new VirtualJoystick({
+				container	: document.getElementById('container_left'),
+				mouseSupport	: true,
+			});
+			var lastPosition_left = "None"
+			joystick_left.addEventListener('touchStart', function(){
+				console.log('key down left');
+			})
+			joystick_left.addEventListener('touchEnd', function(){
+				//console.log('touch end left');
+				//console.log(lastPosition_left);
+				socket.on('msg', function(msg){
+					console.log("Receive Msg: " + msg);
+				});
+				socket.emit("control_left", lastPosition_left);
+			})
+			joystick_left.addEventListener('mouseUp', function(){
+				//console.log('mouse up left');
+				//console.log(lastPosition_left);	
+				socket.on('msg', function(msg){
+					console.log("Receive Msg: " + msg);
+				});
+				socket.emit("control_left", lastPosition_left, username);
+			})
+			setInterval(function(){
+				if(joystick_left.up()) lastPosition_left = "up";
+				if(joystick_left.down()) lastPosition_left = "down";
+				if(joystick_left.left()) lastPosition_left = "left";
+				if(joystick_left.right()) lastPosition_left = "right";
 				
-			</script>
+				if(joystick_right.up()) lastPosition_right = "up";
+				if(joystick_right.down()) lastPosition_right = "down";
+				if(joystick_right.right()) lastPosition_right = "right";
+				if(joystick_right.right()) lastPosition_right = "right";
+
+				// var outputEl	= document.getElementById('result');
+				// outputEl.innerHTML	= '<b>Result:</b> '
+				// 	+ ' dx:'+joystick_left.deltaX()
+				// 	+ ' dy:'+joystick_left.deltaY()
+				// 	+ (joystick_left.right()	? ' right'	: '')
+				// 	+ (joystick_left.up()		? ' up'		: '')
+				// 	+ (joystick_left.left()		? ' left'	: '')
+				// 	+ (joystick_left.down()		? ' down' 	: '')	
+			}, 1/30 * 1000);
 			
 
-		</body>
-	</html>
+			var joystick_right	= new VirtualJoystick({
+				container	: document.getElementById('container_right'),
+				mouseSupport	: true,
+			});
+			var lastPosition_right = "None"
+			joystick_right.addEventListener('touchStart', function(){
+				console.log('key down right');
+			})
+			joystick_right.addEventListener('touchEnd', function(){
+				//console.log('touch end right');
+				//console.log(lastPosition_right);
+				socket.on('msg', function(msg){
+					console.log("Receive Msg: " + msg);
+				});
+				socket.emit("control_right", lastPosition_right);
+			})
+			joystick_right.addEventListener('mouseUp', function(){
+				//console.log('mouse up right');
+				//console.log(lastPosition_right);	
+				socket.on('msg', function(msg){
+					console.log("Receive Msg: " + msg);
+				});
+				socket.emit("control_right", lastPosition_right, username);
+			})
+		</script>
+	</body>
+</html>

@@ -20,7 +20,7 @@ class controller {
                 self.appManager.setPlayerUsername(client.id, username);
                 io.emit('start', client.id, username);
             });
-            client.on('control', function(cmd){
+            client.on('control_left', function(cmd){
                 self.appManager.incomingClientCommand(client.id, cmd);
             }); 
             client.on('disconnect', function() {
