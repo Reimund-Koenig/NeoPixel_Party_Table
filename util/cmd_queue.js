@@ -4,8 +4,8 @@ class cmd_queue {
     constructor() {
         this.commandlist = [];
     }
-    add(id, command) {
-        this.commandlist.push(new CMD(id,command));
+    add(id, controller, command) {
+        this.commandlist.push(new CMD(id,controller,command));
     }
     getNext() {
         if(this.commandlist.length == 0) { return null; }

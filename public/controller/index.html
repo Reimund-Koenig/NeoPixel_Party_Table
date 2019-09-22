@@ -28,6 +28,9 @@
 		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 		<script>
+			console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+		</script>
+		<script>
 			var username = "";		
 			var socket = io();
 			var socket_id = "";
@@ -59,57 +62,67 @@
 			});	
 		</script>
 		<script>
-			console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
-			var joystick	= new VirtualJoystick({
+			var lastPositionLeft = "None"
+			var lastPositionRight = "None"
+
+			var joystick_right	= new VirtualJoystick({
 				container	: document.getElementById('main'),
-				mouseSupport	: true,
+				mouseSupport	: false,
 				strokeStyle	: 'cyan',
 				limitStickTravel: true,
 				stickRadius	: 120		
 			});
-			joystick.addEventListener('touchStartValidation', function(event){
+			joystick_right.addEventListener('touchStartValidation', function(event){
 				var touch	= event.changedTouches[0];
 				if( touch.pageX < window.innerWidth/2 )	return false;
 				return true
 			});
-		
+			
+			joystick_right.addEventListener('touchStart', function(event){
+				socket.emit("right", "push", username);
+			})
+
+			joystick_right.addEventListener('touchEnd', function(event){
+				// socket.emit("test", "touchEnd right " + lastPositionRight);
+				socket.emit("right", lastPositionRight, username);
+			})
+			
 			// one on the right of the screen
-			var joystick	= new VirtualJoystick({
+			var joystick_left	= new VirtualJoystick({
 				container	:	document.getElementById('main'),
-				mouseSupport	: true,
+				mouseSupport	: false,
 				strokeStyle	: 'orange',
 				limitStickTravel: true,
 				stickRadius	: 120		
 			});
-			joystick.addEventListener('touchStartValidation', function(event){
+
+			joystick_left.addEventListener('touchStartValidation', function(event){
 				var touch	= event.changedTouches[0];
 				if( touch.pageX >= window.innerWidth/2 )	return false;
 				return true
 			});
-			joystick.addEventListener('touchStart', function(){
-				console.log('fire')
+
+			joystick_left.addEventListener('touchStart', function(event){
+				socket.emit("left", "push", username);
 			})
-			
-			var lastPosition_right = "None"
-			joystick.addEventListener('touchStart', function(){
-				console.log('key down right');
+
+			joystick_left.addEventListener('touchEnd', function(event){
+				socket.emit("left", lastPositionLeft, username);
 			})
-			joystick.addEventListener('touchEnd', function(){
-				//console.log('touch end right');
-				//console.log(lastPosition_right);
-				socket.on('msg', function(msg){
-					console.log("Receive Msg: " + msg);
-				});
-				socket.emit("control_right", lastPosition_right);
-			})
-			joystick.addEventListener('mouseUp', function(){
-				//console.log('mouse up right');
-				//console.log(lastPosition_right);	
-				socket.on('msg', function(msg){
-					console.log("Receive Msg: " + msg);
-				});
-				socket.emit("control_right", lastPosition_right, username);
-			})
+
+			setInterval(function(){
+				if(joystick_left.up()) lastPositionLeft = "up";
+				if(joystick_left.down()) lastPositionLeft = "down";
+				if(joystick_left.left()) lastPositionLeft = "left";
+				if(joystick_left.right()) lastPositionLeft = "right";
+
+				if(joystick_right.up()) lastPositionRight = "up";
+				if(joystick_right.down()) lastPositionRight = "down";
+				if(joystick_right.left()) lastPositionRight = "left";
+				if(joystick_right.right()) lastPositionRight = "right";
+			}, 20);
+
+
 		</script>
 	</body>
 </html>

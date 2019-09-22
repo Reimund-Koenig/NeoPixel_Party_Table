@@ -20,12 +20,16 @@ class controller {
                 self.appManager.setPlayerUsername(client.id, username);
                 io.emit('start', client.id, username);
             });
-            client.on('control_left', function(cmd){
-                self.appManager.incomingClientCommand(client.id, cmd);
-            }); 
             client.on('disconnect', function() {
                 console.log("Client " + client.id + " disconnected");
                 self.appManager.removePlayer(client.id);
+            });
+            client.on('right', function(direction) {
+                self.appManager.rightControlerCommand(client.id, direction);
+            });
+
+            client.on('left', function(direction) {
+                self.appManager.leftControlerCommand(client.id, direction);
             });
         });
         this.http.listen(this.port);

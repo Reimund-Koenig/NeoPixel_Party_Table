@@ -45,8 +45,8 @@
             });
             socket.on('color', function(msg){
                 color = rgbToHex(msg.r, msg.g, msg.b);
-                coordinate_ID = x + '-' + y;
-                elem = document.getElementById(coordinate_ID);
+                var coordinate_ID = msg.x + '-' + msg.y;
+                var elem = document.getElementById(coordinate_ID);
                 elem.style.backgroundColor = color
                 // Not used at the moment
                 game_matrix[msg.x][msg.y] = color;
@@ -62,8 +62,8 @@
         function show(game_matrix) {
             for (y = 0; y < 15; y++) {
                 for (x = 0; x < 16; x++) {
-                    coordinate_ID = x + '-' + y;
-                    elem = document.getElementById(coordinate_ID);
+                    var coordinate_ID = x + '-' + y;
+                    var elem = document.getElementById(coordinate_ID);
                     elem.style.backgroundColor = game_matrix[x][y];
                 }
             }

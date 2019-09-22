@@ -220,7 +220,6 @@ VirtualJoystick.prototype._onMouseUp	= function(event)
 {
 	this.dispatchEvent('mouseUp', event);
 	return this._onUp();
-	
 }
 
 VirtualJoystick.prototype._onMouseDown	= function(event)

@@ -48,8 +48,12 @@ class app_mgr {
         return this.players.numberOfPlayer();
     }
     
-    incomingClientCommand(socket_id, cmd) {        
-        this.cmd_queue.add(this.players.getPlayerId(socket_id), cmd);
+    leftControlerCommand(socket_id, command) {        
+        this.cmd_queue.add(this.players.getPlayerId(socket_id), "left", command);
+    }
+    
+    rightControlerCommand(socket_id, command) {        
+        this.cmd_queue.add(this.players.getPlayerId(socket_id), "right", command);
     }
 
     getNextCommand() {
