@@ -11,17 +11,18 @@
 	</head>
 	<body>
 		<div id="login">
+			
+			<div class="wrongUsername">
+					<div class="wrongUsernameText">
+					</div>
+				</div>
 			<form action="">
-					<input id="new_player" autocomplete="off" /><button>Send</button>
-			</form>
+				<input type="text" autocomplete="off" class="inputLogin" id="new_player" maxlength="25" placeholder="Username"><br>
+				<input class="btn btnLogin btnBlue" type="submit" value="Abschicken">
+			</form> 
 		</div>
 		<div id="controller">
 			<section id="main"></section>
-			<!-- 
-			<div id="info">
-				<span id="result"></span>
-			</div> 
-				-->
 		</div>
 		<script src="/virtualjoystick.js"></script>
 		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>

@@ -17,7 +17,7 @@ class viewcontroller {
     }
 
     show() {
-        this.view.show();
+        // this.view.show();
         this.serial.show();
     }
 

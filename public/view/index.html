@@ -12,15 +12,7 @@
 <body>
     <div class="borderdiv"></div>
     <div id="centerdiv">
-        <div id="quarderdiv">
-        </div>
-        <!-- <div id="contentdiv">
-            <ul id="messages"></ul>
-            <form action="">
-                <input id="m" autocomplete="off" /><button>Send</button>
-            </form>
-
-        </div> -->
+        <div id="quarderdiv"></div>
     </div>
     <div class="borderdiv"></div>
     
@@ -53,12 +45,13 @@
             });
             socket.on('color', function(msg){
                 color = rgbToHex(msg.r, msg.g, msg.b);
+                coordinate_ID = x + '-' + y;
+                elem = document.getElementById(coordinate_ID);
+                elem.style.backgroundColor = color
+                // Not used at the moment
                 game_matrix[msg.x][msg.y] = color;
             });
             socket.on('show', function(){
-                if(!game_matrix) {
-                    console.log("GAME MATRIX EMPTY");
-                }
                 show(game_matrix);
             });
         });
@@ -88,19 +81,7 @@
         for (y = 0; y < 15; y++) {
             inner += '<div id="row_'+x+'" class="quarder_row">';
             for (x = 0; x < 16; x++) {
-                if (x % 2 == 0) {
-                    if (y % 2 == 0) {
-                        inner += '<div id="'+x+'-'+y+'" class="quarder1"></div>';
-                    } else {
-                        inner += '<div id="'+x+'-'+y+'" class="quarder2"></div>';
-                    }
-                } else {
-                    if (y % 2 == 0) {
-                        inner += '<div id="'+x+'-'+y+'" class="quarder2"></div>';
-                    } else {
-                        inner += '<div id="'+x+'-'+y+'" class="quarder1"></div>';
-                    }
-                }
+                inner += '<div id="'+x+'-'+y+'" class="quarder"></div>';
             }
             inner += '</div>';
         }
