@@ -1,6 +1,5 @@
 class move_one {
     constructor(app_mgr, viewcontroller) {
-        var self = this;
         this.app_mgr = app_mgr;
         this.viewcontroller = viewcontroller;
         this.x = 0;
