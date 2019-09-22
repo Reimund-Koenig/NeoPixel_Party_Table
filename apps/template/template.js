@@ -9,9 +9,15 @@ class move_one {
         this.gamespeedMS = gamespeedMS;
     }
 
-    addPlayer()   { return; }
-    removePlayer(){ return; }
-    startPlayer() { return; }
+    addPlayer(id)   { 
+        console.log("Template -- Player Connected " + id);
+    }
+    removePlayer(id){ 
+        console.log("Template -- Player Removed " + id);
+    }
+    startPlayer(id) { 
+        console.log("Template -- Start Player " + id);
+    }
 
     run() {
         // check gamespeed
@@ -21,6 +27,8 @@ class move_one {
 
         // decide if view should be updated
         if(this.run_app()) {  
+            // webview is live
+            // table need show call
             this.viewcontroller.show();  
         }       
     }

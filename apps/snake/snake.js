@@ -1,7 +1,7 @@
 const snakePlayer = require('./SnakePlayer')
 
 class snake {
-    constructor(app_mgr, viewcontroller) {
+    constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY) {
         this.nextAction = this.date;
         this.max_players = 8;
         this.app_mgr = app_mgr;
@@ -9,10 +9,10 @@ class snake {
         this.p = [];
         this.snackX = 0;
         this.snackY = 0;
-        this.x_len = 16;
-        this.y_len = 15;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
         this.restarting = false;
-        this.gamespeedMS = 333;
+        this.gamespeedMS = gamespeedMS;
         console.log("Game started")
         this._resetView();
         this._setRandomSnack();
@@ -89,9 +89,17 @@ class snake {
             return true;   
         }
 
-        var cmd = this.app_mgr.getNextCommand();
+        var cmd = this.app_mgr.getNextCommand()
         while(cmd) {
-            var direction = cmd.cmd;
+            if(cmd.controller == "right") { 
+                cmd = this.app_mgr.getNextCommand();
+                continue;
+            }
+            if(cmd.command == "push") { 
+                cmd = this.app_mgr.getNextCommand();
+                continue;
+            }
+            var direction = cmd.command;
             this.p[cmd.id].setDirection(direction);
             cmd = this.app_mgr.getNextCommand();
         }       
@@ -146,8 +154,8 @@ class snake {
         var collision = true;
         while (collision) {
             var collision = false;
-            freeX = Math.floor(Math.random() * this.x_len);
-            freeY = Math.floor(Math.random() * this.y_len);
+            freeX = Math.floor(Math.random() * this.sizeX);
+            freeY = Math.floor(Math.random() * this.sizeY);
             for(var i=0;i<this.p.length;i++) {
                 collision |= this.p[i].isCollisionWith(freeX,freeY);
             }

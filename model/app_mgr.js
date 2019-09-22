@@ -9,7 +9,8 @@ const CmdQueue = require('../util/cmd_queue')
 class app_mgr {
     constructor(app, viewcontroller) {
         this.viewcontroller = viewcontroller
-        this.appname = "template";
+        this.appname = "snake";
+        // this.appname = "template";
         this.isAppInitialised = true;
         this.cmd_queue = new CmdQueue();
         this.number_of_player = 0;
@@ -67,7 +68,7 @@ class app_mgr {
                 this.app = null;
             }
             if(this.appname == "snake") {
-                this.app = new Snake(this, this.viewcontroller);
+                this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
             } else if(this.appname == "template") {
                 var gamespeedMS = 40;
                 this.app = new Template(this, this.viewcontroller, gamespeedMS, this.sizeX, this.sizeY);
