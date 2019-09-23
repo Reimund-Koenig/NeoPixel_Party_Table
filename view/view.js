@@ -1,7 +1,9 @@
 class view {
-    constructor(ip, port) {
+    constructor(ip, port, sizeX, sizeY) {
         this.ip = ip;
         this.port = port;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
         this.express = require('express');
         this.app = this.express();
         this.http = require('http').Server(this.app);
@@ -30,8 +32,8 @@ class view {
     setMatrixColor(r,g,b) {var x;
         var x;
         var y;
-        for (y = 0; y < 15; y++) {
-            for (x = 0; x < 16; x++) {
+        for (y = 0; y < this.sizeY; y++) {
+            for (x = 0; x < this.sizeX; x++) {
                 this.io.emit('color', {"x":x, "y":y, "r":r, "g":g, "b":b} );
             }
         }

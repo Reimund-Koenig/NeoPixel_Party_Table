@@ -2,23 +2,27 @@
 const Template = require('../apps/template/template')
 const Snake = require('../apps/snake/snake')
 const Startscreen = require('../apps/startscreen/startscreen')
-// const Template = require('../apps/your_game_name')
+const fs = require('fs');
 
 const PlayerMgr = require('./player_mgr')
 const CmdQueue = require('../util/cmd_queue')
 
 class app_mgr {
-    constructor(app, viewcontroller) {
+    constructor(viewcontroller, sizeX, sizeY) {
         this.viewcontroller = viewcontroller
         this.appname = "startscreen";
-        this.apps = ["startscreen","snake","template"];
+        this.apps = [];
+        fs.readdirSync("./apps/").forEach(file => {
+            console.log(file);
+            this.apps.push(file);
+        });
         this.isAppInitialised = true;
         this.cmd_queue = new CmdQueue();
         this.number_of_player = 0;
         this.players = new PlayerMgr();
         var self = this;
-        this.sizeX = 16;
-        this.sizeY = 15;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
         setInterval(function() { self.app_loop(); }, 20);
     }
 

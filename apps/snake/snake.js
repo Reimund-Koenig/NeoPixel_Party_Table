@@ -33,7 +33,7 @@ class snake {
         console.log("add player with id: " + id);
         var color = this._getColor(id);
         var startPos = this._getStartPixel();
-        var newPlayer = new snakePlayer(startPos[0], startPos[1], color[0],color[1],color[2],color[3],color[4],color[5]);
+        var newPlayer = new snakePlayer(startPos[0], startPos[1], this.sizeX, this.sizeY, color[0],color[1],color[2],color[3],color[4],color[5]);
         this.p.push(newPlayer);
     }
     

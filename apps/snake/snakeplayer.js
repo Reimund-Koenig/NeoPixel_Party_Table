@@ -1,5 +1,5 @@
 class SnakePlayer {    
-    constructor(startX, startY, hR,hG,hB,bR,bG,bB) {
+    constructor(startX, startY, sizeX, sizeY, hR,hG,hB,bR,bG,bB) {
         this.hR = hR; this.hG = hG; this.hB = hB;
         this.bR = bR; this.bG = bG; this.bB = bB;
         console.log("New Player with " + hR + ", "+ hG + ", "+ hB + ", "+ bR + ", "+ bG + ", "+ bB)
@@ -12,8 +12,8 @@ class SnakePlayer {
         this.date = (new Date).getTime();
         this.isDead = false;
         this.isInactive = true;
-        this.x_len = 16;
-        this.y_len = 15;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
     }
     run(snackX, snackY, viewcontroller) {
         if(this.isDead)       { return; }
@@ -56,10 +56,10 @@ class SnakePlayer {
         viewcontroller.setColor(this.xHead,this.yHead,this.bR,this.bG,this.bB);
         return hasEatenSnack;
     }
-    _left()  {   if (this.xHead > 0) {  this.xHead -= 1;    }          else { this.xHead = 15;  }  this.lastMoveDirection = "left";  }
-    _right() {   if (this.xHead < this.x_len - 1) { this.xHead += 1; } else { this.xHead = 0;   }  this.lastMoveDirection = "right"; }
-    _down()  {   if (this.yHead < this.y_len - 1) { this.yHead += 1; } else { this.yHead = 0;   }  this.lastMoveDirection = "down";  } 
-    _up()    {   if (this.yHead > 0) { this.yHead -= 1; }              else { this.yHead = 14;  }  this.lastMoveDirection = "up";    }
+    _left()  {   if (this.xHead > 0) {  this.xHead -= 1;    }          else { this.xHead = sizeX-1;  }  this.lastMoveDirection = "left";  }
+    _right() {   if (this.xHead < this.sizeX - 1) { this.xHead += 1; } else { this.xHead = 0;   }  this.lastMoveDirection = "right"; }
+    _down()  {   if (this.yHead < this.sizeY - 1) { this.yHead += 1; } else { this.yHead = 0;   }  this.lastMoveDirection = "down";  } 
+    _up()    {   if (this.yHead > 0) { this.yHead -= 1; }              else { this.yHead = sizeY-1;  }  this.lastMoveDirection = "up";    }
     setDirection(direction) {
         if(!direction) { return; }
         if(direction == "") { return; }
