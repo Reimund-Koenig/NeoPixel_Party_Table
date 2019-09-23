@@ -1,6 +1,7 @@
 
 const Template = require('../apps/template/template')
 const Snake = require('../apps/snake/snake')
+const Startscreen = require('../apps/startscreen/startscreen')
 // const Template = require('../apps/your_game_name')
 
 const PlayerMgr = require('./player_mgr')
@@ -9,8 +10,8 @@ const CmdQueue = require('../util/cmd_queue')
 class app_mgr {
     constructor(app, viewcontroller) {
         this.viewcontroller = viewcontroller
-        this.appname = "snake";
-        // this.appname = "template";
+        this.appname = "startscreen";
+        this.apps = ["startscreen","snake","template"];
         this.isAppInitialised = true;
         this.cmd_queue = new CmdQueue();
         this.number_of_player = 0;
@@ -61,17 +62,25 @@ class app_mgr {
         return this.cmd_queue.getNext();
     }
     
+    startGame(gamename) {
+        this.isAppInitialised = true;
+        this.appname = gamename;
+        this.viewcontroller.reset();
+    }
+    
     app_loop() {
         if(this.isAppInitialised) {
             this.isAppInitialised = false;
             if(this.app) {
                 this.app = null;
             }
-            if(this.appname == "snake") {
-                this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
+            if(this.appname == "startscreen") {
+                this.app = new Startscreen(this, this.viewcontroller, 1000, this.sizeX, this.sizeY);
             } else if(this.appname == "template") {
                 var gamespeedMS = 40;
                 this.app = new Template(this, this.viewcontroller, gamespeedMS, this.sizeX, this.sizeY);
+            } else if(this.appname == "snake") {
+                this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
             } else {
                 console.log("Game-Name unkown: " + this.appname)
             }

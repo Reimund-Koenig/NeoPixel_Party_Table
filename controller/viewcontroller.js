@@ -4,6 +4,11 @@ class viewcontroller {
         this.serial = serial;
         }
     
+    reset() {
+        this.serial.setMatrixColor(0,0,0);
+        this.view.setMatrixColor(0,0,0);
+    }
+
     setMatrixColor(r,g,b) {
         console.log("Set Color " + r + ", "+ g + ", "+ b );
         this.view.setMatrixColor(r,g,b);

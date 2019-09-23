@@ -23,6 +23,9 @@ class player_mgr {
         this.players[this.getPlayerId(socket_id)].setName(username);
     }
     
+    numberOfPlayer() {    
+        return this.players.length;
+    }    
     numberOfActivePlayer() {        
         var numberOfActivePlayers = 0;
         for( var i = 0; i < this.players.length; i++){ 

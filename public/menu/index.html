@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<title>Controller</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="/stylesheet.css">
+		<link rel="shortcut icon" href="/favicon.ico">
+		<meta name="description" content="Web controller for LED table">
+		<meta name="author" content="Reimund König">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<meta name="keywords" lang="de" content="menu, admin">
+	</head>
+	<body>
+		<div id="choose">
+			<section id="choose_button"></section>
+		</div>
+		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+		<script>
+			var socket = io();
+			var socket_id = "";
+			console.log(socket);
+			$(function () {
+				socket.on('choose', (applications) => {
+					console.log("Info: " + applications);
+					var inner = "";
+					var elem = document.getElementById("choose_button");
+					for (const app of applications) {
+						// choose_button
+						console.log("application: " + app)
+						inner += '<input type="submit"' +
+								 ' onclick="startGame(\'' + app + '\');"' +
+								 ' name="' + app +  '"' +
+								 ' value="' + app + '"' +
+								 '/><br><br>';
+					}
+					console.log("inner: " + inner)
+					elem.innerHTML = inner;
+				});
+			});	
+			function startGame(gamename) {
+					console.log("startGame: " + gamename);
+					socket.emit("start_game", gamename);
+			}
+		</script>
+	</body>
+</html>

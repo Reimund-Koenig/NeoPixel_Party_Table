@@ -1,4 +1,4 @@
-class move_one {
+class template {
     constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY) {
         this.app_mgr = app_mgr;
         this.viewcontroller = viewcontroller;
@@ -75,4 +75,4 @@ class move_one {
     _up()    {   if (this.y > 0) { this.y -= 1; }              else { this.y = this.sizeY-1;  }}
     
 }
-module.exports = move_one;
+module.exports = template;

@@ -6,6 +6,8 @@ conrtoller ---                   --- <application_2>  ---                       
                
 
 
+TODO:  x=16 and y=15 einmal setzen
+
 Add new Application:
     - go into folder "apps", copy template.js and rename it to <NEW_APP_NAME>.js
     - go into folder "model" and add <NEW_APP_NAME>.js inside "app_mgr.js" by searching for "template"

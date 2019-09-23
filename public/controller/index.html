@@ -11,11 +11,9 @@
 	</head>
 	<body>
 		<div id="login">
-			
 			<div class="wrongUsername">
-					<div class="wrongUsernameText">
-					</div>
-				</div>
+				<div class="wrongUsernameText"></div>
+			</div>
 			<form action="">
 				<input type="text" autocomplete="off" class="inputLogin" id="new_player" maxlength="25" placeholder="Username"><br>
 				<input class="btn btnLogin btnBlue" type="submit" value="Abschicken">
@@ -37,7 +35,7 @@
 			console.log(socket);
 			$(function () {
 				$('form').submit(function(){
-					console.log("Send Message: " + $('#new_player').val())
+					console.log("Send Message: " + $('#new_player').val());
 					socket.emit("new_player", $('#new_player').val());
 					return false;
 				});
@@ -60,6 +58,12 @@
 					socket_id = "";
 				});
 			});	
+		</script>
+		<script>
+			function startGame(gamename) {
+					console.log("startGame: " + gamename);
+					socket.emit("start_game", gamename);
+			}
 		</script>
 		<script>
 			var lastPositionLeft = "None"
