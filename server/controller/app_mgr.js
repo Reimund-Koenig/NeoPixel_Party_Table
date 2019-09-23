@@ -1,21 +1,17 @@
 
-const Template = require('../apps/template/template')
-const Snake = require('../apps/snake/snake')
-const Startscreen = require('../apps/startscreen/startscreen')
+const Template = require('../../apps/template/template')
+const Snake = require('../../apps/snake/snake')
+const Startscreen = require('../../apps/startscreen/startscreen')
 const fs = require('fs');
 
 const PlayerMgr = require('./player_mgr')
-const CmdQueue = require('../util/cmd_queue')
+const CmdQueue = require('./cmd_queue')
 
 class app_mgr {
     constructor(viewcontroller, sizeX, sizeY) {
         this.viewcontroller = viewcontroller
         this.appname = "startscreen";
-        this.apps = [];
-        fs.readdirSync("./apps/").forEach(file => {
-            console.log(file);
-            this.apps.push(file);
-        });
+        this.apps = ["startscreen","snake","template"];
         this.isAppInitialised = true;
         this.cmd_queue = new CmdQueue();
         this.number_of_player = 0;

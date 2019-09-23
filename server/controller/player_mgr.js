@@ -1,4 +1,4 @@
-const Player = require('../util/player')
+const Player = require('./player')
 
 class player_mgr {
     constructor() {
