@@ -2,6 +2,7 @@ class controller {
     constructor(ip, port, appManager) {
         var self = this;
         this.appManager = appManager;
+        this.appManager.registerController(this);
         this.ip = ip;
         this.port = port;
         this.express = require('express');
@@ -9,6 +10,7 @@ class controller {
         this.http = require('http').Server(this.app);
         this.app.use('/', this.express.static(__dirname + '/../public/controller/'));
         var io = require('socket.io')(this.http);
+        this.io = io;
         io.on('connection', function(client){
             self.appManager.addNewPlayer(client.id);
             io.emit('connected', client.id);
@@ -43,6 +45,9 @@ class controller {
         });
         this.http.listen(this.port);
         console.log('controller App: ' + this.ip + ":" + this.port);
+    }
+    changeMaxPlayer() {
+        this.io.emit('changeMaxPlayer');
     }
 }
 module.exports = controller;

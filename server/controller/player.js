@@ -4,8 +4,6 @@ class player {
         this.id = id;
         this.username = "";
         this.queuePos = -1;
-        this.admin = false;
-        this.connected = false;
     }
     setQueuePosition(queuePos) {
         this.queuePos = queuePos;

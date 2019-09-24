@@ -10,6 +10,7 @@ const CmdQueue = require('./cmd_queue')
 class app_mgr {
     constructor(viewcontroller, sizeX, sizeY) {
         this.viewcontroller = viewcontroller
+        this.controller = null;
         this.appname = "startscreen";
         this.apps = ["startscreen","snake","template"];
         this.isAppInitialised = true;
@@ -22,6 +23,9 @@ class app_mgr {
         setInterval(function() { self.app_loop(); }, 20);
     }
 
+    registerController(controller) {
+        this.controller = controller;
+    }
     calculateQueuePosition() {
         return (this.getNumberOfActivePlayer() - this.numMaxPlayer) + 1;
     }
@@ -33,6 +37,9 @@ class app_mgr {
 
     setMaxPlayer(numMaxPlayer) {
         this.numMaxPlayer = numMaxPlayer;
+        this.players.resetNames();
+        if(!this.controller) { return; }
+        this.controller.changeMaxPlayer();
     }
 
     initialisePlayer(socket_id, username, queuePos) {

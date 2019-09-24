@@ -40,6 +40,11 @@ class player_mgr {
         return this.players.length;
     }
 
+    resetNames() {        
+        for( var i = 0; i < this.players.length; i++){ 
+            this.players[i].setName("");
+        }
+    }
     numberOfActivePlayer() {        
         var numberOfActivePlayers = 0;
         for( var i = 0; i < this.players.length; i++){ 
