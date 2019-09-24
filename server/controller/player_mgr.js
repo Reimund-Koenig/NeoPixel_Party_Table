@@ -19,13 +19,27 @@ class player_mgr {
         this.players[id].getName();
     }
 
-    setUsername(socket_id, username) {
-        this.players[this.getPlayerId(socket_id)].setName(username);
+    initialisePlayer(socket_id, username, queuePos) {
+        var id = this.getPlayerId(socket_id);
+        this.players[id].setName(username);
+        this.players[id].setQueuePosition(queuePos);
     }
-    
+
+    reduceQueuePositions() {
+        for( var i = 0; i < this.players.length; i++){ 
+            this.players[i].reduceQueuePos(1);
+        }
+    }
+
+    getQueuePosition(socket_id) {
+        console.log("player_mgr getQueuePosition " + socket_id);
+        return this.players[this.getPlayerId(socket_id)].getQueuePosition();
+    }
+
     numberOfPlayer() {    
         return this.players.length;
-    }    
+    }
+
     numberOfActivePlayer() {        
         var numberOfActivePlayers = 0;
         for( var i = 0; i < this.players.length; i++){ 

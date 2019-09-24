@@ -7,6 +7,7 @@ class template {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.gamespeedMS = gamespeedMS;
+        this.app_mgr.setMaxPlayer(1);
     }
 
     addPlayer(id)   { 

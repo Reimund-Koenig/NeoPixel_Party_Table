@@ -14,19 +14,16 @@ class app_mgr {
         this.apps = ["startscreen","snake","template"];
         this.isAppInitialised = true;
         this.cmd_queue = new CmdQueue();
-        this.number_of_player = 0;
         this.players = new PlayerMgr();
         var self = this;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.numMaxPlayer = 1;
         setInterval(function() { self.app_loop(); }, 20);
     }
 
-    getQueuePosition() {
-        // return 0 if free
-        // var numOfFreeSlots = this.number_of_player + 0
-        return 0
-        // return position if busy
+    calculateQueuePosition() {
+        return (this.getNumberOfActivePlayer() - this.numMaxPlayer) + 1;
     }
 
     removePlayer(socket_id) {
@@ -34,9 +31,25 @@ class app_mgr {
         this.players.remove(socket_id);
     }
 
-    setPlayerUsername(socket_id, username) {
-        this.players.setUsername(socket_id, username);
+    setMaxPlayer(numMaxPlayer) {
+        this.numMaxPlayer = numMaxPlayer;
+    }
+
+    initialisePlayer(socket_id, username, queuePos) {
+        this.players.initialisePlayer(socket_id, username, queuePos);
         console.log("Set Username: " +  username);
+    }
+    
+    reduceQueuePositions() {
+        this.players.reduceQueuePositions();
+    }
+
+    getQueuePosition(socket_id) {
+        console.log("App_mgr getQueuePosition " + socket_id);
+        return this.players.getQueuePosition(socket_id);
+    }
+
+    startPlayer(socket_id) {
         this.app.startPlayer(this.players.getPlayerId(socket_id));
     }
 
@@ -44,6 +57,10 @@ class app_mgr {
         console.log("New Controller Connected (" + socket_id + ")");
         this.players.add(socket_id);
         this.app.addPlayer(this.players.getPlayerId(socket_id));
+    }
+
+    getNumberOfActivePlayer() {
+        return this.players.numberOfActivePlayer();
     }
 
     getNumberOfPlayer() {

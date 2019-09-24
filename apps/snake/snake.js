@@ -17,6 +17,7 @@ class snake {
         this._resetView();
         this._setRandomSnack();
         this.viewcontroller.show();
+        this.app_mgr.setMaxPlayer(8);
     }
 
     _resetView() {

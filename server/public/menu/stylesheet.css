@@ -86,7 +86,7 @@ body {
 }
 
 
-.wrongUsername{
+.loginInformation{
     size:400px;
     width:400px;
     height:40px;
@@ -97,7 +97,7 @@ body {
     position: relative;
 }
 
-.wrongUsernameText{
+.loginInformationText{
     color:red;
     font-weight:bold;
     font-size:0.8em;

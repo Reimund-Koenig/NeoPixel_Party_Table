@@ -8,6 +8,7 @@ class startscreen {
         this.sizeY = sizeY;
         this.gamespeedMS = gamespeedMS;
         this.blink = true;
+        this.app_mgr.setMaxPlayer(1);
     }
 
     addPlayer(id)   {}

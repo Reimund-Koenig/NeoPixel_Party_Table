@@ -3,9 +3,23 @@ class player {
         this.socket_id = socket_id;
         this.id = id;
         this.username = "";
+        this.queuePos = -1;
         this.admin = false;
         this.connected = false;
     }
+    setQueuePosition(queuePos) {
+        this.queuePos = queuePos;
+    }
+
+    reduceQueuePos(x) {
+        this.queuePos-=x;
+    }
+
+    getQueuePosition() {
+        console.log("player getQueuePosition " + this.queuePos);
+        return this.queuePos;
+    }
+
     setName(name) {
         this.username = name;
     }
