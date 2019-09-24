@@ -13,7 +13,7 @@ class app_mgr {
         this.controller = null;
         this.appname = "startscreen";
         this.apps = ["startscreen","snake","template"];
-        this.isAppInitialised = true;
+        this.isAppInitialised = false;
         this.cmd_queue = new CmdQueue();
         this.players = new PlayerMgr();
         var self = this;
@@ -36,10 +36,12 @@ class app_mgr {
     }
 
     setMaxPlayer(numMaxPlayer) {
-        this.numMaxPlayer = numMaxPlayer;
-        this.players.resetNames();
         if(!this.controller) { return; }
+        this.numMaxPlayer = numMaxPlayer;
+        this.players.resetUsernames();
         this.controller.changeMaxPlayer();
+        var self = this;
+        setTimeout(function() { self.players.addAndStartPlayers(self.app); }, 1500);    
     }
 
     initialisePlayer(socket_id, username, queuePos) {
@@ -87,14 +89,14 @@ class app_mgr {
     }
     
     startGame(gamename) {
-        this.isAppInitialised = true;
         this.appname = gamename;
+        this.isAppInitialised = false;
         this.viewcontroller.reset();
     }
     
     app_loop() {
-        if(this.isAppInitialised) {
-            this.isAppInitialised = false;
+        if(!this.isAppInitialised) {
+            this.isAppInitialised = true;
             if(this.app) {
                 this.app = null;
             }
@@ -107,6 +109,7 @@ class app_mgr {
                 this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
             } else {
                 console.log("Game-Name unkown: " + this.appname)
+                return;
             }
         }
         if(this.app) {

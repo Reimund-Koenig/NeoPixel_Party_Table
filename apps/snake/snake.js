@@ -2,6 +2,7 @@ const snakePlayer = require('./SnakePlayer')
 
 class snake {
     constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY) {
+        console.log("Start Game Snake");
         this.nextAction = this.date;
         this.max_players = 8;
         this.app_mgr = app_mgr;
@@ -13,7 +14,6 @@ class snake {
         this.sizeY = sizeY;
         this.restarting = false;
         this.gamespeedMS = gamespeedMS;
-        console.log("Game started")
         this._resetView();
         this._setRandomSnack();
         this.viewcontroller.show();

@@ -15,13 +15,28 @@ class player_mgr {
         this.players.splice(this.getPlayerId(socket_id), 1); 
     }
 
+    addAndStartPlayers(app) {
+        if(!app) {
+            console.log("App unknown");
+        }
+        for( var i = 0; i < this.players.length; i++){ 
+            console.log("Add player to the game");
+            app.addPlayer(i);
+            if (this.players[i].getUsername() != "") {
+                console.log("Start player to the game");
+                app.startPlayer(i);
+            }
+            
+        }
+    }
+
     getUsername(id) {
-        this.players[id].getName();
+        this.players[id].getUsername();
     }
 
     initialisePlayer(socket_id, username, queuePos) {
         var id = this.getPlayerId(socket_id);
-        this.players[id].setName(username);
+        this.players[id].setUsername(username);
         this.players[id].setQueuePosition(queuePos);
     }
 
@@ -40,15 +55,16 @@ class player_mgr {
         return this.players.length;
     }
 
-    resetNames() {        
+    resetUsernames() {        
         for( var i = 0; i < this.players.length; i++){ 
-            this.players[i].setName("");
+            this.players[i].setUsername("");
         }
     }
+
     numberOfActivePlayer() {        
         var numberOfActivePlayers = 0;
         for( var i = 0; i < this.players.length; i++){ 
-            if (this.players[i].username != "") {
+            if (this.players[i].getUsername() != "") {
                 numberOfActivePlayers += 1; 
             }
         }

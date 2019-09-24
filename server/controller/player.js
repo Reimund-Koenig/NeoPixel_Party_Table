@@ -18,10 +18,11 @@ class player {
         return this.queuePos;
     }
 
-    setName(name) {
+    setUsername(name) {
         this.username = name;
     }
-    getName() {
+
+    getUsername() {
         return this.username;
     }
 }
