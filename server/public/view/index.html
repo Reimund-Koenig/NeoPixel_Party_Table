@@ -1,18 +1,19 @@
 <!doctype html>
 <html>
 <head>
-        <title>View</title>
+        <title>App-View</title>
         <link rel="stylesheet" type="text/css" href="/stylesheet.css">
         <meta name="description" content="Web view for LED table">
         <meta name="author" content="Reimund König">
         <link rel="shortcut icon" href="/favicon.ico">
         <meta name="keywords" lang="de" content="
-                                 virtual, view">
+                                 virtual, app, view">
 </head>
 <body>
     <div class="borderdiv"></div>
     <div id="centerdiv">
         <div id="quarderdiv"></div>
+        <div id="connection">Disconnected</div>
     </div>
     <div class="borderdiv"></div>
     
@@ -39,6 +40,14 @@
                 socket.emit("msg", $('#m').val());
                 $('#m').val('');
                 return false;
+            });
+            socket.on('connected',  () => {
+                document.getElementById("quarderdiv").style.display = "block";
+                document.getElementById("connection").style.display = "none";
+            });
+            socket.on('disconnect', () => {
+                document.getElementById("quarderdiv").style.display = "none";
+                document.getElementById("connection").style.display = "block";
             });
             socket.on('msg', function(msg){
                 console.log("Receive Msg: " + msg);

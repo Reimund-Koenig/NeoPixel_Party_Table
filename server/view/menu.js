@@ -10,6 +10,7 @@ class menu {
         this.app.use('/', this.express.static(__dirname + '/../public/menu/'));
         var io = require('socket.io')(this.http);
         io.on('connection', function(client){
+            io.emit('connected');
             io.emit('choose', appManager.apps);
             client.on('start_game', function(gamename){
                 self.appManager.startGame(gamename);

@@ -10,6 +10,7 @@ class view {
         this.app.use('/', this.express.static(__dirname + '/../public/view'));
         var io = require('socket.io')(this.http);
         io.on('connection', function(client){
+            io.emit('connected');
             client.on('msg', function(msg){
                 console.log("Message: " + msg)
                 io.emit('msg', msg);

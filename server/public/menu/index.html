@@ -12,6 +12,7 @@
 	<body>
 		<div id="choose">
 			<section id="choose_button"></section>
+			<div id="connection">Disconnected</div>
 		</div>
 		<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 		<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -19,7 +20,16 @@
 			var socket = io();
 			var socket_id = "";
 			console.log(socket);
-			$(function () {
+			$(function () {				
+				socket.on('connected',  () => {
+					document.getElementById("choose_button").style.display = "block";
+					document.getElementById("connection").style.display = "none";
+				});
+				socket.on('disconnect', () => {
+					document.getElementById("choose_button").style.display = "none";
+					document.getElementById("connection").style.display = "block";
+				});
+
 				socket.on('choose', (applications) => {
 					console.log("Info: " + applications);
 					var inner = "";
