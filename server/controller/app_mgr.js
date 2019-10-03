@@ -1,6 +1,7 @@
 
 const Template = require('../../apps/template/template')
 const Snake = require('../../apps/snake/snake')
+const Flow = require('../../apps/flow/flow')
 const Startscreen = require('../../apps/startscreen/startscreen')
 const fs = require('fs');
 
@@ -11,8 +12,8 @@ class app_mgr {
     constructor(viewcontroller, sizeX, sizeY) {
         this.viewcontroller = viewcontroller
         this.controller = null;
-        this.appname = "startscreen";
-        this.apps = ["startscreen","snake","template"];
+        this.appname = "template";
+        this.apps = ["startscreen","flow","snake","template"];
         this.isAppInitialised = false;
         this.cmd_queue = new CmdQueue();
         this.players = new PlayerMgr();
@@ -26,6 +27,7 @@ class app_mgr {
     registerController(controller) {
         this.controller = controller;
     }
+
     calculateQueuePosition() {
         return (this.getNumberOfActivePlayer() - this.numMaxPlayer) + 1;
     }
@@ -107,6 +109,8 @@ class app_mgr {
                 this.app = new Template(this, this.viewcontroller, gamespeedMS, this.sizeX, this.sizeY);
             } else if(this.appname == "snake") {
                 this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
+            } else if(this.appname == "flow") {
+                this.app = new Flow(this, this.viewcontroller, 40, this.sizeX, this.sizeY);
             } else {
                 console.log("Game-Name unkown: " + this.appname)
                 return;

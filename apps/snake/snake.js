@@ -96,7 +96,7 @@ class snake {
                 cmd = this.app_mgr.getNextCommand();
                 continue;
             }
-            if(cmd.command == "push") { 
+            if(cmd.command == "push" || cmd.command == "release") { 
                 cmd = this.app_mgr.getNextCommand();
                 continue;
             }
