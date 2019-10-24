@@ -1,4 +1,4 @@
-class SnakePlayer {    
+class snakeplayer {    
     constructor(startX, startY, sizeX, sizeY, hR,hG,hB,bR,bG,bB) {
         this.hR = hR; this.hG = hG; this.hB = hB;
         this.bR = bR; this.bG = bG; this.bB = bB;
@@ -106,4 +106,4 @@ class SnakePlayer {
         return collision;
     }
 }
-module.exports = SnakePlayer;
+module.exports = snakeplayer;

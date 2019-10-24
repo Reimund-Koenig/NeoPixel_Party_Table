@@ -10,6 +10,10 @@ class template {
         this.app_mgr.setMaxPlayer(1);
         this.controller_active = false;
         this.lastDirection = "";
+        this._resetView();
+    }
+    _resetView() {
+        this.viewcontroller.setMatrixColor(0,0,0);
     }
 
     addPlayer(id)   { 

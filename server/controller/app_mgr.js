@@ -105,12 +105,12 @@ class app_mgr {
             if(this.appname == "startscreen") {
                 this.app = new Startscreen(this, this.viewcontroller, 1000, this.sizeX, this.sizeY);
             } else if(this.appname == "template") {
-                var gamespeedMS = 40;
+                var gamespeedMS = 333;
                 this.app = new Template(this, this.viewcontroller, gamespeedMS, this.sizeX, this.sizeY);
             } else if(this.appname == "snake") {
                 this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
             } else if(this.appname == "flow") {
-                this.app = new Flow(this, this.viewcontroller, 40, this.sizeX, this.sizeY);
+                this.app = new Flow(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
             } else {
                 console.log("Game-Name unkown: " + this.appname)
                 return;

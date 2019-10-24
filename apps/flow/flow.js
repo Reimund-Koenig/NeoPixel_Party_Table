@@ -9,6 +9,11 @@ class flow {
         this.gamespeedMS = gamespeedMS;
         this.app_mgr.setMaxPlayer(1);
         this.move = false;
+        this._resetView();
+    }
+
+    _resetView() {
+        this.viewcontroller.setMatrixColor(0,0,0);
     }
 
     addPlayer(id)   { 
@@ -36,7 +41,6 @@ class flow {
     }
 
     run_app() {
-
         // check commands
         var cmd = this.app_mgr.getNextCommand();
         if(!cmd) { return false; }
