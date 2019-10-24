@@ -56,10 +56,10 @@ class SnakePlayer {
         viewcontroller.setColor(this.xHead,this.yHead,this.bR,this.bG,this.bB);
         return hasEatenSnack;
     }
-    _left()  {   if (this.xHead > 0) {  this.xHead -= 1;    }          else { this.xHead = sizeX-1;  }  this.lastMoveDirection = "left";  }
+    _left()  {   if (this.xHead > 0) {  this.xHead -= 1;    }          else { this.xHead = this.sizeX-1;  }  this.lastMoveDirection = "left";  }
     _right() {   if (this.xHead < this.sizeX - 1) { this.xHead += 1; } else { this.xHead = 0;   }  this.lastMoveDirection = "right"; }
     _down()  {   if (this.yHead < this.sizeY - 1) { this.yHead += 1; } else { this.yHead = 0;   }  this.lastMoveDirection = "down";  } 
-    _up()    {   if (this.yHead > 0) { this.yHead -= 1; }              else { this.yHead = sizeY-1;  }  this.lastMoveDirection = "up";    }
+    _up()    {   if (this.yHead > 0) { this.yHead -= 1; }              else { this.yHead = this.sizeY-1;  }  this.lastMoveDirection = "up";    }
     setDirection(direction) {
         if(!direction) { return; }
         if(direction == "") { return; }

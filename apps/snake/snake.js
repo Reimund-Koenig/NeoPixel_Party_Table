@@ -1,4 +1,4 @@
-const snakePlayer = require('./SnakePlayer')
+const snakePlayer = require('./snakeplayer')
 
 class snake {
     constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY) {
