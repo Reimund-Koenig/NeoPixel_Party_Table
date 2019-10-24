@@ -105,7 +105,7 @@ class app_mgr {
             if(this.appname == "startscreen") {
                 this.app = new Startscreen(this, this.viewcontroller, 1000, this.sizeX, this.sizeY);
             } else if(this.appname == "template") {
-                var gamespeedMS = 333;
+                var gamespeedMS = 50;
                 this.app = new Template(this, this.viewcontroller, gamespeedMS, this.sizeX, this.sizeY);
             } else if(this.appname == "snake") {
                 this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
