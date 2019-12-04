@@ -8,7 +8,7 @@ const Menu = require('./server/view/menu')
 const AppManager = require('./server/controller/app_mgr')
 
 var sizeX = 16;
-var sizeY = 15;
+var sizeY = 16;
 
 var view = new View(IP.address(), 3002, sizeX, sizeY);
 var serial = new Serial();
