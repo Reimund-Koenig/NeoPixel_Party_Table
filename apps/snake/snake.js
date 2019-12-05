@@ -108,30 +108,29 @@ class snake {
         var newSnack = false;
         // Move all Player body
         for(var i=0;i<this.p.length;i++) {
-            newSnack |= this.p[i].run(this.snackX, this.snackY, this.viewcontroller);
-        }
-
-        var collisions = []
-        // Head/Head Collision (both players dies)
-        for(var i=0;i<this.p.length;i++) {
-            var collision = false
+            newSnack |= this.p[i].moveOneStep(this.snackX, this.snackY, this.viewcontroller);
+            this.p[i].checkCannibalism(this.viewcontroller);
+            this.p[i].drawNewBodyElement(this.viewcontroller);
+            // check Head/Head collision
             for(var j=0;j<this.p.length;j++) {
                 if(i==j) { continue; }
-                if(collision) { continue; }
-                collision |= this.p[j].isCollisionWith(this.p[i].getX(),this.p[i].getY());
+                if(this.p[j].isDead)     { continue; }  
+                if(this.p[j].isInactive) { continue; }  
+                if(this.p[j].isCollisionWith(this.p[i].getXHead(),this.p[i].getYHead())){
+                    // there is a bug with head crossover
+                    /* 
+                        even-intersection: everything works
+                        odd-intersection:  player_U beats player_V with U>V
+                    */
+                    this.p[i].gameover(this.viewcontroller);
+                    this.p[j].gameover(this.viewcontroller);
+                    break;
+                }
             }
-            collisions.push(collision);
         }
-        for(var i=0;i<this.p.length;i++) {
-            if(collisions[i]) {
-                this.p[i].gameover(this.viewcontroller);
-            }
-        }
-
         for(var i=0;i<this.p.length;i++) {
             this.p[i].drawHead(this.viewcontroller);
         }
-
         if(newSnack) {
             this._setRandomSnack();
             this.viewcontroller.setColor(this.snackX,this.snackY,255,255,255);
@@ -185,6 +184,10 @@ class snake {
         var freePixel = this._getFreePixel();
         this.snackX = freePixel[0];
         this.snackY = freePixel[1];
+    }
+
+    _collisionWithAnotherPlayersHead() {
+        
     }
 }
 module.exports = snake;
