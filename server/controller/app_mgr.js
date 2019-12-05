@@ -12,7 +12,7 @@ class app_mgr {
     constructor(viewcontroller, sizeX, sizeY) {
         this.viewcontroller = viewcontroller
         this.controller = null;
-        this.appname = "template";
+        this.appname = "startscreen";
         this.apps = ["startscreen","flow","snake","template"];
         this.isAppInitialised = false;
         this.cmd_queue = new CmdQueue();
@@ -38,7 +38,10 @@ class app_mgr {
     }
 
     setMaxPlayer(numMaxPlayer) {
-        if(!this.controller) { return; }
+        if(!this.controller) { 
+            console.log("Warning: controller is empty")
+            return;
+        }
         this.numMaxPlayer = numMaxPlayer;
         this.players.resetUsernames();
         this.controller.changeMaxPlayer();
