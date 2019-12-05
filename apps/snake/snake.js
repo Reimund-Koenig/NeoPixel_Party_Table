@@ -14,14 +14,11 @@ class snake {
         this.sizeY = sizeY;
         this.restarting = false;
         this.gamespeedMS = gamespeedMS;
-        this._resetView();
+        this.viewcontroller.reset();
         this._setRandomSnack();
         this.viewcontroller.show();
-        this.app_mgr.setMaxPlayer(8);
-    }
-
-    _resetView() {
-        this.viewcontroller.setMatrixColor(0,0,0);
+        console.log("set max player in viewcontroller")
+        this.app_mgr.setMaxPlayer(this.max_players);
     }
 
     startPlayer(id) {
@@ -46,7 +43,8 @@ class snake {
     }
 
     startNewGame() {    
-        this._resetView(); 
+        this.viewcontroller.reset();
+        console.log("Start new game (Snake)")
         for(var i=0;i<this.p.length;i++) {
             var startPos = this._getStartPixel();
             this.p[i].restart(startPos[0], startPos[1]);
@@ -63,7 +61,6 @@ class snake {
     run_app() {
         // ToDo Fix Bugs
         /*
-            - Head not displayed if it should appear on the end of another snake
             - Body interrupted by collision
         */
         if(this.restarting) { return false; }
@@ -75,9 +72,9 @@ class snake {
             if(this.p[i].isDead) { numberOfPlayersLeft -= 1; }
             if(!this.p[i].isInactive) { activePlayers += 1; }
         }
-        if(activePlayers < 2) { return false; }
-        // only one left? --> game ends
-        if (numberOfPlayersLeft <= 1) {   
+        if(activePlayers < 1) { return false; }
+        // only one left and more then one player in game? --> game ends
+        if (numberOfPlayersLeft < 2 && activePlayers > 1) {   
             for(var i=0;i<this.p.length;i++) {
                 if((!this.p[i].isDead) && (!this.p[i].isInactive)) { 
                     this.viewcontroller.setMatrixColor(this.p[i].hR,this.p[i].hG, this.p[i].hB);
@@ -129,6 +126,10 @@ class snake {
             if(collisions[i]) {
                 this.p[i].gameover(this.viewcontroller);
             }
+        }
+
+        for(var i=0;i<this.p.length;i++) {
+            this.p[i].drawHead(this.viewcontroller);
         }
 
         if(newSnack) {
