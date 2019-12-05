@@ -5,7 +5,7 @@ const CMD_SHOW = 2
 const CMD_SET_MATRIX_COLOR = 3
 
 class serial {
-    constructor() {
+    constructor(sizeX, sizeY) {
         // this.parser = new Readline()
         this.port =  new SerialPort('/dev/ttyACM0', { baudRate: 115200 });
         // this.port.pipe(this.parser)
@@ -13,6 +13,8 @@ class serial {
         this.buffer_len = [];
         this.buffer_queue = [];
         var self = this;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
         setTimeout(()=>{setInterval(function() { self.sendNextCommand(); }, 20);}, 3000);
     }
       
@@ -32,12 +34,12 @@ class serial {
     // 10Hz possible
     setMatrixColor(r,g,b) {
         this.buffer_queue.push(CMD_SET_MATRIX_COLOR);
-        for(var i=0;i<240;i++) {
+        for(var i=0;i<this.sizeX*this.sizeY;i++) {
             this.buffer_queue.push(b);
             this.buffer_queue.push(g);
             this.buffer_queue.push(r);
         }
-        this.buffer_len.push(1 + (240*3));
+        this.buffer_len.push(1 + (this.sizeX*this.sizeY*3));
     }
 
     // 50Hz possible
@@ -64,9 +66,9 @@ class serial {
 
     getX(x,y) {
         if(x%2==0) {
-            return (x * sizeX) + y;
+            return (x * this.sizeX) + y;
         } else {
-            return (x * sizeX) + (sizeY-y);
+            return (x * this.sizeX) + (this.sizeY-y);
         }
     }
 }

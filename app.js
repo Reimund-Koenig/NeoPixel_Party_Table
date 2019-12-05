@@ -11,7 +11,7 @@ var sizeX = 16;
 var sizeY = 16;
 
 var view = new View(IP.address(), 3002, sizeX, sizeY);
-var serial = new Serial();
+var serial = new Serial(sizeX, sizeY);
 var viewcontroller = new Viewcontroller(view, serial);
 var appManager = new AppManager(viewcontroller, sizeX, sizeY);
 
