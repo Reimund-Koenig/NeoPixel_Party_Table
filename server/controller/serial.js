@@ -7,13 +7,13 @@ const CMD_SET_MATRIX_COLOR = 3
 class serial {
     constructor() {
         // this.parser = new Readline()
-        this.port =  new SerialPort('COM6', { baudRate: 921600 });
+        this.port =  new SerialPort('COM4', { baudRate: 115200 });
         // this.port.pipe(this.parser)
         // this.parser.on('data', line => console.log(`<<< ${line}`))
         this.buffer_len = [];
         this.buffer_queue = [];
         var self = this;
-        setTimeout(()=>{setInterval(function() { self.sendNextCommand(); }, 20);}, 3000);
+        setTimeout(()=>{setInterval(function() { self.sendNextCommand(); }, 10);}, 3000);
     }
       
     sendNextCommand() {
