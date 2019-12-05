@@ -1,8 +1,8 @@
 class snakeplayer {    
-    constructor(startX, startY, sizeX, sizeY, hR,hG,hB,bR,bG,bB) {
-        this.hR = hR; this.hG = hG; this.hB = hB;
+    constructor(startX, startY, sizeX, sizeY, hR, hG, hB, bR, bG, bB) {
         this.bR = bR; this.bG = bG; this.bB = bB;
-        console.log("New Player with " + hR + ", "+ hG + ", "+ hB + ", "+ bR + ", "+ bG + ", "+ bB)
+        this.hR = hR; this.hG = hG; this.hB = hB;
+        console.log("New Player with Body:" + bR + ", "+ bG + ", "+ bB + ", Head: "+ hR + ", "+ hG + ", "+ hB)
         this.xHead = startX;
         this.yHead = startY;
         this.direction = "right";
@@ -23,7 +23,7 @@ class snakeplayer {
         if (hasEatenSnack) {
             this.xBody.push(this.xHead)
             this.yBody.push(this.yHead)
-            viewcontroller.setColor(this.xHead,this.yHead,this.hR,this.hG,this.hB);
+            viewcontroller.setColor(this.xHead,this.yHead,this.bR,this.bG,this.bB);
         } else if(snake_len > 0) {
             viewcontroller.setColor(this.xBody[0],this.yBody[0],0,0,0);
             for (var i = 0; i < snake_len-1; i++) {
@@ -50,11 +50,14 @@ class snakeplayer {
             };
         }
         if(snake_len>0) {
-            viewcontroller.setColor(this.xBody[snake_len-1],this.yBody[snake_len-1],this.hR,this.hG,this.hB);
+            viewcontroller.setColor(this.xBody[snake_len-1],this.yBody[snake_len-1],this.bR,this.bG,this.bB);
         }
-        
-        viewcontroller.setColor(this.xHead,this.yHead,this.bR,this.bG,this.bB);
         return hasEatenSnack;
+    }
+    drawHead(viewcontroller) {
+        if(!this.isDead){
+            viewcontroller.setColor(this.xHead,this.yHead,this.hR,this.hG,this.hB);
+        }
     }
     _left()  {   if (this.xHead > 0) {  this.xHead -= 1;    }          else { this.xHead = this.sizeX-1;  }  this.lastMoveDirection = "left";  }
     _right() {   if (this.xHead < this.sizeX - 1) { this.xHead += 1; } else { this.xHead = 0;   }  this.lastMoveDirection = "right"; }
@@ -88,7 +91,6 @@ class snakeplayer {
         for (var i=0; i < this.yBody.length; i++) {
             viewcontroller.setColor(this.xBody[i],this.yBody[i],0,0,0);
         }
-        viewcontroller.setColor(this.xHead,this.yHead,0,0,0);
         viewcontroller.setColor(this.snackX,this.snackY,0,0,0);
         this.xHead = 0;
         this.xBody = [];
