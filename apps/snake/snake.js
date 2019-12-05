@@ -67,7 +67,7 @@ class snake {
             - Body interrupted by collision
         */
         if(this.restarting) { return false; }
-        if(this.p.length < 2) { return false; }
+        if(this.p.length < 1) { return false; }
         var numberOfPlayersLeft = this.p.length;
         var activePlayers = 0;
         // how many players left?
