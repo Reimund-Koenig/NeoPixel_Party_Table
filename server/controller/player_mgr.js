@@ -20,10 +20,9 @@ class player_mgr {
             console.log("App unknown");
         }
         for( var i = 0; i < this.players.length; i++){ 
-            console.log("Add player to the game");
             app.addPlayer(i);
             if (this.players[i].getUsername() != "") {
-                console.log("Start player to the game");
+                console.log(this.players[i].getUsername()  + " joined the game");
                 app.startPlayer(i);
             }
             
