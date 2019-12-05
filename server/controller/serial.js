@@ -64,9 +64,9 @@ class serial {
 
     getX(x,y) {
         if(x%2==0) {
-            return (x * 15) + y;
+            return (x * sizeX) + y;
         } else {
-            return (x * 15) + (14-y);
+            return (x * sizeX) + (sizeY-y);
         }
     }
 }

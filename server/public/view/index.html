@@ -30,8 +30,9 @@
             }
             return arr;
         }
-
-        let game_matrix = makeArray(16,15,0);
+        let sizeX = 16;
+        let sizeY = 16;
+        let game_matrix = makeArray(sizeX,sizeY,0);
 
         $(function () {
             var socket = io();
@@ -69,8 +70,8 @@
     <script>
 
         function show(game_matrix) {
-            for (y = 0; y < 15; y++) {
-                for (x = 0; x < 16; x++) {
+            for (y = 0; y < sizeY; y++) {
+                for (x = 0; x < sizeX; x++) {
                     var coordinate_ID = x + '-' + y;
                     var elem = document.getElementById(coordinate_ID);
                     elem.style.backgroundColor = game_matrix[x][y];
@@ -79,17 +80,17 @@
         }
 
         function rgbToHex(r, g, b) {
-            var rgb = b | (g << 8) | (r << 16);
-            return '#' + (0x1000000 + rgb).toString(16).slice(1)
+            var rgb = b | (g << 8) | (r << sizeX);
+            return '#' + (0x1000000 + rgb).toString(sizeX).slice(1)
         }
     </script>
      <script>
         var inner = "";
         var x;
         var y;
-        for (y = 0; y < 15; y++) {
+        for (y = 0; y < sizeY; y++) {
             inner += '<div id="row_'+x+'" class="quarder_row">';
-            for (x = 0; x < 16; x++) {
+            for (x = 0; x < sizeX; x++) {
                 inner += '<div id="'+x+'-'+y+'" class="quarder"></div>';
             }
             inner += '</div>';
