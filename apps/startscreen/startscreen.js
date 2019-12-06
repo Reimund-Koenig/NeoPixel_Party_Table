@@ -9,13 +9,8 @@ class startscreen {
         this.gamespeedMS = gamespeedMS;
         this.blink = true;
         this.app_mgr.setMaxPlayer(1);
-        this._resetView();
     }
 
-    _resetView() {
-        this.viewcontroller.setMatrixColor(0,0,0);
-    }
-    
     addPlayer(id)   {}
     removePlayer(id){}
     startPlayer(id) {}
@@ -41,10 +36,7 @@ class startscreen {
             this.viewcontroller.setColor(7,7,0,0,255);
             this.viewcontroller.setColor(8,7,255,127,0);
         } else {
-            this.viewcontroller.setColor(7,6,0,0,0);
-            this.viewcontroller.setColor(8,6,0,0,0);
-            this.viewcontroller.setColor(7,7,0,0,0);
-            this.viewcontroller.setColor(8,7,0,0,0);
+            this.viewcontroller.reset();
         }
         this.blink = !this.blink;
         return true;

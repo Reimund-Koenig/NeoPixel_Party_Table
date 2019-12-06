@@ -7,7 +7,9 @@ conrtoller ---                   --- <application_2>  ---                       
 
 Add new Application:
     - go into folder "apps", copy folder template and rename it to your appname
-    - go into folder "server/controller/" and add <NEW_APP_NAME>.js inside "app_mgr.js" by searching for "template"
+    - open ./server/controller/app_mgr.js
+    - search for "template" and copy all occurences of template
+    - rename the copies to <NEW_APP_NAME>
 
 
 ToDo:

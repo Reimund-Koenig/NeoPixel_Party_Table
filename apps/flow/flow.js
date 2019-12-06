@@ -9,11 +9,7 @@ class flow {
         this.gamespeedMS = gamespeedMS;
         this.app_mgr.setMaxPlayer(1);
         this.move = false;
-        this._resetView();
-    }
-
-    _resetView() {
-        this.viewcontroller.setMatrixColor(0,0,0);
+        this.viewcontroller.reset();
     }
 
     addPlayer(id)   { 
