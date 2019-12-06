@@ -7,8 +7,13 @@ const Controller = require('./server/view/controller')
 const Menu = require('./server/view/menu')
 const AppManager = require('./server/controller/app_mgr')
 
-var sizeX = 16;
+/***************************************/
+/***here goes your display setup********/
+/***************************************/
+var sizeX = 48;
 var sizeY = 16;
+/***************************************/
+
 
 var view = new View(IP.address(), 3002, sizeX, sizeY);
 var serial = new Serial(sizeX, sizeY);

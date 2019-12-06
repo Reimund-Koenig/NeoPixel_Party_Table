@@ -12,7 +12,7 @@ class app_mgr {
     constructor(viewcontroller, sizeX, sizeY) {
         this.viewcontroller = viewcontroller
         this.controller = null;
-        this.appname = "startscreen";
+        this.appname = "template";
         this.apps = ["startscreen","flow","snake","template"];
         this.isAppInitialised = false;
         this.cmd_queue = new CmdQueue();

@@ -44,12 +44,16 @@ class serial {
 
     // 50Hz possible
     setColor(x,y,r,g,b) {
+		//var totalpos = this.getX(x,y);		
         this.buffer_queue.push(CMD_SETPIXEL_COLOR);
-        this.buffer_queue.push(this.getX(x,y));
+//        this.buffer_queue.push(totalpos);
+        this.buffer_queue.push(x);
+        this.buffer_queue.push(y);
         this.buffer_queue.push(r);
         this.buffer_queue.push(g);
         this.buffer_queue.push(b);
-        this.buffer_len.push(5);
+        this.buffer_len.push(6);
+		//console.log("triggered pos from " + x + ", " + y + " to " + totalpos  + " col " + r  + " " + g  + " " + b );
         // this.port.write(buffer); 
         // console.log(
         //         "--- X:" + buffer[0]
@@ -64,11 +68,12 @@ class serial {
         this.buffer_len.push(1);
     }
 
+	//moved to arduino in multi-tile context (>256 LED, no direct addressing in BYTES) 
     getX(x,y) {
         if(x%2==0) {
-            return (x * this.sizeX) + y;
+            return (x * this.sizeY) + y;
         } else {
-            return (x * this.sizeX) + (this.sizeY-1-y);
+            return (x * this.sizeY) + (this.sizeY-1-y);
         }
     }
 }

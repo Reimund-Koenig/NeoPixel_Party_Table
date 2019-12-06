@@ -12,11 +12,16 @@
 #define SLEEP_TIME_TILL_SHOW_MS 500
 #define BRIGHTNESS_PERCENT 100
 
+#define Matrix_X 16
+#define Matrix_Y 16
+#define TileNum_X 3
+#define TileNum_Y 1
+
 byte cmd[1];
-byte c[4];int x;int red;int green;int blue;unsigned long ms;unsigned long msc;
+byte c[5]; int posX, posY; int red;int green;int blue;unsigned long ms;unsigned long msc;
 int cnt=32;
 //Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoMatrix strip = Adafruit_NeoMatrix(16, 16, 3,1,LED_PIN,
+Adafruit_NeoMatrix strip = Adafruit_NeoMatrix(Matrix_X, Matrix_Y, TileNum_X, TileNum_Y, LED_PIN,
   NEO_MATRIX_TOP     + NEO_MATRIX_LEFT +
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
@@ -26,7 +31,7 @@ void setup() {
   //strip.setPixelColor(6,255,0,0);         //  Set pixel's color (in RAM)
   //strip.show();
   //strip.setBrightness(BRIGHTNESS_PERCENT); // Set BRIGHTNESS to about 1/5 (max = 255)
-  x = red = green = blue = 0;
+  posX = posY = red = green = blue = 0;
   ms = millis() + SLEEP_TIME_TILL_SHOW_MS;
   //strip.setPixelColor(7,255,0,0);         //  Set pixel's color (in RAM)
   //strip.show();
@@ -39,15 +44,26 @@ void setup() {
   //strip.show();
 }
 
+int getX(byte x, byte y) {
+        if(x%2==0) {
+            return (x * TileNum_Y * Matrix_Y) + y;
+        } else {
+            return (x * TileNum_Y * Matrix_Y) + (Matrix_Y-1-y);
+        }
+}
+
 void loop() {
+    int x;  
+
    //  Serial.println("Hurz");
    while(Serial.available() > 0) {
       Serial.readBytes(cmd,1);
    //  Serial.println(cmd[0], HEX);
        if((int)cmd[0] == 1) {
-        while (Serial.available() < 4);
-        Serial.readBytes(c, 4);
-        x = (int)c[0]; red = (int)c[1]; green = (int)c[2]; blue = (int)c[3];
+        while (Serial.available() < 5);
+        Serial.readBytes(c, 5);
+        posX = (int)c[0]; posY = (int)c[1]; red = (int)c[2];  green = (int)c[3]; blue = (int)c[4];
+        x = getX( posX, posY);
         strip.setPixelColor(x,red,green,blue); // RAM
       } else if ((int)cmd[0] == 2) {
        // if((cnt++)%2) 
