@@ -6,9 +6,9 @@
 
 #endif
 
-#define LED_PIN    2
+#define LED_PIN    D1
 #define LED_COUNT (256)
-#define SERIAL_SPEED 921600
+#define SERIAL_SPEED 115200
 #define SLEEP_TIME_TILL_SHOW_MS 500
 #define BRIGHTNESS_PERCENT 100
 
@@ -16,7 +16,7 @@ byte cmd[1];
 byte c[4];int x;int red;int green;int blue;unsigned long ms;unsigned long msc;
 int cnt=32;
 //Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
-Adafruit_NeoMatrix strip = Adafruit_NeoMatrix(16, 16, 3,1,D1,
+Adafruit_NeoMatrix strip = Adafruit_NeoMatrix(16, 16, 3,1,LED_PIN,
   NEO_MATRIX_TOP     + NEO_MATRIX_LEFT +
   NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
   NEO_GRB            + NEO_KHZ800);
