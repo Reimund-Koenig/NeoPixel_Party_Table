@@ -10,8 +10,8 @@ const AppManager = require('./server/controller/app_mgr')
 /***************************************/
 /***here goes your display setup********/
 /***************************************/
-var sizeX = 48;
-var sizeY = 16;
+var sizeX = 16;
+var sizeY = 48;
 /***************************************/
 
 

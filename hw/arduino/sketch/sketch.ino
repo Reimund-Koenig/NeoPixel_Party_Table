@@ -7,7 +7,6 @@
 #endif
 
 #define LED_PIN    D1
-#define LED_COUNT (256)
 #define SERIAL_SPEED 115200
 #define SLEEP_TIME_TILL_SHOW_MS 500
 #define BRIGHTNESS_PERCENT 100
@@ -16,6 +15,7 @@
 #define Matrix_Y 16
 #define TileNum_X 3
 #define TileNum_Y 1
+#define LED_COUNT (Matrix_X * Matrix_Y * TileNum_X * TileNum_Y)
 
 byte cmd[1];
 byte c[5]; int posX, posY; int red;int green;int blue;unsigned long ms;unsigned long msc;
@@ -45,11 +45,13 @@ void setup() {
 }
 
 int getX(byte x, byte y) {
-        if(x%2==0) {
-            return (x * TileNum_Y * Matrix_Y) + y;
         } else {
-            return (x * TileNum_Y * Matrix_Y) + (Matrix_Y-1-y);
         }
+    if(((x*Matrix_X+y)/16)%2==0) {
+        return (x * TileNum_Y * Matrix_Y) + y%Matrix_Y + (y/Matrix_Y)* Matrix_Y * Matrix_X;
+    } else {
+        return (x * TileNum_Y * Matrix_Y) + (Matrix_Y-1-y%Matrix_Y) + (y/Matrix_Y)* Matrix_Y * Matrix_X;
+    }
 }
 
 void loop() {

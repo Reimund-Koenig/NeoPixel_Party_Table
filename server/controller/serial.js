@@ -4,6 +4,11 @@ const CMD_SETPIXEL_COLOR = 1
 const CMD_SHOW = 2
 const CMD_SET_MATRIX_COLOR = 3
 
+const Matrix_X =16
+const Matrix_Y =16
+const TileNum_X =3
+const TileNum_Y =1
+
 class serial {
     constructor(sizeX, sizeY) {
         // this.parser = new Readline()
@@ -54,6 +59,10 @@ class serial {
         this.buffer_queue.push(b);
         this.buffer_len.push(6);
 		//console.log("triggered pos from " + x + ", " + y + " to " + totalpos  + " col " + r  + " " + g  + " " + b );
+		
+		//debugging
+		var totalpos = this.getX(x,y);		
+        console.log("triggered pos from " + x + ", " + y + " to " + totalpos  + " col " + r + " " + g + " " + b  + " floorY " + Math.floor(y/16) );
         // this.port.write(buffer); 
         // console.log(
         //         "--- X:" + buffer[0]
