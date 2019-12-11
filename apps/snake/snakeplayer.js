@@ -3,75 +3,75 @@ class snakeplayer {
         this.bR = bR; this.bG = bG; this.bB = bB;
         this.hR = hR; this.hG = hG; this.hB = hB;
         console.log("New Player with Body:" + bR + ", "+ bG + ", "+ bB + ", Head: "+ hR + ", "+ hG + ", "+ hB)
-        this.xHead = startX;
-        this.yHead = startY;
-        this.direction = "right";
-        this.lastMoveDirection = "right";
-        this.xBody = [];
-        this.yBody = [];
-        this.date = (new Date).getTime();
-        this.isDead = false;
+        this.restart(startX, startY);
         this.isInactive = true;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.hasEatenSnack = false;
     }
 
-    moveOneStep(snackX, snackY, viewcontroller) {
-        if(this.isDead)       { return; }
-        if(this.isInactive) { return; }
-        var snake_body_len = this.yBody.length;
-        var hasEatenSnack = (snackX == this.xHead && snackY == this.yHead)
-        if (hasEatenSnack) {
-            this.xBody.push(this.xHead)
-            this.yBody.push(this.yHead)
-        } else if(snake_body_len > 0) {
-            viewcontroller.setColor(this.xBody[0],this.yBody[0],0,0,0);
-            for (var i = 0; i < snake_body_len-1; i++) {
-                this.xBody[i] = this.xBody[i+1]
-                this.yBody[i] = this.yBody[i+1]
-            }
-            this.xBody[snake_body_len-1] = this.xHead;
-            this.yBody[snake_body_len-1] = this.yHead;
-        } else {
-            viewcontroller.setColor(this.xHead,this.yHead,0,0,0);
-        }
-        
+    addElementToBody(x,y) {
+        this.xBody.push(x)
+        this.yBody.push(y)
+    }
+
+    checkIfPlayerWillEatSnack(snackX, snackY){
+        this.hasEatenSnack = false;
+        // calculate new position 
         if(this.direction == "up")            { this._up();     } 
         else if (this.direction == "down")    { this._down();   }
         else if (this.direction == "left")    { this._left();   }
         else if (this.direction == "right")   { this._right();  }
-        return hasEatenSnack;
+        this.hasEatenSnack = (snackX == this.xNextHead && snackY == this.yNextHead);
+        return this.hasEatenSnack;
     }
-    
+
+    moveBody(viewcontroller) {
+        // set current head to body color
+        viewcontroller.setColor(this.xHead,this.yHead,this.bR,this.bG,this.bB);
+        if (this.hasEatenSnack) {
+            // if snake has eaten a snack, the body grows and this effects no movement
+            this.addElementToBody(this.xHead, this.yHead);   
+            return;
+        }
+        // reset color of last body element
+        viewcontroller.setColor(this.xBody[0],this.yBody[0],0,0,0);
+        // Move complete Body by one step
+        var snake_body_len = this.yBody.length;
+        for (var i = 0; i < snake_body_len-1; i++) {
+            this.xBody[i] = this.xBody[i+1]
+            this.yBody[i] = this.yBody[i+1]
+        }
+        this.xBody[snake_body_len-1] = this.xHead;
+        this.yBody[snake_body_len-1] = this.yHead;
+    }
+
     checkCannibalism(viewcontroller) {
         // Cannibale?
         for (var i=0; i < this.yBody.length; i++) {
-            if(this.xHead == this.xBody[i] && this.yHead == this.yBody[i]) {
+            if(this.xNextHead == this.xBody[i] && this.yNextHead == this.yBody[i]) {
                 console.log("Cannibale!");
-                this.gameover(viewcontroller);
-                return;
+                return true;
             };
         }
-    }
-    
-    drawNewBodyElement(viewcontroller) {
-        var snake_body_len = this.yBody.length
-        if (snake_body_len<=0) { return; }
-        viewcontroller.setColor(this.xBody[snake_body_len-1],this.yBody[snake_body_len-1],this.bR,this.bG,this.bB);
+        return false;
     }
 
-    drawHead(viewcontroller) {
-        if(this.isDead)     { return; }  
-        if(this.isInactive) { return; }  
+    moveHead(viewcontroller) {
+        this.xHead = this.xNextHead;
+        this.yHead = this.yNextHead;
         viewcontroller.setColor(this.xHead,this.yHead,this.hR,this.hG,this.hB);
     }
 
-    _left()  {   if (this.xHead > 0) {  this.xHead -= 1;    }          else { this.xHead = this.sizeX-1;  }  this.lastMoveDirection = "left";  }
-    _right() {   if (this.xHead < this.sizeX - 1) { this.xHead += 1; } else { this.xHead = 0;   }  this.lastMoveDirection = "right"; }
-    _down()  {   if (this.yHead < this.sizeY - 1) { this.yHead += 1; } else { this.yHead = 0;   }  this.lastMoveDirection = "down";  } 
-    _up()    {   if (this.yHead > 0) { this.yHead -= 1; }              else { this.yHead = this.sizeY-1;  }  this.lastMoveDirection = "up";    }
+    _left()  {   if (this.xHead > 0)                { this.xNextHead -= 1; } else { this.xNextHead = this.sizeX-1;  } this.lastMoveDirection = "left";  }
+    _right() {   if (this.xHead < this.sizeX - 1)   { this.xNextHead += 1; } else { this.xNextHead = 0;             } this.lastMoveDirection = "right"; }
+    _down()  {   if (this.yHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  } 
+    _up()    {   if (this.yHead > 0)                { this.yNextHead -= 1; } else { this.yNextHead = this.sizeY-1;  } this.lastMoveDirection = "up";    }
+    getXNextHead() { return this.xNextHead; }
+    getYNextHead() { return this.yNextHead; }
     getXHead() { return this.xHead; }
     getYHead() { return this.yHead; }
+    getDirection() { return this.direction; }
 
     setDirection(direction) {
         if(!direction) { return; }
@@ -84,17 +84,20 @@ class snakeplayer {
         this.direction = direction;
     }
 
-
     restart(startX, startY) {
         this.xHead = startX;
         this.yHead = startY;
-        this.direction = "right";
-        this.lastMoveDirection = "right";
+        this.xNextHead = startX;
+        this.yNextHead = startY;
         this.xBody = [];
         this.yBody = [];
+        this.addElementToBody(startX, startY);
+        this.direction = "right";
+        this.lastMoveDirection = "right";
         this.date = (new Date).getTime();
         this.isDead = false;
     }
+
     gameover(viewcontroller) {
         console.log("Game Over")
         this.isDead = true;        
@@ -110,14 +113,36 @@ class snakeplayer {
         this.direction = "right"; 
     }
     
-    isCollisionWith(x,y) {  
-        if(this.isDead)     { return false; }  
-        if(this.isInactive) { return false; }  
-        var collision = (x == this.xHead && y == this.yHead);
+    isEqualDirection(d1,d2){
+        // right up down left
+        if (d1 == d2 ) { return true; }
+        if (d1 == "up" && d2 == "down") { return true; }
+        if (d1 == "down" && d2 == "up") { return true; }
+        if (d1 == "left" && d2 == "right") { return true; }
+        if (d1 == "right" && d2 == "left") { return true; }
+        return false;
+    }
+
+    isCollisionWithBody(x,y,direction) {
+        if(this.xBody.length <= 0 ) return false;
         for(var i = 0 ; i < this.xBody.length; i++) {
-            collision |= (x == this.xBody[i] && y == this.yBody[i]);
+            if(x == this.xBody[i] && y == this.yBody[i]) {
+                if(this.isEqualDirection(direction,this.direction)) {
+                    if(x != this.xHead && y != this.yHead) {
+                        return true;
+                    }
+                } else {
+                    return true;
+                }
+            }
         }
-        return collision;
+        return false;
+    }
+
+    isCollisionWith(x,y) {  
+        var current = (x == this.xHead && y == this.yHead);
+        var next = (x == this.xNextHead && y == this.yNextHead);
+        return current || next;
     }
 }
 module.exports = snakeplayer;

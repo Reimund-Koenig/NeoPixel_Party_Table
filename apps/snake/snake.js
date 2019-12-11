@@ -37,7 +37,7 @@ class snake {
     
     removePlayer(id) {
         if(!this.p[id]) { return; }
-        console.log("removePlayer");
+        console.log("Game Over - removePlayer: " + id)
         this.p[id].gameover(this.viewcontroller);
         this.p.splice(id, 1); 
     }
@@ -106,31 +106,60 @@ class snake {
         this.nextAction = this.date + this.gamespeedMS;
         this.viewcontroller.setColor(this.snackX,this.snackY,255,255,255);
         var newSnack = false;
-        // Move all Player body
+        // Check if eaten
         for(var i=0;i<this.p.length;i++) {
-            newSnack |= this.p[i].moveOneStep(this.snackX, this.snackY, this.viewcontroller);
-            this.p[i].checkCannibalism(this.viewcontroller);
-            this.p[i].drawNewBodyElement(this.viewcontroller);
-            // check Head/Head collision
+            if(this.p[i].isDead || this.p[i].isInactive) { continue; }
+            newSnack |= this.p[i].checkIfPlayerWillEatSnack(this.snackX, this.snackY);
+        }
+
+        // Move Body if not eaten
+        for(var i=0;i<this.p.length;i++) {
+            if(this.p[i].isDead || this.p[i].isInactive) { continue; }
+            this.p[i].moveBody(this.viewcontroller);
+        }
+
+        // Check if next possition will be cannibalism
+        for(var i=0;i<this.p.length;i++) {
+            if(this.p[i].isDead || this.p[i].isInactive) { continue; }
+            if(this.p[i].checkCannibalism(this.viewcontroller)) {
+                console.log("Game Over - cannibale: " + i)
+                this.p[i].gameover(this.viewcontroller);
+            }
+        }
+
+        // Check if next possition will have a collision with any Body-element
+        for(var i=0;i<this.p.length;i++) {
+            if(this.p[i].isDead || this.p[i].isInactive) { continue; }
             for(var j=0;j<this.p.length;j++) {
                 if(i==j) { continue; }
-                if(this.p[j].isDead)     { continue; }  
-                if(this.p[j].isInactive) { continue; }  
-                if(this.p[j].isCollisionWith(this.p[i].getXHead(),this.p[i].getYHead())){
-                    // there is a bug with head crossover
-                    /* 
-                        even-intersection: everything works
-                        odd-intersection:  player_U beats player_V with U>V
-                    */
+                if(this.p[j].isDead || this.p[j].isInactive) { continue; }
+                if(this.p[j].isCollisionWithBody(this.p[i].getXNextHead(),this.p[i].getYNextHead(),this.p[i].getDirection())) {
+                    console.log("Game Over head body: " + i + " and " + j);
+                    this.p[i].gameover(this.viewcontroller);
+                }
+            }
+        }        
+        
+        // Check head with head collision
+        for(var i=0;i<this.p.length;i++) {
+            if(this.p[i].isDead || this.p[i].isInactive) { continue; }
+            for(var j=0;j<this.p.length;j++) {
+                if(i==j) { continue; }
+                if(this.p[j].isDead || this.p[j].isInactive) { continue; }
+                if(this.p[j].isCollisionWith(this.p[i].getXNextHead(),this.p[i].getYNextHead())){
+                    console.log("Game Over - head head: " + i + " and " + j);
                     this.p[i].gameover(this.viewcontroller);
                     this.p[j].gameover(this.viewcontroller);
-                    break;
                 }
             }
         }
+
+        // Move head
         for(var i=0;i<this.p.length;i++) {
-            this.p[i].drawHead(this.viewcontroller);
+            if(this.p[i].isDead || this.p[i].isInactive) { continue; }
+            this.p[i].moveHead(this.viewcontroller);
         }
+        
         if(newSnack) {
             this._setRandomSnack();
             this.viewcontroller.setColor(this.snackX,this.snackY,255,255,255);
