@@ -77,10 +77,10 @@ class serial {
 
 	//moved to arduino in multi-tile context (>256 LED, no direct addressing in BYTES) 
     getX(x,y) {
-        if(x%2==0) {
-            return (x * this.sizeY) + y;
-        } else {
-            return (x * this.sizeY) + (this.sizeY-1-y);
+    if(Math.floor((x*Matrix_X)/16)%2==0) {
+        return (x * TileNum_Y * Matrix_Y) + y%Matrix_Y + Math.floor(y/Matrix_Y)* Matrix_Y * Matrix_X;
+    } else {
+        return (x * TileNum_Y * Matrix_Y) + (Matrix_Y-1-y%Matrix_Y) + Math.floor(y/Matrix_Y)* Matrix_Y * Matrix_X;
         }
     }
 }

@@ -46,11 +46,23 @@ void setup() {
 
 
 int getX(byte x, byte y) {
+  int ret;
     if(((x*Matrix_X)/16)%2==0) {
-        return (x * TileNum_Y * Matrix_Y) + y%Matrix_Y + (y/Matrix_Y)* Matrix_Y * Matrix_X;
+        ret= (x * TileNum_Y * Matrix_Y) + y%Matrix_Y + (y/Matrix_Y)* Matrix_Y * Matrix_X;
     } else {
-        return (x * TileNum_Y * Matrix_Y) + (Matrix_Y-1-y%Matrix_Y) + (y/Matrix_Y)* Matrix_Y * Matrix_X;
+        ret= (x * TileNum_Y * Matrix_Y) + (Matrix_Y-1-y%Matrix_Y) + (y/Matrix_Y)* Matrix_Y * Matrix_X;
     }
+
+    //exchange tile 2 and 3
+    if(ret< (2*Matrix_Y * Matrix_X) &&
+       ret>=(  Matrix_Y * Matrix_X) ) {
+        ret += (Matrix_Y * Matrix_X);
+    } else 
+    if(ret< (3*Matrix_Y * Matrix_X) &&
+       ret>=(2*Matrix_Y * Matrix_X) ) {
+        ret -= (Matrix_Y * Matrix_X);
+    }
+    return ret;
 }
 
 void loop() {
@@ -83,8 +95,8 @@ void loop() {
       
      
       } else {
-//           strip.setPixelColor(cnt++,255,0,0);         //  Set pixel's color (in RAM)
-//            strip.show();
+           strip.setPixelColor(cnt++,255,0,0);         //  Set pixel's color (in RAM)
+            strip.show();
  
       }
       
