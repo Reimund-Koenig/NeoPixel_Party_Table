@@ -44,10 +44,9 @@ void setup() {
   //strip.show();
 }
 
+
 int getX(byte x, byte y) {
-        } else {
-        }
-    if(((x*Matrix_X+y)/16)%2==0) {
+    if(((x*Matrix_X)/16)%2==0) {
         return (x * TileNum_Y * Matrix_Y) + y%Matrix_Y + (y/Matrix_Y)* Matrix_Y * Matrix_X;
     } else {
         return (x * TileNum_Y * Matrix_Y) + (Matrix_Y-1-y%Matrix_Y) + (y/Matrix_Y)* Matrix_Y * Matrix_X;

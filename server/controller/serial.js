@@ -49,7 +49,6 @@ class serial {
 
     // 50Hz possible
     setColor(x,y,r,g,b) {
-		//var totalpos = this.getX(x,y);		
         this.buffer_queue.push(CMD_SETPIXEL_COLOR);
 //        this.buffer_queue.push(totalpos);
         this.buffer_queue.push(x);
@@ -58,7 +57,6 @@ class serial {
         this.buffer_queue.push(g);
         this.buffer_queue.push(b);
         this.buffer_len.push(6);
-		//console.log("triggered pos from " + x + ", " + y + " to " + totalpos  + " col " + r  + " " + g  + " " + b );
 		
 		//debugging
 		var totalpos = this.getX(x,y);		
