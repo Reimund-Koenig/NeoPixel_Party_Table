@@ -9,7 +9,7 @@ class template {
         this.gamespeedMS = gamespeedMS;
         this.app_mgr.setMaxPlayer(1);
         this.controller_active = false;
-        this.lastDirection = "";
+        this.lastDirection = "down";
         this.viewcontroller.reset();
     }
 
@@ -73,12 +73,12 @@ class template {
         }
         var leftController = (cmd.controller == "left");
         if(leftController) {
-            var direction = cmd.command;
-            this.lastDirection = direction;
+            var turn = cmd.command;
+            this._newDirection(turn);
             this._move_one(this.lastDirection);
         } else {
             console.log("Template -- Change Color"); 
-            this._change_color(direction);
+            this._change_color(this.lastDirection);
         }
         return true;
     }
@@ -98,7 +98,9 @@ class template {
         return true;
     }
 
-
+	_inRange(x, min, max) {
+		return ((x-min)*(x-max) <= 0);
+	}
 
     _change_color(direction) {
         if      (direction == "up")   {  this.viewcontroller.setColor(this.x,this.y,0,0,0);       }
@@ -108,11 +110,65 @@ class template {
     }
     _move_one(direction) {
         this.viewcontroller.setColor(this.x,this.y,0,0,0);
-        if      (direction == "up")   {  this._up();      }
-        else if (direction == "down") {  this._down();    }
-        else if (direction == "left") {  this._left();    }
-        else if (direction == "right"){  this._right();   }
+		
+		//catch 3d cube exception coordinates
+		if(        (direction ==  "left") && (this.x ==  0) ) {
+			if (this._inRange(this.y,0,15)) {
+				this.x =this.y;
+				this.y =32;
+				this.lastDirection = "down";
+				console.log("lastDir left -> down" );
+
+			} else if (this._inRange(this.y,16,31)) {
+				this.y+=16;
+			} else if (this._inRange(this.y,32,47)) {
+				this.y-=16;
+			}
+		} else if ((direction == "right") && (this.x == 15) ) {
+			if (this._inRange(this.y,0,15)) {
+				this.x =this.y;
+				this.y =0; //should become 47
+				this.lastDirection = "up";
+				console.log("lastDir right -> up" );
+			} else if (this._inRange(this.y,16,31)) {
+				this.y+=16;
+			} else if (this._inRange(this.y,32,47)) {
+				this.y-=16;
+			}			
+		} else if ((direction ==    "up") && (this.y ==  0) ) {	
+			this.y = 32;
+		} else if ((direction ==  "down") && (this.y == 31) ) {	
+			this.y = 47;
+		} else if ((direction ==    "up") && (this.y == 32) ) {	
+			this.y = this.x;
+			this.x = 16;
+			this.lastDirection = "right";
+			console.log("lastDir up -> right" );
+		} else if ((direction ==  "down") && (this.y == 47) ) {	
+			this.y = this.x;
+			this.x = 0;	
+			this.lastDirection = "left";
+			console.log("lastDir down -> left" );
+		}  
+		console.log("lastDir " + this.lastDirection );
+
+		//normal advancing / moving
+        if      (this.lastDirection == "up")   {  this._up();      }
+        else if (this.lastDirection == "down") {  this._down();    }
+        else if (this.lastDirection == "left") {  this._left();    }
+        else if (this.lastDirection == "right"){  this._right();   }
         this.viewcontroller.setColor(this.x,this.y,255,25,25);
+    }
+	_newDirection(turn) {
+		//only using left and right to alter RELATIVE direction of movement (up / down will just advance in 'relative forward direction')
+        if      ((this.lastDirection ==    "up") && (turn ==  "left"))  {  this.lastDirection = "left";      }
+        else if ((this.lastDirection ==    "up") && (turn == "right"))  {  this.lastDirection = "right";     }
+		else if ((this.lastDirection ==  "down") && (turn ==  "left"))  {  this.lastDirection = "right";     }
+ 		else if ((this.lastDirection ==  "down") && (turn == "right"))  {  this.lastDirection = "left";      }
+        else if ((this.lastDirection ==  "left") && (turn ==  "left"))  {  this.lastDirection = "down";      }
+        else if ((this.lastDirection ==  "left") && (turn == "right"))  {  this.lastDirection = "up";        }
+        else if ((this.lastDirection == "right") && (turn ==  "left"))  {  this.lastDirection = "up";        }
+        else if ((this.lastDirection == "right") && (turn == "right"))  {  this.lastDirection = "down";      }
     }
     _left()  {   if (this.x > 0) {   this.x -= 1;  }           else { this.x = this.sizeX-1;  }}
     _right() {   if (this.x < this.sizeX - 1) { this.x += 1; } else { this.x = 0;   }}

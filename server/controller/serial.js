@@ -60,7 +60,7 @@ class serial {
 		
 		//debugging
 		var totalpos = this.getX(x,y);		
-        console.log("triggered pos from " + x + ", " + y + " to " + totalpos  + " col " + r + " " + g + " " + b  + " floorY " + Math.floor(y/16) );
+        console.log("triggered pos from " + x + ", " + y + " to " + totalpos + " col " + r + " " + g + " " + b + " floorY " + Math.floor(y/16) );
         // this.port.write(buffer); 
         // console.log(
         //         "--- X:" + buffer[0]
