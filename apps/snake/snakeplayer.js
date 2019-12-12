@@ -18,6 +18,55 @@ class snakeplayer {
     checkIfPlayerWillEatSnack(snackX, snackY){
         this.hasEatenSnack = false;
         // calculate new position 
+		
+		this.x = this.xHead;
+        this.y = this.yHead;
+
+		//catch 3d cube exception coordinates
+		if(        (this.direction ==  "left") && (this.x ==  0) ) {
+			if (this._inRange(this.y,0,15)) {
+				this.x =this.y;
+				this.y =32;
+				this.direction = "down";
+				console.log("lastDir left -> down" );
+
+			} else if (this._inRange(this.y,16,31)) {
+				this.y+=16;
+			} else if (this._inRange(this.y,32,47)) {
+				this.y-=16;
+			}
+		} else if ((this.direction == "right") && (this.x == 15) ) {
+			if (this._inRange(this.y,0,15)) {
+				this.x =this.y;
+				this.y =0; //should become 47
+				this.direction = "up";
+				console.log("lastDir right -> up" );
+			} else if (this._inRange(this.y,16,31)) {
+				this.y+=16;
+			} else if (this._inRange(this.y,32,47)) {
+				this.y-=16;
+			}			
+		} else if ((this.direction ==    "up") && (this.y ==  0) ) {	
+			this.y = 32;
+		} else if ((this.direction ==  "down") && (this.y == 31) ) {	
+			this.y = 47;
+		} else if ((this.direction ==    "up") && (this.y == 32) ) {	
+			this.y = this.x;
+			this.x = 16;
+			this.direction = "right";
+			console.log("lastDir up -> right" );
+		} else if ((this.direction ==  "down") && (this.y == 47) ) {	
+			this.y = this.x;
+			this.x = 0;	
+			this.direction = "left";
+			console.log("lastDir down -> left" );
+		}  
+		
+		this.xHead = this.x;
+        this.yHead = this.y;
+		this.xNextHead = this.x;
+        this.yNextHead = this.y;
+		
         if(this.direction == "up")            { this._up();     } 
         else if (this.direction == "down")    { this._down();   }
         else if (this.direction == "left")    { this._left();   }
@@ -63,6 +112,22 @@ class snakeplayer {
         viewcontroller.setColor(this.xHead,this.yHead,this.hR,this.hG,this.hB);
     }
 
+	_inRange(x, min, max) {
+		return ((x-min)*(x-max) <= 0);
+	}
+	
+	setDirection(turn) {
+		//only using left and right to alter RELATIVE direction of movement (up / down will just advance in 'relative forward direction')
+        if      ((this.direction ==    "up") && (turn ==  "left"))  {  this.direction = "left";      }
+        else if ((this.direction ==    "up") && (turn == "right"))  {  this.direction = "right";     }
+		else if ((this.direction ==  "down") && (turn ==  "left"))  {  this.direction = "right";     }
+ 		else if ((this.direction ==  "down") && (turn == "right"))  {  this.direction = "left";      }
+        else if ((this.direction ==  "left") && (turn ==  "left"))  {  this.direction = "down";      }
+        else if ((this.direction ==  "left") && (turn == "right"))  {  this.direction = "up";        }
+        else if ((this.direction == "right") && (turn ==  "left"))  {  this.direction = "up";        }
+        else if ((this.direction == "right") && (turn == "right"))  {  this.direction = "down";      }
+    }
+	
     _left()  {   if (this.xHead > 0)                { this.xNextHead -= 1; } else { this.xNextHead = this.sizeX-1;  } this.lastMoveDirection = "left";  }
     _right() {   if (this.xHead < this.sizeX - 1)   { this.xNextHead += 1; } else { this.xNextHead = 0;             } this.lastMoveDirection = "right"; }
     _down()  {   if (this.yHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  } 
@@ -73,16 +138,16 @@ class snakeplayer {
     getYHead() { return this.yHead; }
     getDirection() { return this.direction; }
 
-    setDirection(direction) {
-        if(!direction) { return; }
-        if(direction == "") { return; }
-        if(this.lastMoveDirection == direction) { return; }
-        if(this.lastMoveDirection == "up" && direction == "down") { return; }
-        if(this.lastMoveDirection == "down" && direction == "up") { return; }
-        if(this.lastMoveDirection == "left" && direction == "right") { return; }
-        if(this.lastMoveDirection == "right" && direction == "left") { return; }
-        this.direction = direction;
-    }
+    // setDirection(direction) {
+        // if(!direction) { return; }
+        // if(direction == "") { return; }
+        // if(this.lastMoveDirection == direction) { return; }
+        // if(this.lastMoveDirection == "up" && direction == "down") { return; }
+        // if(this.lastMoveDirection == "down" && direction == "up") { return; }
+        // if(this.lastMoveDirection == "left" && direction == "right") { return; }
+        // if(this.lastMoveDirection == "right" && direction == "left") { return; }
+        // this.direction = direction;
+    // }
 
     restart(startX, startY) {
         this.xHead = startX;
