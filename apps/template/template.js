@@ -115,7 +115,7 @@ class template {
 		if(        (direction ==  "left") && (this.x ==  0) ) {
 			if (this._inRange(this.y,0,15)) {
 				this.x =this.y;
-				this.y =32;
+				this.y =31;
 				this.lastDirection = "down";
 				console.log("lastDir left -> down" );
 

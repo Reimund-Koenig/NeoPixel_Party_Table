@@ -77,7 +77,9 @@ class snake {
         if (numberOfPlayersLeft < 2 && activePlayers > 1) {   
             for(var i=0;i<this.p.length;i++) {
                 if((!this.p[i].isDead) && (!this.p[i].isInactive)) { 
-                    this.viewcontroller.setMatrixColor(this.p[i].hR,this.p[i].hG, this.p[i].hB);
+                    // this.viewcontroller.setMatrixColor(this.p[i].hR,this.p[i].hG, this.p[i].hB);
+                    // must dimm!!
+                    this.viewcontroller.setMatrixColor(this.p[i].hR/4,this.p[i].hG/4, this.p[i].hB/4);
                     console.log("Set color (" + i + "): " + this.p[i].bR + "," + this.p[i].bG + "," + this.p[i].bB)
                 }
             }         
@@ -104,6 +106,7 @@ class snake {
         this.date = (new Date).getTime();
         if(this.nextAction > this.date) { return false; }
         this.nextAction = this.date + this.gamespeedMS;
+        //is setting the snack needed each run?
         this.viewcontroller.setColor(this.snackX,this.snackY,255,255,255);
         var newSnack = false;
         // Check if eaten

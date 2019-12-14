@@ -26,7 +26,7 @@ class snakeplayer {
 		if(        (this.direction ==  "left") && (this.x ==  0) ) {
 			if (this._inRange(this.y,0,15)) {
 				this.x =this.y;
-				this.y =32;
+				this.y =31;
 				this.direction = "down";
 				console.log("lastDir left -> down" );
 
@@ -52,7 +52,7 @@ class snakeplayer {
 			this.y = 47;
 		} else if ((this.direction ==    "up") && (this.y == 32) ) {	
 			this.y = this.x;
-			this.x = 16;
+			this.x = 15;
 			this.direction = "right";
 			console.log("lastDir up -> right" );
 		} else if ((this.direction ==  "down") && (this.y == 47) ) {	
@@ -62,8 +62,8 @@ class snakeplayer {
 			console.log("lastDir down -> left" );
 		}  
 		
-		this.xHead = this.x;
-        this.yHead = this.y;
+		// this.xHead = this.x;
+        // this.yHead = this.y;
 		this.xNextHead = this.x;
         this.yNextHead = this.y;
 		
@@ -128,10 +128,10 @@ class snakeplayer {
         else if ((this.direction == "right") && (turn == "right"))  {  this.direction = "down";      }
     }
 	
-    _left()  {   if (this.xHead > 0)                { this.xNextHead -= 1; } else { this.xNextHead = this.sizeX-1;  } this.lastMoveDirection = "left";  }
-    _right() {   if (this.xHead < this.sizeX - 1)   { this.xNextHead += 1; } else { this.xNextHead = 0;             } this.lastMoveDirection = "right"; }
-    _down()  {   if (this.yHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  } 
-    _up()    {   if (this.yHead > 0)                { this.yNextHead -= 1; } else { this.yNextHead = this.sizeY-1;  } this.lastMoveDirection = "up";    }
+    _left()  {   if (this.xNextHead > 0)                { this.xNextHead -= 1; } else { this.xNextHead = this.sizeX-1;  } this.lastMoveDirection = "left";  }
+    _right() {   if (this.xNextHead < this.sizeX - 1)   { this.xNextHead += 1; } else { this.xNextHead = 0;             } this.lastMoveDirection = "right"; }
+    _down()  {   if (this.yNextHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  } 
+    _up()    {   if (this.yNextHead > 0)                { this.yNextHead -= 1; } else { this.yNextHead = this.sizeY-1;  } this.lastMoveDirection = "up";    }
     getXNextHead() { return this.xNextHead; }
     getYNextHead() { return this.yNextHead; }
     getXHead() { return this.xHead; }
