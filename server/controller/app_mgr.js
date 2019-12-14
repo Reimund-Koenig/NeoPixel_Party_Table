@@ -9,7 +9,7 @@ const PlayerMgr = require('./player_mgr')
 const CmdQueue = require('./cmd_queue')
 
 class app_mgr {
-    constructor(viewcontroller, sizeX, sizeY) {
+    constructor(viewcontroller, sizeX, sizeY, FirstPersonControl) {
         this.viewcontroller = viewcontroller
         this.controller = null;
         this.appname = "startscreen";
@@ -21,6 +21,7 @@ class app_mgr {
         this.sizeX = sizeX;
         this.sizeY = sizeY;
         this.numMaxPlayer = 1;
+        this.relativeCtrl = FirstPersonControl;
         setInterval(function() { self.app_loop(); }, 20);
     }
 
@@ -109,9 +110,9 @@ class app_mgr {
                 this.app = new Startscreen(this, this.viewcontroller, 1000, this.sizeX, this.sizeY);
             } else if(this.appname == "template") {
                 var gamespeedMS = 50;
-                this.app = new Template(this, this.viewcontroller, gamespeedMS, this.sizeX, this.sizeY);
+                this.app = new Template(this, this.viewcontroller, gamespeedMS, this.sizeX, this.sizeY, this.relativeCtrl);
             } else if(this.appname == "snake") {
-                this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
+                this.app = new Snake(this, this.viewcontroller, 333, this.sizeX, this.sizeY, this.relativeCtrl);
             } else if(this.appname == "flow") {
                 this.app = new Flow(this, this.viewcontroller, 333, this.sizeX, this.sizeY);
             } else {

@@ -1,5 +1,5 @@
 class template {
-    constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY) {
+    constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY, relativeCtrl) {
         this.app_mgr = app_mgr;
         this.viewcontroller = viewcontroller;
         this.x = 0;
@@ -11,6 +11,7 @@ class template {
         this.controller_active = false;
         this.lastDirection = "";
         this.viewcontroller.reset();
+        this.relativeCtrl = relativeCtrl;
     }
 
     addPlayer(id)   { 
@@ -73,12 +74,15 @@ class template {
         }
         var leftController = (cmd.controller == "left");
         if(leftController) {
-            var direction = cmd.command;
-            this.lastDirection = direction;
+            if (this.relativeCtrl) {
+              this._newDirection(cmd.command);
+            } else {
+              this.lastDirection = cmd.command;
+            }
             this._move_one(this.lastDirection);
         } else {
             console.log("Template -- Change Color"); 
-            this._change_color(direction);
+            this._change_color(this.lastDirection);
         }
         return true;
     }
@@ -113,6 +117,21 @@ class template {
         else if (direction == "left") {  this._left();    }
         else if (direction == "right"){  this._right();   }
         this.viewcontroller.setColor(this.x,this.y,255,25,25);
+    }
+    _newDirection(turn) {
+        //only using left and right to alter RELATIVE direction of movement (up / down will just advance in 'relative forward direction')
+        if      ((this.lastDirection ==    "up") && (turn ==  "left"))  {  this.lastDirection = "left";      }
+        else if ((this.lastDirection ==    "up") && (turn == "right"))  {  this.lastDirection = "right";     }
+        else if ((this.lastDirection ==  "down") && (turn ==  "left"))  {  this.lastDirection = "right";     }
+        else if ((this.lastDirection ==  "down") && (turn == "right"))  {  this.lastDirection = "left";      }
+        else if ((this.lastDirection ==  "left") && (turn ==  "left"))  {  this.lastDirection = "down";      }
+        else if ((this.lastDirection ==  "left") && (turn == "right"))  {  this.lastDirection = "up";        }
+        else if ((this.lastDirection == "right") && (turn ==  "left"))  {  this.lastDirection = "up";        }
+        else if ((this.lastDirection == "right") && (turn == "right"))  {  this.lastDirection = "down";      }
+        else {
+          //catch exception on invalid lastDirection
+          this.lastDirection = "left";
+        }
     }
     _left()  {   if (this.x > 0) {   this.x -= 1;  }           else { this.x = this.sizeX-1;  }}
     _right() {   if (this.x < this.sizeX - 1) { this.x += 1; } else { this.x = 0;   }}

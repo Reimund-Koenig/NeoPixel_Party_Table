@@ -63,10 +63,11 @@ class snakeplayer {
         viewcontroller.setColor(this.xHead,this.yHead,this.hR,this.hG,this.hB);
     }
 
-    _left()  {   if (this.xHead > 0)                { this.xNextHead -= 1; } else { this.xNextHead = this.sizeX-1;  } this.lastMoveDirection = "left";  }
-    _right() {   if (this.xHead < this.sizeX - 1)   { this.xNextHead += 1; } else { this.xNextHead = 0;             } this.lastMoveDirection = "right"; }
-    _down()  {   if (this.yHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  } 
-    _up()    {   if (this.yHead > 0)                { this.yNextHead -= 1; } else { this.yNextHead = this.sizeY-1;  } this.lastMoveDirection = "up";    }
+	
+    _left()  {   if (this.xNextHead > 0)                { this.xNextHead -= 1; } else { this.xNextHead = this.sizeX-1;  } this.lastMoveDirection = "left";  }
+    _right() {   if (this.xNextHead < this.sizeX - 1)   { this.xNextHead += 1; } else { this.xNextHead = 0;             } this.lastMoveDirection = "right"; }
+    _down()  {   if (this.yNextHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  } 
+    _up()    {   if (this.yNextHead > 0)                { this.yNextHead -= 1; } else { this.yNextHead = this.sizeY-1;  } this.lastMoveDirection = "up";    }
     getXNextHead() { return this.xNextHead; }
     getYNextHead() { return this.yNextHead; }
     getXHead() { return this.xHead; }
@@ -84,6 +85,17 @@ class snakeplayer {
         this.direction = direction;
     }
 
+    setDirectionRelative(turn) {
+        //only using left and right to alter RELATIVE direction of movement (up / down will just advance in 'relative forward direction')
+        if      ((this.direction ==    "up") && (turn ==  "left"))  {  this.direction = "left";      }
+        else if ((this.direction ==    "up") && (turn == "right"))  {  this.direction = "right";     }
+        else if ((this.direction ==  "down") && (turn ==  "left"))  {  this.direction = "right";     }
+        else if ((this.direction ==  "down") && (turn == "right"))  {  this.direction = "left";      }
+        else if ((this.direction ==  "left") && (turn ==  "left"))  {  this.direction = "down";      }
+        else if ((this.direction ==  "left") && (turn == "right"))  {  this.direction = "up";        }
+        else if ((this.direction == "right") && (turn ==  "left"))  {  this.direction = "up";        }
+        else if ((this.direction == "right") && (turn == "right"))  {  this.direction = "down";      }
+    }
     restart(startX, startY) {
         this.xHead = startX;
         this.yHead = startY;
