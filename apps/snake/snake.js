@@ -1,7 +1,7 @@
 const snakePlayer = require('./snakeplayer')
 
 class snake {
-    constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY) {
+    constructor(app_mgr, viewcontroller, gamespeedMS, sizeX, sizeY, relativeCtrl) {
         console.log("Start Game Snake");
         this.nextAction = this.date;
         this.max_players = 8;
@@ -19,6 +19,7 @@ class snake {
         this.viewcontroller.show();
         console.log("set max player in viewcontroller")
         this.app_mgr.setMaxPlayer(this.max_players);
+        this.relativeCtrl = relativeCtrl;
     }
 
     startPlayer(id) {
@@ -77,7 +78,7 @@ class snake {
         if (numberOfPlayersLeft < 2 && activePlayers > 1) {   
             for(var i=0;i<this.p.length;i++) {
                 if((!this.p[i].isDead) && (!this.p[i].isInactive)) { 
-                    this.viewcontroller.setMatrixColor(this.p[i].hR,this.p[i].hG, this.p[i].hB);
+                    this.viewcontroller.setMatrixColor(this.p[i].hR/4,this.p[i].hG/4, this.p[i].hB/4);
                     console.log("Set color (" + i + "): " + this.p[i].bR + "," + this.p[i].bG + "," + this.p[i].bB)
                 }
             }         
@@ -98,7 +99,10 @@ class snake {
                 continue;
             }
             var direction = cmd.command;
-            this.p[cmd.id].setDirection(direction);
+            if (this.relativeCtrl) 
+              this.p[cmd.id].setDirectionRelative(direction);
+            else
+              this.p[cmd.id].setDirection(direction);
             cmd = this.app_mgr.getNextCommand();
         }       
         this.date = (new Date).getTime();
