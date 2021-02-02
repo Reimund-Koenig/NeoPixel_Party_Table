@@ -12,9 +12,9 @@ var sizeY = 16;
 var FirstPersonControl = false;   // control command relative to the ingame players unit movement
 
 
-var view = new View(IP.address(), 3002, sizeX, sizeY);
-var serial = new Serial(sizeX, sizeY);
-var viewcontroller = new Viewcontroller(view, serial);
+var view_website = new View(IP.address(), 3002, sizeX, sizeY);
+var view_hw_board_serial = new Serial(sizeX, sizeY);
+var viewcontroller = new Viewcontroller(view_website, view_hw_board_serial);
 var appManager = new AppManager(viewcontroller, sizeX, sizeY, FirstPersonControl);
 
 var self = this; // Start controller delayed, that app is already started
