@@ -6,12 +6,13 @@
 * sudo apt install npm
 * npm install
 * npm audit fix // optional if new vulnerabilities occured
+* npm start
 
 ## Architecture
 
-controller  -----> app_mgr <------- <application_1>  -------> viewcontroller ------> view
-              /                \                          /                     \
-conrtoller ---                   --- <application_2>  ---                         ---> serial (view)
+<controller_1>  -----> app_mgr <------- <application_1>  -------> viewcontroller ------> view
+                  /                \                          /                     \
+<conrtoller_2> ---                   --- <application_2>  ---                         ---> serial (view)
 
 ## Add new Application
 

@@ -13,8 +13,7 @@ var FirstPersonControl = false;   // control command relative to the ingame play
 
 
 var view_website = new View(IP.address(), 3002, sizeX, sizeY);
-var view_hw_board_serial = new Serial(sizeX, sizeY);
-var viewcontroller = new Viewcontroller(view_website, view_hw_board_serial);
+var viewcontroller = new Viewcontroller(view_website);
 var appManager = new AppManager(viewcontroller, sizeX, sizeY, FirstPersonControl);
 
 var self = this; // Start controller delayed, that app is already started
