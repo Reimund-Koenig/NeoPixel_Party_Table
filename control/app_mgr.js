@@ -69,7 +69,7 @@ class app_mgr {
     }
 
     addNewPlayer(socket_id) {
-        console.log("New Controller Connected (" + socket_id + ")");
+        console.log("New Gamepad Connected (" + socket_id + ")");
         this.players.add(socket_id);
         this.app.addPlayer(this.players.getPlayerId(socket_id));
     }

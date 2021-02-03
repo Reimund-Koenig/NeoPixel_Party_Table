@@ -45,7 +45,7 @@ class flow {
         var id = cmd.id;
         var command = cmd.command;
         var leftController = (cmd.gamepad == "left");
-        console.log("Flow -- Controller " + cmd.gamepad + " with id: " + id + " sends command: " + command);
+        console.log("Flow -- Gamepad " + cmd.gamepad + " with id: " + id + " sends command: " + command);
         if(command == "push") { return false; }
         var direction = command;
         if(leftController) {

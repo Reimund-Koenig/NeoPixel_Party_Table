@@ -48,7 +48,7 @@ class template {
             var command = cmd.command; // push, release, up, down, left, right
             var gamepad = cmd.gamepad // left, right (gamepad of virtual joystick)
             console.log("==========================================================================");
-            console.log("Template -- Controller " + gamepad + " with id: " + id + " sends command: " + command);
+            console.log("Template -- Gamepad " + gamepad + " with id: " + id + " sends command: " + command);
         }
 
         var sliding_movement = true;
