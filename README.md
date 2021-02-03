@@ -10,9 +10,10 @@
 
 ## Architecture
 
-<controller_1>  -----> app_mgr <------- <application_1>  -------> viewcontroller ------> view
+<controller_1>  -----> app_mgr <------- <application_1>  -------> viewcontroller <------ view
                   /                \                          /                     \
-<conrtoller_2> ---                   --- <application_2>  ---                         ---> serial (view)
+<conrtoller_2> ---                   --- <application_2>  ---                         - serial view
+                                                                                        (not used)
 
 ## Add new Application
 

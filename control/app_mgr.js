@@ -1,8 +1,8 @@
 
-const Template = require('../../apps/template/template')
-const Snake = require('../../apps/snake/snake')
-const Flow = require('../../apps/flow/flow')
-const Startscreen = require('../../apps/startscreen/startscreen')
+const Template = require('../apps/template/template')
+const Snake = require('../apps/snake/snake')
+const Flow = require('../apps/flow/flow')
+const Startscreen = require('../apps/startscreen/startscreen')
 const fs = require('fs');
 
 const PlayerMgr = require('./player_mgr')
@@ -39,7 +39,7 @@ class app_mgr {
     }
 
     setMaxPlayer(numMaxPlayer) {
-        if(!this.controller) { 
+        if(!this.controller) {
             console.log("Warning: controller is empty")
             return;
         }
@@ -47,14 +47,14 @@ class app_mgr {
         this.players.resetUsernames();
         this.controller.changeMaxPlayer();
         var self = this;
-        setTimeout(function() { self.players.addAndStartPlayers(self.app); }, 1500);    
+        setTimeout(function() { self.players.addAndStartPlayers(self.app); }, 1500);
     }
 
     initialisePlayer(socket_id, username, queuePos) {
         this.players.initialisePlayer(socket_id, username, queuePos);
         console.log("Set Username: " +  username);
     }
-    
+
     reduceQueuePositions() {
         this.players.reduceQueuePositions();
     }
@@ -81,25 +81,25 @@ class app_mgr {
     getNumberOfPlayer() {
         return this.players.numberOfPlayer();
     }
-    
-    leftControlerCommand(socket_id, command) {        
+
+    leftControlerCommand(socket_id, command) {
         this.cmd_queue.add(this.players.getPlayerId(socket_id), "left", command);
     }
-    
-    rightControlerCommand(socket_id, command) {        
+
+    rightControlerCommand(socket_id, command) {
         this.cmd_queue.add(this.players.getPlayerId(socket_id), "right", command);
     }
 
     getNextCommand() {
         return this.cmd_queue.getNext();
     }
-    
+
     startGame(gamename) {
         this.appname = gamename;
         this.isAppInitialised = false;
         this.viewcontroller.reset();
     }
-    
+
     app_loop() {
         if(!this.isAppInitialised) {
             this.isAppInitialised = true;
@@ -126,6 +126,6 @@ class app_mgr {
             console.log("undefined")
         }
     }
-        
+
 }
 module.exports = app_mgr;

@@ -1,11 +1,11 @@
 const IP = require("ip");
 
 const View = require('./server/view/view')
-const Serial = require('./server/controller/serial')
-const Viewcontroller = require('./server/controller/viewcontroller')
+// const Serial = require('./server/controller/serial')
+const Viewcontroller = require('./control/viewcontroller')
 const Controller = require('./server/view/controller')
 const Menu = require('./server/view/menu')
-const AppManager = require('./server/controller/app_mgr')
+const AppManager = require('./control/app_mgr')
 
 var sizeX = 16;
 var sizeY = 16;
