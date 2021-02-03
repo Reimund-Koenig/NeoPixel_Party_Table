@@ -12,13 +12,13 @@ class flow {
         this.viewcontroller.reset();
     }
 
-    addPlayer(id)   { 
+    addPlayer(id)   {
         console.log("Flow -- Player Connected " + id);
     }
-    removePlayer(id){ 
+    removePlayer(id){
         console.log("Flow -- Player Removed " + id);
     }
-    startPlayer(id) { 
+    startPlayer(id) {
         console.log("Flow -- Start Player " + id);
     }
 
@@ -29,11 +29,11 @@ class flow {
         this.nextAction = this.date + this.gamespeedMS;
 
         // decide if view should be updated
-        if(this.run_app()) {  
+        if(this.run_app()) {
             // webview is live
             // table need show call
-            this.viewcontroller.show();  
-        }       
+            this.viewcontroller.show();
+        }
     }
 
     run_app() {
@@ -44,19 +44,19 @@ class flow {
         // id (counted from 0 to X)
         var id = cmd.id;
         var command = cmd.command;
-        var leftController = (cmd.controller == "left");
-        console.log("Flow -- Controller " + cmd.controller + " with id: " + id + " sends command: " + command); 
+        var leftController = (cmd.gamepad == "left");
+        console.log("Flow -- Controller " + cmd.gamepad + " with id: " + id + " sends command: " + command);
         if(command == "push") { return false; }
         var direction = command;
         if(leftController) {
-            console.log("Flow -- Move One"); 
+            console.log("Flow -- Move One");
             this._move_one(direction);
         } else {
-            console.log("Flow -- Change Color"); 
+            console.log("Flow -- Change Color");
             this._change_color(direction);
         }
         cmd = this.app_mgr.getNextCommand();
-        return true;    
+        return true;
     }
     _change_color(direction) {
         if      (direction == "up")   {  this.viewcontroller.setColor(this.x,this.y,0,0,0);       }
@@ -73,8 +73,8 @@ class flow {
     }
     _left()  {   if (this.x > 0) {   this.x -= 1;  }           else { this.x = this.sizeX-1;  }}
     _right() {   if (this.x < this.sizeX - 1) { this.x += 1; } else { this.x = 0;   }}
-    _down()  {   if (this.y < this.sizeY - 1) { this.y += 1; } else { this.y = 0;   }} 
+    _down()  {   if (this.y < this.sizeY - 1) { this.y += 1; } else { this.y = 0;   }}
     _up()    {   if (this.y > 0) { this.y -= 1; }              else { this.y = this.sizeY-1;  }}
-    
+
 }
 module.exports = flow;

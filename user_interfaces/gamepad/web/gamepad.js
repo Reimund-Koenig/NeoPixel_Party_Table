@@ -1,4 +1,4 @@
-class controller {
+class gamepad {
     constructor(ip, port, appManager) {
         var self = this;
         this.appManager = appManager;
@@ -8,7 +8,7 @@ class controller {
         this.express = require('express');
         this.app = this.express();
         this.http = require('http').Server(this.app);
-        this.app.use('/', this.express.static(__dirname + '/../public/controller/'));
+        this.app.use('/', this.express.static(__dirname + '/public/'));
         var io = require('socket.io')(this.http);
         this.io = io;
         io.on('connection', function(client){
@@ -44,10 +44,10 @@ class controller {
             });
         });
         this.http.listen(this.port);
-        console.log('controller App: ' + this.ip + ":" + this.port);
+        console.log('gamepad App: ' + this.ip + ":" + this.port);
     }
     changeMaxPlayer() {
         this.io.emit('changeMaxPlayer');
     }
 }
-module.exports = controller;
+module.exports = gamepad;

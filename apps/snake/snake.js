@@ -35,15 +35,15 @@ class snake {
         var newPlayer = new snakePlayer(startPos[0], startPos[1], this.sizeX, this.sizeY, color[0],color[1],color[2],color[3],color[4],color[5]);
         this.p.push(newPlayer);
     }
-    
+
     removePlayer(id) {
         if(!this.p[id]) { return; }
         console.log("Game Over - removePlayer: " + id)
         this.p[id].gameover(this.viewcontroller);
-        this.p.splice(id, 1); 
+        this.p.splice(id, 1);
     }
 
-    startNewGame() {    
+    startNewGame() {
         this.viewcontroller.reset();
         console.log("Start new game (Snake)")
         for(var i=0;i<this.p.length;i++) {
@@ -54,9 +54,9 @@ class snake {
     }
 
     run() {
-        if(this.run_app()) {  
-            this.viewcontroller.show();  
-        }       
+        if(this.run_app()) {
+            this.viewcontroller.show();
+        }
     }
 
     run_app() {
@@ -75,36 +75,36 @@ class snake {
         }
         if(activePlayers < 1) { return false; }
         // only one left and more then one player in game? --> game ends
-        if (numberOfPlayersLeft < 2 && activePlayers > 1) {   
+        if (numberOfPlayersLeft < 2 && activePlayers > 1) {
             for(var i=0;i<this.p.length;i++) {
-                if((!this.p[i].isDead) && (!this.p[i].isInactive)) { 
+                if((!this.p[i].isDead) && (!this.p[i].isInactive)) {
                     this.viewcontroller.setMatrixColor(this.p[i].hR/4,this.p[i].hG/4, this.p[i].hB/4);
                     console.log("Set color (" + i + "): " + this.p[i].bR + "," + this.p[i].bG + "," + this.p[i].bB)
                 }
-            }         
+            }
             this.restarting = true;
-            var self = this; 
-            setTimeout(function() { self.startNewGame(); }, 5000);             
-            return true;   
+            var self = this;
+            setTimeout(function() { self.startNewGame(); }, 5000);
+            return true;
         }
 
         var cmd = this.app_mgr.getNextCommand()
         while(cmd) {
-            if(cmd.controller == "right") { 
+            if(cmd.gamepad == "right") {
                 cmd = this.app_mgr.getNextCommand();
                 continue;
             }
-            if(cmd.command == "push" || cmd.command == "release") { 
+            if(cmd.command == "push" || cmd.command == "release") {
                 cmd = this.app_mgr.getNextCommand();
                 continue;
             }
             var direction = cmd.command;
-            if (this.relativeCtrl) 
+            if (this.relativeCtrl)
               this.p[cmd.id].setDirectionRelative(direction);
             else
               this.p[cmd.id].setDirection(direction);
             cmd = this.app_mgr.getNextCommand();
-        }       
+        }
         this.date = (new Date).getTime();
         if(this.nextAction > this.date) { return false; }
         this.nextAction = this.date + this.gamespeedMS;
@@ -142,8 +142,8 @@ class snake {
                     this.p[i].gameover(this.viewcontroller);
                 }
             }
-        }        
-        
+        }
+
         // Check head with head collision
         for(var i=0;i<this.p.length;i++) {
             if(this.p[i].isDead || this.p[i].isInactive) { continue; }
@@ -163,7 +163,7 @@ class snake {
             if(this.p[i].isDead || this.p[i].isInactive) { continue; }
             this.p[i].moveHead(this.viewcontroller);
         }
-        
+
         if(newSnack) {
             this._setRandomSnack();
             this.viewcontroller.setColor(this.snackX,this.snackY,255,255,255);
@@ -220,7 +220,7 @@ class snake {
     }
 
     _collisionWithAnotherPlayersHead() {
-        
+
     }
 }
 module.exports = snake;

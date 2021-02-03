@@ -5,7 +5,7 @@ body {
     margin: 0;
     background-color: #FFF;
 }
-#controller {
+#gamepad {
     display: none;
 }
 #info {

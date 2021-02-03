@@ -4,8 +4,8 @@ class cmd_queue {
     constructor() {
         this.commandlist = [];
     }
-    add(id, controller, command) {
-        this.commandlist.push(new CMD(id,controller,command));
+    add(id, gamepad, command) {
+        this.commandlist.push(new CMD(id, gamepad ,command));
     }
     getNext() {
         if(this.commandlist.length == 0) { return null; }
@@ -14,6 +14,6 @@ class cmd_queue {
     len() {
         return this.commandlist.length;
     }
-        
+
 }
 module.exports = cmd_queue;

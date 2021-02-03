@@ -14,13 +14,13 @@ class template {
         this.relativeCtrl = relativeCtrl;
     }
 
-    addPlayer(id)   { 
+    addPlayer(id)   {
         console.log("Template -- Player Connected " + id);
     }
-    removePlayer(id){ 
+    removePlayer(id){
         console.log("Template -- Player Removed " + id);
     }
-    startPlayer(id) { 
+    startPlayer(id) {
         console.log("Template -- Start Player " + id);
     }
 
@@ -31,11 +31,11 @@ class template {
         this.nextAction = this.date + this.gamespeedMS;
 
         // decide if view should be updated
-        if(this.run_app()) {  
+        if(this.run_app()) {
             // webview is live
             // table need show call
-            this.viewcontroller.show();  
-        }       
+            this.viewcontroller.show();
+        }
     }
 
     run_app() {
@@ -44,13 +44,13 @@ class template {
 
         // complete content of command
         if (cmd) {
-            var id = cmd.id; // id which player (virtual joystick) sends the command (from 0 to X)) 
+            var id = cmd.id; // id which player (virtual joystick) sends the command (from 0 to X))
             var command = cmd.command; // push, release, up, down, left, right
-            var controller = cmd.controller // left, right (controller of virtual joystick)
+            var gamepad = cmd.gamepad // left, right (gamepad of virtual joystick)
             console.log("==========================================================================");
-            console.log("Template -- Controller " + controller + " with id: " + id + " sends command: " + command);
+            console.log("Template -- Controller " + gamepad + " with id: " + id + " sends command: " + command);
         }
-        
+
         var sliding_movement = true;
         if(sliding_movement) {
             return this._template_sliding_movement(cmd);
@@ -68,11 +68,11 @@ class template {
         if(cmd.command == "push") {
             this.controller_active = true;
             return false;
-        } else if (cmd.command == "release") { 
+        } else if (cmd.command == "release") {
             this.controller_active = false;
             return false;
         }
-        var leftController = (cmd.controller == "left");
+        var leftController = (cmd.gamepad == "left");
         if(leftController) {
             if (this.relativeCtrl) {
               this._newDirection(cmd.command);
@@ -81,7 +81,7 @@ class template {
             }
             this._move_one(this.lastDirection);
         } else {
-            console.log("Template -- Change Color"); 
+            console.log("Template -- Change Color");
             this._change_color(this.lastDirection);
         }
         return true;
@@ -91,12 +91,12 @@ class template {
     _template_step_by_step_movement(cmd) {
         if(!cmd) { return false; }
         var direction = cmd.command;
-        var leftController = (cmd.controller == "left");
+        var leftController = (cmd.gamepad == "left");
         if(leftController) {
-            console.log("Template -- Move One"); 
+            console.log("Template -- Move One");
             this._move_one(direction);
         } else {
-            console.log("Template -- Change Color"); 
+            console.log("Template -- Change Color");
             this._change_color(direction);
         }
         return true;
@@ -135,8 +135,8 @@ class template {
     }
     _left()  {   if (this.x > 0) {   this.x -= 1;  }           else { this.x = this.sizeX-1;  }}
     _right() {   if (this.x < this.sizeX - 1) { this.x += 1; } else { this.x = 0;   }}
-    _down()  {   if (this.y < this.sizeY - 1) { this.y += 1; } else { this.y = 0;   }} 
+    _down()  {   if (this.y < this.sizeY - 1) { this.y += 1; } else { this.y = 0;   }}
     _up()    {   if (this.y > 0) { this.y -= 1; }              else { this.y = this.sizeY-1;  }}
-    
+
 }
 module.exports = template;

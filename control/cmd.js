@@ -1,7 +1,7 @@
 class cmd_queue {
-    constructor(id, controller, command) {
+    constructor(id, gamepad, command) {
         this.id = id;
-        this.controller = controller;
+        this.gamepad = gamepad;
         this.command = command;
     }
 }

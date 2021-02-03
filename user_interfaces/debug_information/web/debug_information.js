@@ -7,7 +7,7 @@ class menu {
         this.express = require('express');
         this.app = this.express();
         this.http = require('http').Server(this.app);
-        this.app.use('/', this.express.static(__dirname + '/../public/menu/'));
+        this.app.use('/', this.express.static(__dirname + '/public/'));
         var io = require('socket.io')(this.http);
         io.on('connection', function(client){
             io.emit('connected');

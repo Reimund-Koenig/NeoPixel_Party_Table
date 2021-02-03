@@ -11,7 +11,7 @@ const CmdQueue = require('./cmd_queue')
 class app_mgr {
     constructor(viewcontroller, sizeX, sizeY, FirstPersonControl) {
         this.viewcontroller = viewcontroller
-        this.controller = null;
+        this.gamepad = null;
         this.appname = "startscreen";
         this.apps = ["startscreen","flow","snake","template"];
         this.isAppInitialised = false;
@@ -25,8 +25,8 @@ class app_mgr {
         setInterval(function() { self.app_loop(); }, 20);
     }
 
-    registerController(controller) {
-        this.controller = controller;
+    registerController(gamepad) {
+        this.gamepad = gamepad;
     }
 
     calculateQueuePosition() {
@@ -39,13 +39,13 @@ class app_mgr {
     }
 
     setMaxPlayer(numMaxPlayer) {
-        if(!this.controller) {
-            console.log("Warning: controller is empty")
+        if(!this.gamepad) {
+            console.log("Warning: gamepad is empty")
             return;
         }
         this.numMaxPlayer = numMaxPlayer;
         this.players.resetUsernames();
-        this.controller.changeMaxPlayer();
+        this.gamepad.changeMaxPlayer();
         var self = this;
         setTimeout(function() { self.players.addAndStartPlayers(self.app); }, 1500);
     }

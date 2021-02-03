@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="/stylesheet.css">
         <link rel="shortcut icon" href="/favicon.ico">
-        <meta name="description" content="Web controller for LED table">
+        <meta name="description" content="Web gamepad for LED table">
         <meta name="author" content="Reimund König">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <meta name="keywords" lang="de" content="virtual, controller, joystick">
+        <meta name="keywords" lang="de" content="virtual, gamepad, joystick">
     </head>
     <body>
         <div id="login">
@@ -22,7 +22,7 @@
                 <script>console.log("Pressed action");</script>
             </form>
         </div>
-        <div id="controller">
+        <div id="gamepad">
             <section id="main"></section>
         </div>
         <script src="/virtualjoystick.js"></script>
@@ -57,11 +57,11 @@
                     console.log("Player " + socket_id + " is ready");
                     document.getElementById("informationText").innerHTML = "Queue Pos: " + queuePos;
                     if(queuePos > 0) {
-                        document.getElementById("controller").style.display = "none";
+                        document.getElementById("gamepad").style.display = "none";
                         document.getElementById("login").style.display = "block";
                         setTimeout(function() { socket.emit("start"); }, 1000);
                     } else {
-                        document.getElementById("controller").style.display = "block";
+                        document.getElementById("gamepad").style.display = "block";
                         document.getElementById("login").style.display = "none";
                     }
                 });
@@ -70,7 +70,7 @@
                     socket.emit("reconnect_player", username);
                 });
                 socket.on('disconnect', () => {
-                    document.getElementById("controller").style.display = "none";
+                    document.getElementById("gamepad").style.display = "none";
                     document.getElementById("login").style.display = "block";
                     document.getElementById("informationText").innerHTML = "Disconnected";
                     socket_id = "";
