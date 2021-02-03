@@ -29,7 +29,7 @@
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
-            console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available" : "not available");
+            console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available": "not available");
             var username = "";
             var socket = io();
             var socket_id = "";
@@ -81,17 +81,17 @@
             var positionRight = "";
             var lastPositionRight = "";
 
-            var joystick_right	= new VirtualJoystick({
-                container	: document.getElementById('main'),
-                mouseSupport	: false,
-                strokeStyle	: 'cyan',
+            var joystick_right = new VirtualJoystick({
+                container: document.getElementById('main'),
+                mouseSupport: false,
+                strokeStyle: 'cyan',
                 limitStickTravel: true,
-                stickRadius	: 120
+                stickRadius: 120
             });
 
             joystick_right.addEventListener('touchStartValidation', function(event){
-                var touch	= event.changedTouches[0];
-                if( touch.pageX < window.innerWidth/2 )	return false;
+                var touch = event.changedTouches[0];
+                if( touch.pageX < window.innerWidth/2 ) return false;
                 return true
             });
 
@@ -113,17 +113,17 @@
             var positionLeft = "";
             var lastPositionLeft = "";
 
-            var joystick_left	= new VirtualJoystick({
-                container	:	document.getElementById('main'),
-                mouseSupport	: false,
-                strokeStyle	: 'orange',
+            var joystick_left = new VirtualJoystick({
+                container: document.getElementById('main'),
+                mouseSupport: false,
+                strokeStyle: 'orange',
                 limitStickTravel: true,
-                stickRadius	: 120
+                stickRadius: 120
             });
 
             joystick_left.addEventListener('touchStartValidation', function(event){
-                var touch	= event.changedTouches[0];
-                if( touch.pageX >= window.innerWidth/2 )	return false;
+                var touch = event.changedTouches[0];
+                if( touch.pageX >= window.innerWidth/2 ) return false;
                 return true
             });
 
@@ -144,15 +144,15 @@
             })
 
             setInterval(function(){
-                if(joystick_left.up()) 			{ positionLeft = "up"; 		}
-                else if(joystick_left.down()) 	{ positionLeft = "down"; 	}
-                else if(joystick_left.left()) 	{ positionLeft = "left"; 	}
-                else if(joystick_left.right()) 	{ positionLeft = "right"; 	}
+                if(joystick_left.up())    { positionLeft = "up";   }
+                else if(joystick_left.down())  { positionLeft = "down";  }
+                else if(joystick_left.left())  { positionLeft = "left";  }
+                else if(joystick_left.right())  { positionLeft = "right";  }
 
-                if(joystick_right.up()) 		{ positionRight = "up";		}
-                else if(joystick_right.down()) 	{ positionRight = "down";	}
-                else if(joystick_right.left()) 	{ positionRight = "left"; 	}
-                else if(joystick_right.right()) { positionRight = "right";	}
+                if(joystick_right.up())   { positionRight = "up";  }
+                else if(joystick_right.down())  { positionRight = "down"; }
+                else if(joystick_right.left())  { positionRight = "left";  }
+                else if(joystick_right.right()) { positionRight = "right"; }
             }, 20);
 
 

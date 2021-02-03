@@ -22,7 +22,7 @@ class serial {
         this.sizeY = sizeY;
         setTimeout(()=>{setInterval(function() { self.sendNextCommand(); }, 10);}, 3000);
     }
-      
+
     sendNextCommand() {
         if(this.buffer_len.length == 0) {  return;  }
         var buffer_size = this.buffer_len.shift();
@@ -57,8 +57,8 @@ class serial {
     this.buffer_queue.push(g);
     this.buffer_queue.push(b);
     this.buffer_len.push(6);
-		
-    // this.port.write(buffer); 
+
+    // this.port.write(buffer);
     // console.log(
     //         "--- X:" + buffer[0]
     //         +   " -- R:" + buffer[1]
@@ -66,13 +66,13 @@ class serial {
     //         +   " -- B:" + buffer[3]
     // );
     }
-    
+
     show() {
         this.buffer_queue.push(CMD_SHOW);
         this.buffer_len.push(1);
     }
 
-	//this function moved to arduino in multi-tile context (>256 LED(!), no direct addressing in BYTES(!)) 
+ //this function moved to arduino in multi-tile context (>256 LED(!), no direct addressing in BYTES(!))
     getX(x,y) {
     if(Math.floor((x*Matrix_X)/16)%2==0) {
         return (x * TileNum_Y * Matrix_Y) + y%Matrix_Y + Math.floor(y/Matrix_Y)* Matrix_Y * Matrix_X;

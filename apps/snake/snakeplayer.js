@@ -1,4 +1,4 @@
-class snakeplayer {    
+class snakeplayer {
     constructor(startX, startY, sizeX, sizeY, hR, hG, hB, bR, bG, bB) {
         this.bR = bR; this.bG = bG; this.bB = bB;
         this.hR = hR; this.hG = hG; this.hB = hB;
@@ -17,8 +17,8 @@ class snakeplayer {
 
     checkIfPlayerWillEatSnack(snackX, snackY){
         this.hasEatenSnack = false;
-        // calculate new position 
-        if(this.direction == "up")            { this._up();     } 
+        // calculate new position
+        if(this.direction == "up")            { this._up();     }
         else if (this.direction == "down")    { this._down();   }
         else if (this.direction == "left")    { this._left();   }
         else if (this.direction == "right")   { this._right();  }
@@ -31,7 +31,7 @@ class snakeplayer {
         viewcontroller.setColor(this.xHead,this.yHead,this.bR,this.bG,this.bB);
         if (this.hasEatenSnack) {
             // if snake has eaten a snack, the body grows and this effects no movement
-            this.addElementToBody(this.xHead, this.yHead);   
+            this.addElementToBody(this.xHead, this.yHead);
             return;
         }
         // reset color of last body element
@@ -63,10 +63,10 @@ class snakeplayer {
         viewcontroller.setColor(this.xHead,this.yHead,this.hR,this.hG,this.hB);
     }
 
-	
+
     _left()  {   if (this.xNextHead > 0)                { this.xNextHead -= 1; } else { this.xNextHead = this.sizeX-1;  } this.lastMoveDirection = "left";  }
     _right() {   if (this.xNextHead < this.sizeX - 1)   { this.xNextHead += 1; } else { this.xNextHead = 0;             } this.lastMoveDirection = "right"; }
-    _down()  {   if (this.yNextHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  } 
+    _down()  {   if (this.yNextHead < this.sizeY - 1)   { this.yNextHead += 1; } else { this.yNextHead = 0;             } this.lastMoveDirection = "down";  }
     _up()    {   if (this.yNextHead > 0)                { this.yNextHead -= 1; } else { this.yNextHead = this.sizeY-1;  } this.lastMoveDirection = "up";    }
     getXNextHead() { return this.xNextHead; }
     getYNextHead() { return this.yNextHead; }
@@ -112,7 +112,7 @@ class snakeplayer {
 
     gameover(viewcontroller) {
         console.log("Game Over")
-        this.isDead = true;        
+        this.isDead = true;
         for (var i=0; i < this.yBody.length; i++) {
             viewcontroller.setColor(this.xBody[i],this.yBody[i],0,0,0);
         }
@@ -122,9 +122,9 @@ class snakeplayer {
         this.xBody = [];
         this.yHead = 0;
         this.yBody = [];
-        this.direction = "right"; 
+        this.direction = "right";
     }
-    
+
     isEqualDirection(d1,d2){
         // right up down left
         if (d1 == d2 ) { return true; }
@@ -151,7 +151,7 @@ class snakeplayer {
         return false;
     }
 
-    isCollisionWith(x,y) {  
+    isCollisionWith(x,y) {
         var current = (x == this.xHead && y == this.yHead);
         var next = (x == this.xNextHead && y == this.yNextHead);
         return current || next;

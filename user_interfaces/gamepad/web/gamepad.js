@@ -28,7 +28,7 @@ class controller {
             });
             client.on('start', function(){
                 var queuePos = self.appManager.getQueuePosition(client.id);
-                console.log("id : " + client.id + " -- QUEUE POS: " + queuePos);
+                console.log("id: " + client.id + " -- QUEUE POS: " + queuePos);
                 io.emit('ready', client.id, queuePos);
             });
             client.on('disconnect', function() {
