@@ -26,14 +26,14 @@
             <section id="main"></section>
         </div>
         <script src="/virtualjoystick.js"></script>
-        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="https://cdn.socket.io/3.1.1/socket.io.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
         <script>
             console.log("touchscreen is", VirtualJoystick.touchScreenAvailable() ? "available": "not available");
             var username = "";
             var socket = io();
             var socket_id = "";
-            console.log(socket);
+            // console.log(socket);
             $(function () {
                 $('form').submit(function(){
                     username = $('#new_player').val();
