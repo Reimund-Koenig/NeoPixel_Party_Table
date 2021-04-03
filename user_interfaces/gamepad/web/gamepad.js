@@ -22,7 +22,8 @@ class gamepad {
             client.on('reconnect_player', function(username){
                 console.log("Reconnect " +  client.id);
                 var queuePos = self.appManager.calculateQueuePosition();
-                console.log("Reconnect " +  client.id + " with username: " + username + " and queue position: " + queuePos);
+                console.log("Reconnect " +  client.id + " with username: " + username +
+                            " and queue position: " + queuePos);
                 self.appManager.initialisePlayer(client.id, username, queuePos);
                 io.emit('ready', client.id, queuePos);
             });
