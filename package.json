@@ -1,0 +1,19 @@
+{
+  "name": "coll",
+  "version": "0.0.1",
+  "description": "coll action party games",
+  "dependencies": {
+    "express": "^4.15.2",
+    "ip": "^1.1.5",
+    "jquery": "^3.5.1",
+    "serial": "0.0.9",
+    "serialport": "^7.1.5",
+    "socket.io": "^3.1.1"
+  },
+  "scripts": {
+    "start": "nodemon ./bin/server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
