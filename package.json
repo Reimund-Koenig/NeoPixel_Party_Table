@@ -1,6 +1,8 @@
 {
   "name": "coll",
   "version": "0.0.1",
+  "license": "MIT",
+  "repository": "https://bitbucket.org/Reimund_K/coll_action_party_game",
   "description": "coll action party games",
   "dependencies": {
     "express": "^4.15.2",
