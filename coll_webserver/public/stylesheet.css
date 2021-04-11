@@ -1,20 +1,26 @@
 html, body{
     margin: 0 auto;
     padding: 0 auto;
+    height:100%;
 }
 
 .centerdiv{
     float:left;
     width:100%;
-    margin-top:1em;
+    height:100%;
     background: #FFF;
 }
 
-#list{
+#player_list_inner{
+    text-align:left;
+}
+
+#player_list{
     float:left;
     width:25%;
     height:50%;
     background-color: rgb(175, 219, 255);
+    text-align:center;
 }
 
 #playground{
@@ -22,6 +28,7 @@ html, body{
     width:50%;
     height:50%;
     background-color: rgb(255, 175, 188);
+    text-align:center;
 }
 
 #debug{
@@ -29,6 +36,7 @@ html, body{
     width:25%;
     height:50%;
     background-color: rgb(175, 219, 255);
+    text-align:center;
 }
 
 #joystick_left{
@@ -36,6 +44,7 @@ html, body{
     width:25%;
     height:50%;
     background-color: rgb(255, 175, 188);
+    text-align:center;
 }
 
 #info{
@@ -43,6 +52,7 @@ html, body{
     width:50%;
     height:50%;
     background-color: rgb(175, 219, 255);
+    text-align:center;
 }
 
 #joystick_right{
@@ -50,4 +60,5 @@ html, body{
     width:25%;
     height:50%;
     background-color: rgb(255, 175, 188);
+    text-align:center;
 }

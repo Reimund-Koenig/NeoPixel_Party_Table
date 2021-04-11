@@ -8,18 +8,40 @@
         <link rel="shortcut icon" href="/favicon.ico">
         <meta name="keywords" lang="de" content="
                                  virtual, app, view">
+        <script src="https://cdn.socket.io/3.1.1/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <script>
+            $(function(){
+                $("#player_list").load("modules/player_list/player_list.html");
+                $("#playground").load("modules/playground/playground.html");
+                $("#debug").load("modules/debug/debug.html");
+                $("#joystick_left").load("modules/joystick/joystick_left.html");
+                $("#info").load("modules/info/info.html");
+                $("#joystick_right").load("modules/joystick/joystick_right.html");
+            });
+        </script>
 </head>
 <body>
     <div class="centerdiv">
-        <div id="list">list</div>
-        <div id="playground">playground</div>
-        <div id="debug">debug</div>
-        <div id="joystick_left">joystick_left</div>
-        <div id="info">info</div>
-        <div id="joystick_right">joystick_right</div>
+        <div id="player_list">
+            <h1>Could not find player_list.html</h1>
+        </div>
+        <div id="playground">
+            <h1>Could not find playground.html</h1>
+        </div>
+        <div id="debug">
+            <h1>Could not find debug.html</h1>
+        </div>
+        <div id="joystick_left">
+            <h1>Could not find joystick_left.html</h1>
+        </div>
+        <div id="info">
+            <h1>Could not find info.html</h1>
+        </div>
+        <div id="joystick_right">
+            <h1>Could not find joystick_right.html</h1>
+        </div>
     </div>
 
-    <script src="https://cdn.socket.io/3.1.1/socket.io.js"></script>
-    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 </body>
 </html>
