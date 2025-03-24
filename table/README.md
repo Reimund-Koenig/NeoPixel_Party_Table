@@ -8,6 +8,10 @@
 * npm audit fix // optional if new vulnerabilities occured
 * npm start
 
+### Info
+
+node v20.19.0 (npm v10.8.2)
+
 ## Architecture
 
 <controller_1>  -----> app_mgr <------- <application_1>  -------> viewcontroller <------ view
