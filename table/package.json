@@ -4,7 +4,6 @@
   "description": "table app",
   "dependencies": {
     "express": "^4.21.2",
-    "ip": "^2.0.1",
     "jquery": "^3.7.1",
     "serial": "^0.0.9",
     "serialport": "^13.0.0",
